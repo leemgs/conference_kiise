@@ -201,8 +201,9 @@
   }
 
   /* ---------------- filters + table ---------------- */
-  // Default: S 등급 우선 정렬, 페이지당 15개
-  const state = { q: "", year: "ALL", major: "ALL", grade: "ALL", sub: "ALL",
+  // Default: 가장 최근 연도, S 등급 우선 정렬, 페이지당 15개
+  const state = { q: "", year: years.length ? years[years.length - 1] : "ALL",
+                  major: "ALL", grade: "ALL", sub: "ALL",
                   sortKey: "grade", sortDir: 1, page: 1, pageSize: 15 };
 
   // reset to first page whenever the result set changes, then re-render
@@ -218,6 +219,7 @@
     ys.appendChild(new Option(years.length > 1 ? "전체 연도" : years[0] + "년", "ALL"));
     if (years.length > 1) years.forEach((y) => ys.appendChild(new Option(y + "년", y)));
     ys.onchange = () => { state.year = ys.value; refresh(); };
+    ys.value = state.year;               // reflect the default (latest year)
     if (years.length <= 1) ys.disabled = true;
 
     // major chips
@@ -362,7 +364,9 @@
   function renderDeleted() {
     const tbody = $("#deleted-tbody");
     tbody.innerHTML = "";
-    deleted.forEach((r) => {
+    const rows = state.year === "ALL"
+      ? deleted : deleted.filter((r) => r.year === state.year);
+    rows.forEach((r) => {
       const tr = document.createElement("tr");
       tr.innerHTML =
         `<td><span class="pill ${r.major.toLowerCase()}">${r.major}</span></td>` +
@@ -372,7 +376,9 @@
         `<td><span class="pill grade-${r.grade.toLowerCase()}">${r.grade}</span></td>`;
       tbody.appendChild(tr);
     });
-    $("#deleted-count").textContent = deleted.length;
+    $("#deleted-count").textContent = rows.length;
+    $("#deleted-year").textContent =
+      state.year === "ALL" ? "전체" : state.year;
   }
 
   /* re-render everything that depends on the current year scope */
@@ -384,6 +390,7 @@
     renderGrade(rec);
     renderSub(rec);
     renderTable();
+    renderDeleted();
     $("#tag-count").textContent = rec.length;
     $("#tag-year").textContent =
       state.year === "ALL"
@@ -427,6 +434,5 @@
   buildFilters();
   initConfSearch();
   refresh();
-  renderDeleted();
   initTheme();
 })();
