@@ -42,13 +42,15 @@
     return encodeURIComponent(parts.join(" "))
       .replace(/'/g, "%27").replace(/"/g, "%22");
   }
-  // open Google search results for a record in the slide-in side panel.
-  // igu=1 drops Google's X-Frame-Options header so results embed in an iframe.
+  // open web search results for a record in the slide-in side panel.
+  // Bing serves without X-Frame-Options/frame-ancestors so it embeds in an
+  // iframe without tripping bot detection (Google's igu=1 trick triggers
+  // frequent reCAPTCHA challenges). The ↗ button still opens Google in a tab.
   function openConfSearch(query, title) {
     const panel = $("#search-panel"), backdrop = $("#search-backdrop");
     $("#search-panel-title").textContent = title;
     $("#search-panel-open").href = "https://www.google.com/search?q=" + query;
-    $("#search-frame").src = "https://www.google.com/search?igu=1&q=" + query;
+    $("#search-frame").src = "https://www.bing.com/search?q=" + query;
     backdrop.hidden = false; panel.hidden = false;
     requestAnimationFrame(() => { backdrop.classList.add("open"); panel.classList.add("open"); });
     document.body.classList.add("panel-open");
