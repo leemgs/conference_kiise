@@ -483,9 +483,83 @@
     });
   }
 
+  /* ---------------- paper submission deadline calendar ---------------- */
+  function initCalendar() {
+    const grid = $("#cal-grid");
+    const dl = window.KIISE_DEADLINES;
+    if (!grid || !dl || !dl.items) { $("#deadline-card").hidden = true; return; }
+
+    // abbr -> record (prefer the latest survey year) for full names in tooltips
+    const byAbbr = new Map();
+    for (let i = years.length - 1; i >= 0; i--) {
+      allRecords.forEach((r) => {
+        if (r.year === years[i] && !byAbbr.has(r.abbr)) byAbbr.set(r.abbr, r);
+      });
+    }
+
+    // group deadline items by date string
+    const byDate = new Map();
+    dl.items.forEach((it) => {
+      if (!byDate.has(it.date)) byDate.set(it.date, []);
+      byDate.get(it.date).push(it);
+    });
+
+    // stable per-conference chip color
+    const PALETTE = ["#1a73e8", "#0b8457", "#8e24aa", "#e53935", "#f4511e", "#00897b",
+                     "#3949ab", "#d81b60", "#6d4c41", "#546e7a", "#689f38", "#5e35b1"];
+    const chipColor = (abbr) => {
+      let h = 0;
+      for (const c of abbr) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+      return PALETTE[h % PALETTE.length];
+    };
+
+    const pad = (n) => String(n).padStart(2, "0");
+    const fmt = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    let cur = new Date(); cur.setDate(1);
+
+    function render() {
+      $("#cal-title").textContent = `${cur.getFullYear()}년 ${cur.getMonth() + 1}월`;
+      grid.innerHTML = "";
+      const firstDow = cur.getDay();
+      const daysInMonth = new Date(cur.getFullYear(), cur.getMonth() + 1, 0).getDate();
+      const cells = Math.ceil((firstDow + daysInMonth) / 7) * 7;
+      const todayStr = fmt(new Date());
+      for (let i = 0; i < cells; i++) {
+        const d = new Date(cur.getFullYear(), cur.getMonth(), 1 - firstDow + i);
+        const ds = fmt(d);
+        const cell = el("div", "cal-cell"
+          + (d.getMonth() !== cur.getMonth() ? " out" : "")
+          + (ds === todayStr ? " today" : "")
+          + (i % 7 === 0 ? " sun" : ""));
+        cell.appendChild(el("span", "cal-day", String(d.getDate())));
+        (byDate.get(ds) || []).forEach((it) => {
+          const btn = el("button", "cal-chip", `${it.abbr} ${it.edition} ${it.kind}`);
+          btn.style.background = chipColor(it.abbr);
+          const rec = byAbbr.get(it.abbr);
+          btn.title = `${it.abbr} ${it.edition} ${it.kind} 마감 (예상): ${ds}`
+            + (it.note ? ` · ${it.note}` : "")
+            + (rec ? `\n${rec.name}` : "");
+          btn.onclick = () => {
+            const q = encodeURIComponent(`${rec ? rec.name : it.abbr} ${it.edition} call for papers deadline`)
+              .replace(/'/g, "%27").replace(/"/g, "%22");
+            openConfSearch(q, `${it.abbr} ${it.edition} ${it.kind} 마감`);
+          };
+          cell.appendChild(btn);
+        });
+        grid.appendChild(cell);
+      }
+    }
+
+    $("#cal-prev").onclick = () => { cur.setMonth(cur.getMonth() - 1); render(); };
+    $("#cal-next").onclick = () => { cur.setMonth(cur.getMonth() + 1); render(); };
+    $("#cal-today").onclick = () => { cur = new Date(); cur.setDate(1); render(); };
+    render();
+  }
+
   /* ---------------- boot ---------------- */
   buildFilters();
   initConfSearch();
+  initCalendar();
   refresh();
   initTheme();
 })();
