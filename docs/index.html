@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="KIISE 우수 SW 국제학술대회 목록(2024) 대시보드 — S/A 등급, 대분야·소분야별 분포와 검색">
+  <title>KIISE 우수 SW 국제학술대회 대시보드 · 2024</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎓%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/style.css?v=20260720">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="brand">
+        <div class="brand-mark">🎓</div>
+        <div>
+          <h1>KIISE 우수 SW 국제학술대회 대시보드</h1>
+          <p class="tagline">한국정보과학회(KIISE) 선정 · <strong>2024년</strong> 우수 국제학술대회 목록 — <span id="tag-count">216</span>개 학회</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a class="btn ghost" href="https://www.kiise.or.kr/academy/main/getContent.fa?content_no=86&MENU_ID=130500" target="_blank" rel="noopener">KIISE 공식 안내 ↗</a>
+        <button id="theme-toggle" class="btn ghost icon" title="라이트/다크 전환" aria-label="테마 전환">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Summary tiles -->
+    <section class="tiles" id="tiles" aria-label="요약 통계"></section>
+
+    <!-- Charts -->
+    <section class="grid-2">
+      <article class="card">
+        <div class="card-head">
+          <h2>대분야별 등급 분포</h2>
+          <p class="card-sub">AI · CS 두 대분야를 S/A 등급으로 나눈 학회 수</p>
+        </div>
+        <div id="chart-major" class="chart-major"></div>
+        <div class="legend" id="legend-grade"></div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h2>등급 구성</h2>
+          <p class="card-sub">전체 학회의 S/A 등급 비율</p>
+        </div>
+        <div id="chart-grade" class="chart-donut"></div>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>소분야별 학회 수</h2>
+        <p class="card-sub">16개 소분야 · 대분야(AI/CS)별 색상 구분 · 학회 수 내림차순</p>
+      </div>
+      <div id="chart-sub" class="chart-bars"></div>
+      <div class="legend" id="legend-major"></div>
+    </section>
+
+    <!-- Table -->
+    <section class="card">
+      <div class="card-head table-head">
+        <div>
+          <h2>학회 목록</h2>
+          <p class="card-sub"><span id="table-count">216</span>개 학회 · 약칭 또는 학회명으로 검색</p>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input type="search" id="search" placeholder="🔍 약칭·학회명 검색 (예: CVPR, Security…)" autocomplete="off">
+        <div class="filter-group" id="filter-major" role="group" aria-label="대분야 필터"></div>
+        <div class="filter-group" id="filter-grade" role="group" aria-label="등급 필터"></div>
+        <select id="filter-sub" aria-label="소분야 필터"></select>
+      </div>
+
+      <div class="table-scroll">
+        <table id="conf-table">
+          <thead>
+            <tr>
+              <th data-sort="no">번호</th>
+              <th data-sort="major">대분야</th>
+              <th data-sort="sub">소분야</th>
+              <th data-sort="abbr">약칭</th>
+              <th data-sort="name">학회명</th>
+              <th data-sort="grade">등급</th>
+              <th data-sort="note">비고</th>
+            </tr>
+          </thead>
+          <tbody id="conf-tbody"></tbody>
+        </table>
+        <p id="empty-msg" class="empty" hidden>조건에 맞는 학회가 없습니다.</p>
+      </div>
+    </section>
+
+    <details class="card deleted-note">
+      <summary>2024년 목록에서 <strong>제외(삭제)</strong>된 학회 <span id="deleted-count"></span>개</summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>대분야</th><th>소분야</th><th>약칭</th><th>학회명</th><th>이전 등급</th></tr></thead>
+          <tbody id="deleted-tbody"></tbody>
+        </table>
+      </div>
+    </details>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>데이터 출처: 한국정보과학회(KIISE) <a href="https://www.kiise.or.kr/academy/main/getContent.fa?content_no=86&MENU_ID=130500" target="_blank" rel="noopener">우수 국제학술대회 목록 안내</a> · <code>excellent_sw_conferences_2024.csv</code></p>
+      <p class="muted">본 대시보드는 비공식 참고용입니다. 등급·목록의 최종 기준은 KIISE 공식 자료를 확인하세요. 참고 구현: <a href="https://github.com/leemgs/conference" target="_blank" rel="noopener">github.com/leemgs/conference</a></p>
+    </div>
+  </footer>
+
+  <script src="assets/data.js?v=20260720"></script>
+  <script src="assets/app.js?v=20260720"></script>
+</body>
+</html>

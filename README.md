@@ -1,0 +1,101 @@
+# KIISE 우수 SW 국제학술대회 대시보드 (2024)
+
+한국정보과학회(KIISE)가 선정·발표한 **우수 SW 국제학술대회 목록(2024)** 을 한눈에 볼 수 있는
+정적 웹 대시보드입니다. S/A 등급 구성, 대분야(AI·CS)·소분야(16개)별 분포를 시각화하고,
+전체 학회 목록을 검색·필터·정렬할 수 있습니다.
+
+> 참고 구현: [github.com/leemgs/conference](https://github.com/leemgs/conference) — 탑티어 학회 마감일 캘린더 대시보드
+
+## 🔗 참고 사이트 (데이터 출처)
+
+- **KIISE 우수 국제학술대회 목록 공식 안내**:
+  <https://www.kiise.or.kr/academy/main/getContent.fa?content_no=86&MENU_ID=130500>
+
+원본 데이터는 위 KIISE 공식 안내 페이지의 목록을 정리한 것으로,
+`data/excellent_sw_conferences_2024.csv` 파일에 담겨 있습니다.
+
+## ✨ 주요 기능
+
+- **요약 통계 타일** — 전체 학회 수, S/A 등급 수, 대분야·소분야 수
+- **대분야별 등급 분포** — AI·CS 두 대분야를 S/A 등급으로 나눈 누적 막대
+- **등급 구성 도넛** — 전체 학회의 S/A 등급 비율
+- **소분야별 학회 수** — 16개 소분야를 대분야(AI/CS) 색상으로 구분한 가로 막대 (내림차순)
+- **학회 목록 표** — 약칭·학회명 검색, 대분야/등급/소분야 필터, 열 정렬
+- **제외(삭제) 학회** — 2024년 목록에서 빠진 학회를 접이식으로 별도 표시
+- **라이트/다크 테마**, 반응형(모바일) 지원, 외부 라이브러리 의존성 없음
+
+## 📊 데이터 개요 (2024)
+
+| 구분 | 수 |
+|------|----|
+| 전체 학회 | 216 |
+| S 등급 | 73 |
+| A 등급 | 143 |
+| 대분야 | 2 (AI, CS) |
+| 소분야 | 16 |
+| 제외(삭제) | 7 |
+
+`번호(No.)`가 없는 행(제외/연속행)은 활성 목록에서 제외하며, `비고`에 `삭제`가 표시된 학회는
+"제외(삭제) 학회" 섹션에 따로 모읍니다.
+
+## 📁 디렉터리 구조
+
+```
+.
+├── data/
+│   └── excellent_sw_conferences_2024.csv   # 원본 데이터 (KIISE)
+├── scripts/
+│   └── build_data.py                        # CSV → docs/assets/data.js 생성기
+├── docs/                                     # GitHub Pages 배포 폴더
+│   ├── index.html                            # 대시보드 페이지
+│   ├── data/
+│   │   └── excellent_sw_conferences_2024.csv # 원본 사본(참고용)
+│   └── assets/
+│       ├── style.css                         # 스타일 (라이트/다크)
+│       ├── app.js                            # 차트·표·필터 로직 (vanilla JS)
+│       └── data.js                           # 자동 생성 (window.KIISE_DATA)
+└── README.md
+```
+
+## 🚀 로컬 실행
+
+정적 사이트이므로 별도 빌드 없이 바로 열 수 있습니다.
+
+```bash
+# 방법 1) 로컬 서버로 실행
+python3 -m http.server 8000 --directory docs
+# 브라우저에서 http://localhost:8000 접속
+
+# 방법 2) 파일로 바로 열기 (data.js를 script로 로드하므로 file:// 도 동작)
+open docs/index.html      # macOS
+xdg-open docs/index.html  # Linux
+```
+
+## 🔄 데이터 갱신
+
+원본 CSV(`data/excellent_sw_conferences_2024.csv`)를 수정한 뒤 빌드 스크립트를 실행하면
+대시보드가 읽는 `docs/assets/data.js`가 다시 생성됩니다.
+
+```bash
+python3 scripts/build_data.py
+# → docs/assets/data.js 갱신
+```
+
+## 🌐 GitHub Pages 배포
+
+저장소 **Settings → Pages** 에서 소스를 `main` 브랜치의 `/docs` 폴더로 지정하면
+`https://<user>.github.io/<repo>/` 주소로 대시보드가 게시됩니다.
+
+## 🎨 색상 팔레트
+
+접근성(색각 이상 안전)을 고려한 팔레트를 사용합니다.
+
+- CS = 파랑 `#2a78d6`, AI = 초록 `#008300`
+- S 등급 = 진한 파랑, A 등급 = 옅은 파랑 (등급 서열을 명도로 표현)
+- 라이트/다크 테마 각각 별도 스텝으로 검증된 값을 사용
+
+## 📄 라이선스 · 고지
+
+본 대시보드는 **비공식 참고용**입니다. 등급·목록의 최종 기준은 반드시
+[KIISE 공식 자료](https://www.kiise.or.kr/academy/main/getContent.fa?content_no=86&MENU_ID=130500)를
+확인하시기 바랍니다.
