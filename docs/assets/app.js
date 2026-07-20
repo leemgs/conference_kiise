@@ -11,6 +11,10 @@
   const years = DATA.years || [];
   const GRADE_RANK = { S: 0, A: 1 };
 
+  /* ---------------- language (KO/EN) ---------------- */
+  const LANG = localStorage.getItem("kiise-lang") === "en" ? "en" : "ko";
+  const T = (window.KIISE_I18N && window.KIISE_I18N[LANG]) || window.KIISE_I18N.ko;
+
   const CSS = getComputedStyle(document.documentElement);
   const color = (name) => CSS.getPropertyValue(name).trim();
   const majorColor = (m) => (m === "AI" ? color("--ai") : color("--cs"));
@@ -91,11 +95,11 @@
     const majors = [...new Set(records.map((r) => r.major))];
     const subs = [...new Set(records.map((r) => r.sub))];
     const tiles = [
-      { val: records.length, lbl: "전체 학회", dot: null },
-      { val: count(records, (r) => r.grade === "S"), lbl: "S 등급 (최우수)", dot: color("--grade-s") },
-      { val: count(records, (r) => r.grade === "A"), lbl: "A 등급 (우수)", dot: color("--grade-a") },
-      { val: majors.length, lbl: "대분야", dot: null },
-      { val: subs.length, lbl: "소분야", dot: null },
+      { val: records.length, lbl: T.tileAll, dot: null },
+      { val: count(records, (r) => r.grade === "S"), lbl: T.tileS, dot: color("--grade-s") },
+      { val: count(records, (r) => r.grade === "A"), lbl: T.tileA, dot: color("--grade-a") },
+      { val: majors.length, lbl: T.tileMajor, dot: null },
+      { val: subs.length, lbl: T.tileSub, dot: null },
     ];
     const box = $("#tiles");
     box.innerHTML = "";
@@ -127,8 +131,8 @@
         seg.style.flexBasis = (val / total * 100) + "%";
         if (dark) { seg.style.color = "#0b0b0b"; seg.style.textShadow = "none"; }
         bindTip(seg, () =>
-          `<b>${m} · ${gradeLabel} 등급 (${gradeLabel === "S" ? "최우수" : "우수"})</b><br>${val}개 ` +
-          `<span class="tt-sub">(${m} 내 ${(val / total * 100).toFixed(0)}%)</span>`);
+          `<b>${m} · ${gradeLabel === "S" ? T.gradeSFull : T.gradeAFull}</b><br>${T.cnt(val)} ` +
+          `<span class="tt-sub">${T.inMajorPct(m, (val / total * 100).toFixed(0))}</span>`);
         return seg;
       };
       stack.append(
@@ -138,8 +142,8 @@
       host.appendChild(row);
     });
     $("#legend-grade").innerHTML =
-      `<span><i style="background:${color("--grade-s")}"></i> S 등급 (최우수)</span>` +
-      `<span><i style="background:${color("--grade-a")}"></i> A 등급 (우수)</span>`;
+      `<span><i style="background:${color("--grade-s")}"></i> ${T.gradeSFull}</span>` +
+      `<span><i style="background:${color("--grade-a")}"></i> ${T.gradeAFull}</span>`;
   }
 
   /* ---------------- grade donut (with tooltip) ---------------- */
@@ -154,7 +158,7 @@
 
     const donut = el("div", "donut");
     donut.style.background = `conic-gradient(${cS} 0 ${sPct}%, ${cA} ${sPct}% 100%)`;
-    donut.appendChild(el("div", "donut-center", `<b>${total}</b><small>학회</small>`));
+    donut.appendChild(el("div", "donut-center", `<b>${total}</b><small>${T.donutUnit}</small>`));
 
     // segment detection by angle (clockwise from 12 o'clock)
     donut.addEventListener("mousemove", (e) => {
@@ -168,15 +172,15 @@
       const pct = ang / 360 * 100;
       const isS = pct < sPct;
       showTip(
-        `<b>${isS ? "S 등급 (최우수)" : "A 등급 (우수)"}</b><br>${isS ? s : a}개 ` +
+        `<b>${isS ? T.gradeSFull : T.gradeAFull}</b><br>${T.cnt(isS ? s : a)} ` +
         `<span class="tt-sub">(${((isS ? s : a) / total * 100).toFixed(0)}%)</span>`,
         e.clientX, e.clientY);
     });
     donut.addEventListener("mouseleave", hideTip);
 
     const legend = el("div", "donut-legend",
-      `<span><i style="background:${cS}"></i> S 등급 (최우수) &nbsp; <b>${s}</b> (${sPct.toFixed(0)}%)</span>` +
-      `<span><i style="background:${cA}"></i> A 등급 (우수) &nbsp; <b>${a}</b> (${(100 - sPct).toFixed(0)}%)</span>`);
+      `<span><i style="background:${cS}"></i> ${T.gradeSFull} &nbsp; <b>${s}</b> (${sPct.toFixed(0)}%)</span>` +
+      `<span><i style="background:${cA}"></i> ${T.gradeAFull} &nbsp; <b>${a}</b> (${(100 - sPct).toFixed(0)}%)</span>`);
     host.append(donut, legend);
   }
 
@@ -204,7 +208,7 @@
       row.appendChild(el("div", "v", String(r.n)));
       bindTip(track, () =>
         `<b>${r.sub} · ${r.subName}</b><br>` +
-        `총 ${r.n}개 <span class="tt-sub">(${r.major})</span><br>` +
+        `${T.totalCnt(r.n)} <span class="tt-sub">(${r.major})</span><br>` +
         `<span class="tt-sub">S ${r.s} · A ${r.a}</span>`);
       host.appendChild(row);
     });
@@ -229,15 +233,15 @@
   function buildFilters() {
     // year select
     const ys = $("#filter-year");
-    ys.appendChild(new Option(years.length > 1 ? "전체 연도" : years[0] + "년", "ALL"));
-    if (years.length > 1) years.forEach((y) => ys.appendChild(new Option(y + "년", y)));
+    ys.appendChild(new Option(years.length > 1 ? T.allYears : T.yearOpt(years[0]), "ALL"));
+    if (years.length > 1) years.forEach((y) => ys.appendChild(new Option(T.yearOpt(y), y)));
     ys.onchange = () => { state.year = ys.value; refresh(); };
     ys.value = state.year;               // reflect the default (latest year)
     if (years.length <= 1) ys.disabled = true;
 
     // major chips
     const mg = $("#filter-major");
-    [["ALL", "전체"], ["CS", "CS"], ["AI", "AI"]].forEach(([v, label]) => {
+    [["ALL", T.all], ["CS", "CS"], ["AI", "AI"]].forEach(([v, label]) => {
       const b = el("button", "chip", label);
       b.dataset.val = v;
       b.setAttribute("aria-pressed", v === "ALL");
@@ -246,7 +250,7 @@
     });
     // grade chips
     const gg = $("#filter-grade");
-    [["ALL", "전체"], ["S", "S (최우수)"], ["A", "A (우수)"]].forEach(([v, label]) => {
+    [["ALL", T.all], ["S", T.sChip], ["A", T.aChip]].forEach(([v, label]) => {
       const b = el("button", "chip", label);
       b.dataset.val = v;
       b.setAttribute("aria-pressed", v === "ALL");
@@ -255,7 +259,7 @@
     });
     // sub select
     const sel = $("#filter-sub");
-    sel.appendChild(new Option("소분야 전체", "ALL"));
+    sel.appendChild(new Option(T.allSubs, "ALL"));
     [...new Set(allRecords.map((r) => r.sub))].sort().forEach((s) => {
       const rec = allRecords.find((r) => r.sub === s);
       sel.appendChild(new Option(`${s} · ${rec.subName}`, s));
@@ -327,7 +331,7 @@
         `<td><span class="pill ${r.major.toLowerCase()}">${r.major}</span></td>` +
         `<td>${r.sub}</td>` +
         `<td class="abbr"><b>${r.abbr}</b></td>` +
-        `<td class="name"><a href="#" class="conf-link" data-q="${confQuery(r)}" title="구글에서 이 학회 정보 검색">${r.name}</a></td>` +
+        `<td class="name"><a href="#" class="conf-link" data-q="${confQuery(r)}" title="${T.confLinkTitle}">${r.name}</a></td>` +
         `<td><span class="pill grade-${r.grade.toLowerCase()}">${r.grade}</span></td>` +
         `<td>${note}</td>`;
       tbody.appendChild(tr);
@@ -343,7 +347,7 @@
     if (total === 0) return;
 
     const info = el("span", "page-info",
-      `${start + 1}–${start + shown} / 총 ${total}개 · ${state.page}/${pages} 페이지`);
+      T.pageInfo(start + 1, start + shown, total, state.page, pages));
     nav.appendChild(info);
 
     const go = (p) => { state.page = p; renderTable(); };
@@ -391,13 +395,13 @@
     });
     $("#deleted-count").textContent = rows.length;
     $("#deleted-year").textContent =
-      state.year === "ALL" ? "전체" : state.year;
+      state.year === "ALL" ? T.all : state.year;
   }
 
   /* ---------------- year-over-year 신규/삭제 ---------------- */
   function fillChangeList(ul, arr) {
     ul.innerHTML = "";
-    if (!arr.length) { ul.appendChild(el("li", "chg-empty muted", "없음")); return; }
+    if (!arr.length) { ul.appendChild(el("li", "chg-empty muted", T.none)); return; }
     arr.forEach((r) => {
       const li = el("li", "chg-item",
         `<span class="pill grade-${r.grade.toLowerCase()}">${r.grade}</span>` +
@@ -420,7 +424,7 @@
       (GRADE_RANK[a.grade] - GRADE_RANK[b.grade]) || a.abbr.localeCompare(b.abbr);
     const news = [...cur.values()].filter((r) => !old.has(confKey(r))).sort(bySA);
     const dels = [...old.values()].filter((r) => !cur.has(confKey(r))).sort(bySA);
-    $("#changes-sub").textContent = `${prev}년 → ${state.year}년`;
+    $("#changes-sub").textContent = T.vsRange(prev, state.year);
     $("#new-count").textContent = news.length;
     $("#del-count").textContent = dels.length;
     fillChangeList($("#new-list"), news);
@@ -441,14 +445,14 @@
     // year filter 옆 요약: 전체 · S(최우수) · A(우수) 학회 수
     const sN = count(rec, (r) => r.grade === "S");
     $("#year-summary").innerHTML =
-      `<b>${rec.length}</b>개 학회 ` +
+      T.summaryConf(rec.length) +
       `<i class="ys-dot" style="background:${color("--grade-s")}"></i>S <b>${sN}</b> ` +
       `<i class="ys-dot" style="background:${color("--grade-a")}"></i>A <b>${rec.length - sN}</b>`;
     $("#tag-count").textContent = rec.length;
     $("#tag-year").textContent =
       state.year === "ALL"
-        ? (years.length > 1 ? `${years[0]}–${years[years.length - 1]}년` : years[0] + "년")
-        : state.year + "년";
+        ? (years.length > 1 ? T.yearRange(years[0], years[years.length - 1]) : T.yearOpt(years[0]))
+        : T.yearOpt(state.year);
   }
 
   /* ---------------- theme toggle ---------------- */
@@ -518,7 +522,7 @@
     let cur = new Date(); cur.setDate(1);
 
     function render() {
-      $("#cal-title").textContent = `${cur.getFullYear()}년 ${cur.getMonth() + 1}월`;
+      $("#cal-title").textContent = T.calTitle(cur.getFullYear(), cur.getMonth() + 1);
       grid.innerHTML = "";
       const firstDow = cur.getDay();
       const daysInMonth = new Date(cur.getFullYear(), cur.getMonth() + 1, 0).getDate();
@@ -533,16 +537,16 @@
           + (i % 7 === 0 ? " sun" : ""));
         cell.appendChild(el("span", "cal-day", String(d.getDate())));
         (byDate.get(ds) || []).forEach((it) => {
-          const btn = el("button", "cal-chip", `${it.abbr} ${it.edition} ${it.kind}`);
+          const kindL = T.kind(it.kind);
+          const btn = el("button", "cal-chip", `${it.abbr} ${it.edition} ${kindL}`);
           btn.style.background = chipColor(it.abbr);
           const rec = byAbbr.get(it.abbr);
-          btn.title = `${it.abbr} ${it.edition} ${it.kind} 마감 (예상): ${ds}`
-            + (it.note ? ` · ${it.note}` : "")
-            + (rec ? `\n${rec.name}` : "");
+          btn.title = T.chipTitle(it.abbr, it.edition, kindL, ds,
+            it.note ? T.note(it.note) : "", rec ? rec.name : "");
           btn.onclick = () => {
             const q = encodeURIComponent(`${rec ? rec.name : it.abbr} ${it.edition} call for papers deadline`)
               .replace(/'/g, "%27").replace(/"/g, "%22");
-            openConfSearch(q, `${it.abbr} ${it.edition} ${it.kind} 마감`);
+            openConfSearch(q, T.panelTitle(it.abbr, it.edition, kindL));
           };
           cell.appendChild(btn);
         });
@@ -570,7 +574,7 @@
         const rec = byAbbr.get(it.abbr);
         const q = encodeURIComponent(`${rec ? rec.name : it.abbr} ${it.edition} call for papers deadline`)
           .replace(/'/g, "%27").replace(/"/g, "%22");
-        openConfSearch(q, `${it.abbr} ${it.edition} ${it.kind} 마감`);
+        openConfSearch(q, T.panelTitle(it.abbr, it.edition, T.kind(it.kind)));
       }
 
       function drawUpcoming() {
@@ -585,24 +589,24 @@
           li.innerHTML =
             `<div class="up-dday${dday <= 7 ? " near" : ""}">` +
               `${dday === 0 ? "D-Day" : "D-" + dday}` +
-              `<span class="up-date">${it.date.replace(/-/g, ".")} (${"일월화수목금토"[d.getDay()]})</span>` +
+              `<span class="up-date">${it.date.replace(/-/g, ".")} (${T.dow[d.getDay()]})</span>` +
             `</div>` +
             `<div class="up-body">` +
               `<div class="up-title"><b>${it.abbr} ${it.edition}</b>` +
                 (rec ? `<span class="up-badge">${rec.subName}</span>` +
-                       `<span class="pill grade-${rec.grade.toLowerCase()}">${rec.grade === "S" ? "S 최우수" : "A 우수"}</span>` +
+                       `<span class="pill grade-${rec.grade.toLowerCase()}">${T.upGrade(rec.grade)}</span>` +
                        `<span class="pill ${rec.major.toLowerCase()}">${rec.major}</span>` : "") +
-                `<span class="up-badge est">📅 예상</span>` +
+                `<span class="up-badge est">${T.estBadge}</span>` +
               `</div>` +
-              `<p class="up-kind">${it.kind} 마감${it.note ? ` <span class="muted">(${it.note})</span>` : ""}</p>` +
+              `<p class="up-kind">${T.kindLine(T.kind(it.kind), it.note ? T.note(it.note) : "")}</p>` +
               (rec ? `<p class="up-name">${rec.name}</p>` : "") +
             `</div>`;
-          li.title = "클릭하면 검색 패널이 열립니다";
+          li.title = T.upClickTitle;
           li.onclick = () => searchFor(it);
           upList.appendChild(li);
         });
         moreBtn.hidden = upcoming.length <= LIMIT;
-        moreBtn.textContent = expanded ? "접기 ▲" : `더 보기 (${upcoming.length - LIMIT}개) ▼`;
+        moreBtn.textContent = expanded ? T.collapse : T.more(upcoming.length - LIMIT);
       }
       moreBtn.onclick = () => { expanded = !expanded; drawUpcoming(); };
       drawUpcoming();
@@ -628,7 +632,28 @@
     show(location.hash.slice(1) || "dashboard");
   }
 
+  /* ---------------- apply language to static markup ---------------- */
+  function applyLang() {
+    document.documentElement.lang = LANG;
+    const btn = $("#lang-toggle");
+    if (btn) {
+      btn.textContent = LANG === "ko" ? "EN" : "한국어";
+      btn.onclick = () => {
+        localStorage.setItem("kiise-lang", LANG === "ko" ? "en" : "ko");
+        location.reload();
+      };
+    }
+    if (T.static) {
+      document.title = T.docTitle;
+      Object.entries(T.static).forEach(([sel, html]) => {
+        document.querySelectorAll(sel).forEach((n) => { n.innerHTML = html; });
+      });
+    }
+    $("#search").placeholder = T.searchPh;
+  }
+
   /* ---------------- boot ---------------- */
+  applyLang();
   buildFilters();
   initConfSearch();
   initCalendar();
