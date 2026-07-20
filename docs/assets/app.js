@@ -556,10 +556,30 @@
     render();
   }
 
+  /* ---------------- view menu (대시보드 / 달력 / 목록) ---------------- */
+  function initViews() {
+    const tabs = document.querySelectorAll(".view-tabs button");
+    const views = {
+      dashboard: $("#view-dashboard"),
+      calendar: $("#view-calendar"),
+      list: $("#view-list"),
+    };
+    function show(name) {
+      if (!views[name]) name = "dashboard";
+      Object.entries(views).forEach(([k, v]) => { v.hidden = k !== name; });
+      tabs.forEach((b) => b.classList.toggle("active", b.dataset.view === name));
+      history.replaceState(null, "", "#" + name);
+    }
+    tabs.forEach((b) => { b.onclick = () => show(b.dataset.view); });
+    window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+    show(location.hash.slice(1) || "dashboard");
+  }
+
   /* ---------------- boot ---------------- */
   buildFilters();
   initConfSearch();
   initCalendar();
+  initViews();
   refresh();
   initTheme();
 })();
