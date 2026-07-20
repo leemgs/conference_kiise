@@ -196,6 +196,11 @@ tbody tr:hover { background: var(--surface-2); }
 td.no, td.abbr { font-variant-numeric: tabular-nums; white-space: nowrap; }
 td.abbr b { font-weight: 700; }
 td.name { color: var(--text-2); min-width: 260px; }
+a.conf-link { color: inherit; text-decoration: none; cursor: pointer;
+  border-bottom: 1px dotted var(--text-3, currentColor); transition: color .15s; }
+a.conf-link:hover, a.conf-link:focus-visible {
+  color: var(--ai); border-bottom-color: var(--ai); outline: none; }
+a.conf-link::after { content: " ↗"; font-size: .72em; opacity: .5; }
 
 .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: .74rem; font-weight: 600; white-space: nowrap; }
 .pill.ai { background: color-mix(in srgb, var(--ai) 16%, transparent); color: var(--ai); }

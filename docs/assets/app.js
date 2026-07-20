@@ -24,6 +24,27 @@
   };
   const count = (arr, fn) => arr.filter(fn).length;
 
+  /* ---------------- conference Google search popup ---------------- */
+  // build a Google search query string (HTML-attribute safe) for a record
+  function confQuery(r) {
+    const parts = [r.name, r.abbr, "conference"].filter(Boolean);
+    return encodeURIComponent(parts.join(" "))
+      .replace(/'/g, "%27").replace(/"/g, "%22");
+  }
+  // open Google search results for the query in a centered popup window
+  function openConfSearch(query) {
+    const url = "https://www.google.com/search?q=" + query;
+    const w = 720, h = 640;
+    const y = window.top.outerHeight / 2 + window.top.screenY - h / 2;
+    const x = window.top.outerWidth / 2 + window.top.screenX - w / 2;
+    const win = window.open(
+      url, "confSearch",
+      `popup=yes,width=${w},height=${h},left=${x},top=${y},` +
+      "scrollbars=yes,resizable=yes,noopener");
+    if (win) win.focus();
+    else window.open(url, "_blank", "noopener"); // popup blocked → new tab
+  }
+
   /* ---------------- tooltip ---------------- */
   const tip = $("#tooltip");
   function showTip(html, x, y) {
@@ -281,7 +302,7 @@
         `<td><span class="pill ${r.major.toLowerCase()}">${r.major}</span></td>` +
         `<td>${r.sub}</td>` +
         `<td class="abbr"><b>${r.abbr}</b></td>` +
-        `<td class="name">${r.name}</td>` +
+        `<td class="name"><a href="#" class="conf-link" data-q="${confQuery(r)}" title="구글에서 이 학회 정보 검색">${r.name}</a></td>` +
         `<td><span class="pill grade-${r.grade.toLowerCase()}">${r.grade}</span></td>` +
         `<td>${note}</td>`;
       tbody.appendChild(tr);
@@ -377,8 +398,19 @@
     };
   }
 
+  /* clicking a conference name opens a Google search popup */
+  function initConfSearch() {
+    $("#conf-tbody").addEventListener("click", (e) => {
+      const link = e.target.closest("a.conf-link");
+      if (!link) return;
+      e.preventDefault();
+      openConfSearch(link.dataset.q);
+    });
+  }
+
   /* ---------------- boot ---------------- */
   buildFilters();
+  initConfSearch();
   refresh();
   renderDeleted();
   initTheme();
