@@ -24,25 +24,35 @@
   };
   const count = (arr, fn) => arr.filter(fn).length;
 
-  /* ---------------- conference Google search popup ---------------- */
+  /* ---------------- conference Google search side panel ---------------- */
   // build a Google search query string (HTML-attribute safe) for a record
   function confQuery(r) {
     const parts = [r.name, r.abbr, "conference"].filter(Boolean);
     return encodeURIComponent(parts.join(" "))
       .replace(/'/g, "%27").replace(/"/g, "%22");
   }
-  // open Google search results for the query in a centered popup window
-  function openConfSearch(query) {
-    const url = "https://www.google.com/search?q=" + query;
-    const w = 720, h = 640;
-    const y = window.top.outerHeight / 2 + window.top.screenY - h / 2;
-    const x = window.top.outerWidth / 2 + window.top.screenX - w / 2;
-    const win = window.open(
-      url, "confSearch",
-      `popup=yes,width=${w},height=${h},left=${x},top=${y},` +
-      "scrollbars=yes,resizable=yes,noopener");
-    if (win) win.focus();
-    else window.open(url, "_blank", "noopener"); // popup blocked → new tab
+  // open Google search results for a record in the slide-in side panel.
+  // igu=1 drops Google's X-Frame-Options header so results embed in an iframe.
+  function openConfSearch(query, title) {
+    const panel = $("#search-panel"), backdrop = $("#search-backdrop");
+    $("#search-panel-title").textContent = title;
+    $("#search-panel-open").href = "https://www.google.com/search?q=" + query;
+    $("#search-frame").src = "https://www.google.com/search?igu=1&q=" + query;
+    backdrop.hidden = false; panel.hidden = false;
+    requestAnimationFrame(() => { backdrop.classList.add("open"); panel.classList.add("open"); });
+    document.body.classList.add("panel-open");
+    $("#search-panel-close").focus();
+  }
+  function closeConfSearch() {
+    const panel = $("#search-panel"), backdrop = $("#search-backdrop");
+    panel.classList.remove("open"); backdrop.classList.remove("open");
+    document.body.classList.remove("panel-open");
+    const done = () => {
+      panel.hidden = true; backdrop.hidden = true;
+      $("#search-frame").src = "about:blank"; // stop the framed page
+      panel.removeEventListener("transitionend", done);
+    };
+    panel.addEventListener("transitionend", done);
   }
 
   /* ---------------- tooltip ---------------- */
@@ -398,13 +408,18 @@
     };
   }
 
-  /* clicking a conference name opens a Google search popup */
+  /* clicking a conference name opens the Google search side panel */
   function initConfSearch() {
     $("#conf-tbody").addEventListener("click", (e) => {
       const link = e.target.closest("a.conf-link");
       if (!link) return;
       e.preventDefault();
-      openConfSearch(link.dataset.q);
+      openConfSearch(link.dataset.q, link.textContent);
+    });
+    $("#search-panel-close").onclick = closeConfSearch;
+    $("#search-backdrop").onclick = closeConfSearch;
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !$("#search-panel").hidden) closeConfSearch();
     });
   }
 

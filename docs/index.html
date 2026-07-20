@@ -129,7 +129,29 @@
 
   <div id="tooltip" class="tooltip" role="status" aria-live="polite" hidden></div>
 
-  <script src="assets/data.js?v=20260720c"></script>
-  <script src="assets/app.js?v=20260720c"></script>
+  <!-- 학회명 클릭 시 열리는 구글 검색 사이드 패널 -->
+  <div id="search-backdrop" class="search-backdrop" hidden></div>
+  <aside id="search-panel" class="search-panel" role="dialog" aria-modal="true"
+         aria-labelledby="search-panel-title" hidden>
+    <header class="search-panel-head">
+      <div class="search-panel-titles">
+        <p class="search-panel-eyebrow">Google 검색</p>
+        <h2 id="search-panel-title" class="search-panel-title"></h2>
+      </div>
+      <div class="search-panel-actions">
+        <a id="search-panel-open" class="btn ghost icon" href="#" target="_blank"
+           rel="noopener" title="새 탭에서 열기" aria-label="새 탭에서 열기">↗</a>
+        <button id="search-panel-close" class="btn ghost icon" title="닫기"
+                aria-label="패널 닫기">✕</button>
+      </div>
+    </header>
+    <div class="search-panel-body">
+      <iframe id="search-frame" title="Google 검색 결과" loading="lazy"
+              referrerpolicy="no-referrer"></iframe>
+    </div>
+  </aside>
+
+  <script src="assets/data.js?v=20260720d"></script>
+  <script src="assets/app.js?v=20260720d"></script>
 </body>
 </html>
