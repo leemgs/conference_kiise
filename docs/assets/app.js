@@ -79,8 +79,8 @@
     const subs = [...new Set(records.map((r) => r.sub))];
     const tiles = [
       { val: records.length, lbl: "전체 학회", dot: null },
-      { val: count(records, (r) => r.grade === "S"), lbl: "S 등급", dot: color("--grade-s") },
-      { val: count(records, (r) => r.grade === "A"), lbl: "A 등급", dot: color("--grade-a") },
+      { val: count(records, (r) => r.grade === "S"), lbl: "S 등급 (최우수)", dot: color("--grade-s") },
+      { val: count(records, (r) => r.grade === "A"), lbl: "A 등급 (우수)", dot: color("--grade-a") },
       { val: majors.length, lbl: "대분야", dot: null },
       { val: subs.length, lbl: "소분야", dot: null },
     ];
@@ -114,7 +114,7 @@
         seg.style.flexBasis = (val / total * 100) + "%";
         if (dark) { seg.style.color = "#0b0b0b"; seg.style.textShadow = "none"; }
         bindTip(seg, () =>
-          `<b>${m} · ${gradeLabel} 등급</b><br>${val}개 ` +
+          `<b>${m} · ${gradeLabel} 등급 (${gradeLabel === "S" ? "최우수" : "우수"})</b><br>${val}개 ` +
           `<span class="tt-sub">(${m} 내 ${(val / total * 100).toFixed(0)}%)</span>`);
         return seg;
       };
@@ -125,8 +125,8 @@
       host.appendChild(row);
     });
     $("#legend-grade").innerHTML =
-      `<span><i style="background:${color("--grade-s")}"></i> S 등급</span>` +
-      `<span><i style="background:${color("--grade-a")}"></i> A 등급</span>`;
+      `<span><i style="background:${color("--grade-s")}"></i> S 등급 (최우수)</span>` +
+      `<span><i style="background:${color("--grade-a")}"></i> A 등급 (우수)</span>`;
   }
 
   /* ---------------- grade donut (with tooltip) ---------------- */
@@ -155,15 +155,15 @@
       const pct = ang / 360 * 100;
       const isS = pct < sPct;
       showTip(
-        `<b>${isS ? "S" : "A"} 등급</b><br>${isS ? s : a}개 ` +
+        `<b>${isS ? "S 등급 (최우수)" : "A 등급 (우수)"}</b><br>${isS ? s : a}개 ` +
         `<span class="tt-sub">(${((isS ? s : a) / total * 100).toFixed(0)}%)</span>`,
         e.clientX, e.clientY);
     });
     donut.addEventListener("mouseleave", hideTip);
 
     const legend = el("div", "donut-legend",
-      `<span><i style="background:${cS}"></i> S 등급 &nbsp; <b>${s}</b> (${sPct.toFixed(0)}%)</span>` +
-      `<span><i style="background:${cA}"></i> A 등급 &nbsp; <b>${a}</b> (${(100 - sPct).toFixed(0)}%)</span>`);
+      `<span><i style="background:${cS}"></i> S 등급 (최우수) &nbsp; <b>${s}</b> (${sPct.toFixed(0)}%)</span>` +
+      `<span><i style="background:${cA}"></i> A 등급 (우수) &nbsp; <b>${a}</b> (${(100 - sPct).toFixed(0)}%)</span>`);
     host.append(donut, legend);
   }
 
@@ -231,7 +231,7 @@
     });
     // grade chips
     const gg = $("#filter-grade");
-    [["ALL", "전체"], ["S", "S"], ["A", "A"]].forEach(([v, label]) => {
+    [["ALL", "전체"], ["S", "S (최우수)"], ["A", "A (우수)"]].forEach(([v, label]) => {
       const b = el("button", "chip", label);
       b.dataset.val = v;
       b.setAttribute("aria-pressed", v === "ALL");
