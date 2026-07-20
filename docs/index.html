@@ -7,7 +7,7 @@
   <meta name="description" content="KIISE 우수 SW 국제학술대회 목록(2014·2016·2018·2020·2024) 대시보드 — S/A 등급, 대분야·소분야별 분포와 검색">
   <title>KIISE 우수 SW 국제학술대회 대시보드</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎓%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="assets/style.css?v=20260720l">
+  <link rel="stylesheet" href="assets/style.css?v=20260720m">
 </head>
 <body>
   <header class="site-header">
@@ -104,6 +104,18 @@
         <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
       </div>
       <div id="cal-grid" class="cal-grid"></div>
+    </section>
+
+    <!-- Upcoming deadlines -->
+    <section class="card" id="upcoming-card">
+      <div class="card-head">
+        <h2>다가오는 마감</h2>
+        <p class="card-sub">오늘 이후 예정된 초록·논문 마감 — 직전 연도 일정 기반 <strong>예상일</strong></p>
+      </div>
+      <ol id="upcoming-list" class="upcoming-list"></ol>
+      <div class="upcoming-more-wrap">
+        <button id="upcoming-more" class="btn ghost" hidden></button>
+      </div>
     </section>
     </div><!-- /view-calendar -->
 
@@ -202,8 +214,8 @@
     </div>
   </aside>
 
-  <script src="assets/data.js?v=20260720l"></script>
+  <script src="assets/data.js?v=20260720m"></script>
   <script src="assets/deadlines.js?v=20260720"></script>
-  <script src="assets/app.js?v=20260720l"></script>
+  <script src="assets/app.js?v=20260720m"></script>
 </body>
 </html>

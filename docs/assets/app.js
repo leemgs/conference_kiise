@@ -554,6 +554,59 @@
     $("#cal-next").onclick = () => { cur.setMonth(cur.getMonth() + 1); render(); };
     $("#cal-today").onclick = () => { cur = new Date(); cur.setDate(1); render(); };
     render();
+
+    /* -------- upcoming deadlines list below the calendar -------- */
+    const upList = $("#upcoming-list");
+    if (upList) {
+      const LIMIT = 12;
+      const todayStr = fmt(new Date());
+      const upcoming = dl.items
+        .filter((it) => it.date >= todayStr)
+        .sort((a, b) => a.date.localeCompare(b.date) || a.abbr.localeCompare(b.abbr));
+      const moreBtn = $("#upcoming-more");
+      let expanded = false;
+
+      function searchFor(it) {
+        const rec = byAbbr.get(it.abbr);
+        const q = encodeURIComponent(`${rec ? rec.name : it.abbr} ${it.edition} call for papers deadline`)
+          .replace(/'/g, "%27").replace(/"/g, "%22");
+        openConfSearch(q, `${it.abbr} ${it.edition} ${it.kind} 마감`);
+      }
+
+      function drawUpcoming() {
+        upList.innerHTML = "";
+        const base = new Date(); base.setHours(0, 0, 0, 0);
+        upcoming.slice(0, expanded ? upcoming.length : LIMIT).forEach((it) => {
+          const d = new Date(it.date + "T00:00:00");
+          const dday = Math.round((d - base) / 86400000);
+          const rec = byAbbr.get(it.abbr);
+          const li = el("li", "up-item");
+          li.style.borderLeftColor = chipColor(it.abbr);
+          li.innerHTML =
+            `<div class="up-dday${dday <= 7 ? " near" : ""}">` +
+              `${dday === 0 ? "D-Day" : "D-" + dday}` +
+              `<span class="up-date">${it.date.replace(/-/g, ".")} (${"일월화수목금토"[d.getDay()]})</span>` +
+            `</div>` +
+            `<div class="up-body">` +
+              `<div class="up-title"><b>${it.abbr} ${it.edition}</b>` +
+                (rec ? `<span class="up-badge">${rec.subName}</span>` +
+                       `<span class="pill grade-${rec.grade.toLowerCase()}">${rec.grade === "S" ? "S 최우수" : "A 우수"}</span>` +
+                       `<span class="pill ${rec.major.toLowerCase()}">${rec.major}</span>` : "") +
+                `<span class="up-badge est">📅 예상</span>` +
+              `</div>` +
+              `<p class="up-kind">${it.kind} 마감${it.note ? ` <span class="muted">(${it.note})</span>` : ""}</p>` +
+              (rec ? `<p class="up-name">${rec.name}</p>` : "") +
+            `</div>`;
+          li.title = "클릭하면 검색 패널이 열립니다";
+          li.onclick = () => searchFor(it);
+          upList.appendChild(li);
+        });
+        moreBtn.hidden = upcoming.length <= LIMIT;
+        moreBtn.textContent = expanded ? "접기 ▲" : `더 보기 (${upcoming.length - LIMIT}개) ▼`;
+      }
+      moreBtn.onclick = () => { expanded = !expanded; drawUpcoming(); };
+      drawUpcoming();
+    }
   }
 
   /* ---------------- view menu (대시보드 / 달력 / 목록) ---------------- */
