@@ -5,9 +5,11 @@
   const DATA = window.KIISE_DATA;
   if (!DATA) { console.error("KIISE_DATA not loaded"); return; }
 
-  const records = DATA.records;
+  const allRecords = DATA.records;
   const deleted = DATA.deleted || [];
   const majorNames = DATA.majorNames || {};
+  const years = DATA.years || [];
+  const GRADE_RANK = { S: 0, A: 1 };
 
   const CSS = getComputedStyle(document.documentElement);
   const color = (name) => CSS.getPropertyValue(name).trim();
@@ -22,8 +24,26 @@
   };
   const count = (arr, fn) => arr.filter(fn).length;
 
+  /* ---------------- tooltip ---------------- */
+  const tip = $("#tooltip");
+  function showTip(html, x, y) {
+    tip.innerHTML = html;
+    tip.hidden = false;
+    moveTip(x, y);
+  }
+  function moveTip(x, y) {
+    const pad = 10;
+    tip.style.left = Math.max(pad, Math.min(x, innerWidth - pad)) + "px";
+    tip.style.top = Math.max(28, y - 12) + "px";
+  }
+  function hideTip() { tip.hidden = true; }
+  function bindTip(node, htmlFn) {
+    node.addEventListener("mousemove", (e) => showTip(htmlFn(), e.clientX, e.clientY));
+    node.addEventListener("mouseleave", hideTip);
+  }
+
   /* ---------------- summary tiles ---------------- */
-  function renderTiles() {
+  function renderTiles(records) {
     const majors = [...new Set(records.map((r) => r.major))];
     const subs = [...new Set(records.map((r) => r.sub))];
     const tiles = [
@@ -34,21 +54,20 @@
       { val: subs.length, lbl: "소분야", dot: null },
     ];
     const box = $("#tiles");
+    box.innerHTML = "";
     tiles.forEach((t) => {
       const dot = t.dot ? `<span class="dot" style="background:${t.dot}"></span>` : "";
       box.appendChild(el("div", "tile",
         `<div class="val">${dot}${t.val}</div><div class="lbl">${t.lbl}</div>`));
     });
-    $("#tag-count").textContent = records.length;
-    $("#table-count").textContent = records.length;
-    $("#deleted-count").textContent = deleted.length;
   }
 
   /* ---------------- major × grade stacked ---------------- */
-  function renderMajor() {
+  function renderMajor(records) {
     const host = $("#chart-major");
-    const majors = ["CS", "AI"];
-    const max = Math.max(...majors.map((m) => count(records, (r) => r.major === m)));
+    host.innerHTML = "";
+    const majors = ["CS", "AI"].filter((m) => records.some((r) => r.major === m));
+    const max = Math.max(1, ...majors.map((m) => count(records, (r) => r.major === m)));
     majors.forEach((m) => {
       const s = count(records, (r) => r.major === m && r.grade === "S");
       const a = count(records, (r) => r.major === m && r.grade === "A");
@@ -58,15 +77,19 @@
         `<b>${m}</b> <small>${majorNames[m] || ""}</small>`));
       const stack = el("div", "stack");
       stack.style.width = (total / max * 100) + "%";
-      const segS = el("div", "seg", s > 0 ? String(s) : "");
-      segS.style.background = color("--grade-s");
-      segS.style.flexBasis = (s / total * 100) + "%";
-      const segA = el("div", "seg", a > 0 ? String(a) : "");
-      segA.style.background = color("--grade-a");
-      segA.style.color = "#0b0b0b";
-      segA.style.textShadow = "none";
-      segA.style.flexBasis = (a / total * 100) + "%";
-      stack.append(segS, segA);
+      const mkSeg = (val, bg, dark, gradeLabel) => {
+        const seg = el("div", "seg", val > 0 ? String(val) : "");
+        seg.style.background = bg;
+        seg.style.flexBasis = (val / total * 100) + "%";
+        if (dark) { seg.style.color = "#0b0b0b"; seg.style.textShadow = "none"; }
+        bindTip(seg, () =>
+          `<b>${m} · ${gradeLabel} 등급</b><br>${val}개 ` +
+          `<span class="tt-sub">(${m} 내 ${(val / total * 100).toFixed(0)}%)</span>`);
+        return seg;
+      };
+      stack.append(
+        mkSeg(s, color("--grade-s"), false, "S"),
+        mkSeg(a, color("--grade-a"), true, "A"));
       row.appendChild(stack);
       host.appendChild(row);
     });
@@ -75,36 +98,56 @@
       `<span><i style="background:${color("--grade-a")}"></i> A 등급</span>`;
   }
 
-  /* ---------------- grade donut ---------------- */
-  function renderGrade() {
+  /* ---------------- grade donut (with tooltip) ---------------- */
+  function renderGrade(records) {
+    const host = $("#chart-grade");
+    host.innerHTML = "";
     const s = count(records, (r) => r.grade === "S");
     const a = count(records, (r) => r.grade === "A");
-    const total = s + a;
+    const total = s + a || 1;
     const sPct = (s / total * 100);
     const cS = color("--grade-s"), cA = color("--grade-a");
-    const host = $("#chart-grade");
+
     const donut = el("div", "donut");
-    donut.style.background =
-      `conic-gradient(${cS} 0 ${sPct}%, ${cA} ${sPct}% 100%)`;
-    donut.appendChild(el("div", "donut-center",
-      `<b>${total}</b><small>학회</small>`));
+    donut.style.background = `conic-gradient(${cS} 0 ${sPct}%, ${cA} ${sPct}% 100%)`;
+    donut.appendChild(el("div", "donut-center", `<b>${total}</b><small>학회</small>`));
+
+    // segment detection by angle (clockwise from 12 o'clock)
+    donut.addEventListener("mousemove", (e) => {
+      const rect = donut.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx, dy = e.clientY - cy;
+      const r = Math.hypot(dx, dy);
+      if (r > rect.width / 2 || r < rect.width / 2 - 26) { hideTip(); return; }
+      let ang = Math.atan2(dx, -dy) * 180 / Math.PI; // 0=top, cw+
+      if (ang < 0) ang += 360;
+      const pct = ang / 360 * 100;
+      const isS = pct < sPct;
+      showTip(
+        `<b>${isS ? "S" : "A"} 등급</b><br>${isS ? s : a}개 ` +
+        `<span class="tt-sub">(${((isS ? s : a) / total * 100).toFixed(0)}%)</span>`,
+        e.clientX, e.clientY);
+    });
+    donut.addEventListener("mouseleave", hideTip);
+
     const legend = el("div", "donut-legend",
       `<span><i style="background:${cS}"></i> S 등급 &nbsp; <b>${s}</b> (${sPct.toFixed(0)}%)</span>` +
       `<span><i style="background:${cA}"></i> A 등급 &nbsp; <b>${a}</b> (${(100 - sPct).toFixed(0)}%)</span>`);
     host.append(donut, legend);
   }
 
-  /* ---------------- sub-field bars ---------------- */
-  function renderSub() {
+  /* ---------------- sub-field bars (with tooltip) ---------------- */
+  function renderSub(records) {
+    const host = $("#chart-sub");
+    host.innerHTML = "";
     const map = new Map();
     records.forEach((r) => {
-      const key = r.sub;
-      if (!map.has(key)) map.set(key, { sub: r.sub, subName: r.subName, major: r.major, n: 0 });
-      map.get(key).n++;
+      if (!map.has(r.sub)) map.set(r.sub, { sub: r.sub, subName: r.subName, major: r.major, n: 0, s: 0, a: 0 });
+      const o = map.get(r.sub);
+      o.n++; o[r.grade === "S" ? "s" : "a"]++;
     });
     const rows = [...map.values()].sort((x, y) => y.n - x.n);
-    const max = Math.max(...rows.map((r) => r.n));
-    const host = $("#chart-sub");
+    const max = Math.max(1, ...rows.map((r) => r.n));
     rows.forEach((r) => {
       const row = el("div", "bar-row");
       row.appendChild(el("div", "k", `<b>${r.sub}</b> · ${r.subName}`));
@@ -115,6 +158,10 @@
       track.appendChild(fill);
       row.appendChild(track);
       row.appendChild(el("div", "v", String(r.n)));
+      bindTip(track, () =>
+        `<b>${r.sub} · ${r.subName}</b><br>` +
+        `총 ${r.n}개 <span class="tt-sub">(${r.major})</span><br>` +
+        `<span class="tt-sub">S ${r.s} · A ${r.a}</span>`);
       host.appendChild(row);
     });
     $("#legend-major").innerHTML =
@@ -123,9 +170,21 @@
   }
 
   /* ---------------- filters + table ---------------- */
-  const state = { q: "", major: "ALL", grade: "ALL", sub: "ALL", sortKey: "no", sortDir: 1 };
+  // Default: S 등급 우선 정렬
+  const state = { q: "", year: "ALL", major: "ALL", grade: "ALL", sub: "ALL", sortKey: "grade", sortDir: 1 };
+
+  function scoped() {
+    return state.year === "ALL" ? allRecords : allRecords.filter((r) => r.year === state.year);
+  }
 
   function buildFilters() {
+    // year select
+    const ys = $("#filter-year");
+    ys.appendChild(new Option(years.length > 1 ? "전체 연도" : years[0] + "년", "ALL"));
+    if (years.length > 1) years.forEach((y) => ys.appendChild(new Option(y + "년", y)));
+    ys.onchange = () => { state.year = ys.value; refresh(); };
+    if (years.length <= 1) ys.disabled = true;
+
     // major chips
     const mg = $("#filter-major");
     [["ALL", "전체"], ["CS", "CS"], ["AI", "AI"]].forEach(([v, label]) => {
@@ -147,12 +206,10 @@
     // sub select
     const sel = $("#filter-sub");
     sel.appendChild(new Option("소분야 전체", "ALL"));
-    [...new Set(records.map((r) => r.sub))]
-      .sort()
-      .forEach((s) => {
-        const rec = records.find((r) => r.sub === s);
-        sel.appendChild(new Option(`${s} · ${rec.subName}`, s));
-      });
+    [...new Set(allRecords.map((r) => r.sub))].sort().forEach((s) => {
+      const rec = allRecords.find((r) => r.sub === s);
+      sel.appendChild(new Option(`${s} · ${rec.subName}`, s));
+    });
     sel.onchange = () => { state.sub = sel.value; renderTable(); };
     // search
     $("#search").addEventListener("input", (e) => {
@@ -175,7 +232,7 @@
   }
 
   function filtered() {
-    return records.filter((r) => {
+    return scoped().filter((r) => {
       if (state.major !== "ALL" && r.major !== state.major) return false;
       if (state.grade !== "ALL" && r.grade !== state.grade) return false;
       if (state.sub !== "ALL" && r.sub !== state.sub) return false;
@@ -187,13 +244,18 @@
     });
   }
 
+  function compare(a, b) {
+    const k = state.sortKey;
+    if (k === "grade") {
+      const d = (GRADE_RANK[a.grade] - GRADE_RANK[b.grade]) * state.sortDir;
+      return d || a.no.localeCompare(b.no, "en", { numeric: true });
+    }
+    const av = (a[k] || "").toString(), bv = (b[k] || "").toString();
+    return av.localeCompare(bv, "en", { numeric: true }) * state.sortDir;
+  }
+
   function renderTable() {
-    const rows = filtered().sort((a, b) => {
-      const k = state.sortKey;
-      const av = (a[k] || "").toString();
-      const bv = (b[k] || "").toString();
-      return av.localeCompare(bv, "en", { numeric: true }) * state.sortDir;
-    });
+    const rows = filtered().sort(compare);
     const tbody = $("#conf-tbody");
     tbody.innerHTML = "";
     rows.forEach((r) => {
@@ -215,6 +277,7 @@
 
   function renderDeleted() {
     const tbody = $("#deleted-tbody");
+    tbody.innerHTML = "";
     deleted.forEach((r) => {
       const tr = document.createElement("tr");
       tr.innerHTML =
@@ -225,6 +288,22 @@
         `<td><span class="pill grade-${r.grade.toLowerCase()}">${r.grade}</span></td>`;
       tbody.appendChild(tr);
     });
+    $("#deleted-count").textContent = deleted.length;
+  }
+
+  /* re-render everything that depends on the current year scope */
+  function refresh() {
+    const rec = scoped();
+    renderTiles(rec);
+    renderMajor(rec);
+    renderGrade(rec);
+    renderSub(rec);
+    renderTable();
+    $("#tag-count").textContent = rec.length;
+    $("#tag-year").textContent =
+      state.year === "ALL"
+        ? (years.length > 1 ? `${years[0]}–${years[years.length - 1]}년` : years[0] + "년")
+        : state.year + "년";
   }
 
   /* ---------------- theme toggle ---------------- */
@@ -239,20 +318,14 @@
       const next = isDark ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
       localStorage.setItem("kiise-theme", next);
-      // re-render color-dependent charts
-      ["#chart-major", "#chart-grade", "#chart-sub", "#legend-grade", "#legend-major"]
-        .forEach((s) => { $(s).innerHTML = ""; });
-      renderMajor(); renderGrade(); renderSub();
+      const rec = scoped();
+      renderMajor(rec); renderGrade(rec); renderSub(rec); // color-dependent
     };
   }
 
   /* ---------------- boot ---------------- */
-  renderTiles();
-  renderMajor();
-  renderGrade();
-  renderSub();
   buildFilters();
-  renderTable();
+  refresh();
   renderDeleted();
   initTheme();
 })();

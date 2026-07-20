@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Build the dashboard dataset from the KIISE source CSV.
+"""Build the dashboard dataset from the KIISE source CSV(s).
 
-Reads ``data/excellent_sw_conferences_2024.csv`` and writes a browser-ready
-``docs/assets/data.js`` that assigns ``window.KIISE_DATA``. Emitting a ``.js``
-file (rather than JSON fetched at runtime) lets the dashboard open directly
-from the filesystem as well as from GitHub Pages, with no fetch/CORS caveats.
+Merges every ``data/excellent_sw_conferences_<year>.csv`` file and writes a
+browser-ready ``docs/assets/data.js`` that assigns ``window.KIISE_DATA``.
+To add another year, drop a new ``excellent_sw_conferences_2025.csv`` (same
+columns) into ``data/`` and re-run — it is picked up automatically. Emitting a
+``.js`` file (rather than JSON fetched at runtime) lets the dashboard open
+directly from the filesystem as well as from GitHub Pages, with no fetch/CORS
+caveats.
 
 Usage:
     python scripts/build_data.py
@@ -14,10 +17,13 @@ from __future__ import annotations
 import csv
 import json
 import pathlib
+import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SRC = ROOT / "data" / "excellent_sw_conferences_2024.csv"
+SRC_DIR = ROOT / "data"
+SRC_GLOB = "excellent_sw_conferences_*.csv"
 OUT = ROOT / "docs" / "assets" / "data.js"
+DOCS_DATA = ROOT / "docs" / "data"
 
 # Full names for the KIISE sub-field abbreviations (소분야).
 SUBFIELD_NAMES = {
@@ -45,13 +51,19 @@ MAJOR_NAMES = {
 }
 
 
-def build() -> dict:
-    records: list[dict] = []
-    deleted: list[dict] = []
+def year_of(no: str, filename: str) -> str:
+    """Derive the calendar year from the 번호 (e.g. 2024-S-001), or the filename."""
+    m = re.match(r"\s*(\d{4})", no or "")
+    if m:
+        return m.group(1)
+    m = re.search(r"(\d{4})", filename)
+    return m.group(1) if m else ""
 
-    with SRC.open(encoding="utf-8-sig", newline="") as fh:
+
+def parse_file(path: pathlib.Path, records: list, deleted: list) -> None:
+    with path.open(encoding="utf-8-sig", newline="") as fh:
         reader = csv.reader(fh)
-        header = next(reader)  # 번호,대분야,소분야,약칭,학회명,등급,비고
+        next(reader, None)  # header: 번호,대분야,소분야,약칭,학회명,등급,비고
         for row in reader:
             if len(row) < 6:
                 continue
@@ -64,6 +76,7 @@ def build() -> dict:
 
             rec = {
                 "no": no,
+                "year": year_of(no, path.name),
                 "major": major,
                 "sub": sub,
                 "subName": SUBFIELD_NAMES.get(sub, sub),
@@ -79,13 +92,27 @@ def build() -> dict:
             else:
                 records.append(rec)
 
+
+def build() -> dict:
+    records: list[dict] = []
+    deleted: list[dict] = []
+
+    sources = sorted(SRC_DIR.glob(SRC_GLOB))
+    if not sources:
+        raise SystemExit(f"No source CSV found in {SRC_DIR}/{SRC_GLOB}")
+    for path in sources:
+        parse_file(path, records, deleted)
+
+    years = sorted({r["year"] for r in records if r["year"]})
+    records.sort(key=lambda r: (r["year"], r["grade"] != "S", r["no"]))
+
     return {
         "records": records,
         "deleted": deleted,
         "majorNames": MAJOR_NAMES,
         "subfieldNames": SUBFIELD_NAMES,
-        "source": "excellent_sw_conferences_2024.csv",
-        "year": 2024,
+        "years": years,
+        "sources": [p.name for p in sources],
     }
 
 
@@ -102,7 +129,8 @@ def main() -> None:
     s = sum(1 for r in data["records"] if r["grade"] == "S")
     a = sum(1 for r in data["records"] if r["grade"] == "A")
     print(f"Wrote {OUT.relative_to(ROOT)}: {n} conferences (S={s}, A={a}), "
-          f"{len(data['deleted'])} deleted.")
+          f"{len(data['deleted'])} deleted. "
+          f"years={','.join(data['years'])} sources={len(data['sources'])}")
 
 
 if __name__ == "__main__":

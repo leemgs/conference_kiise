@@ -3,6 +3,7 @@ window.KIISE_DATA = {
   "records": [
     {
       "no": "2024-S-001",
+      "year": "2024",
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
@@ -13,6 +14,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-002",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -23,6 +25,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-003",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -33,6 +36,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-004",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -43,6 +47,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-005",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -53,6 +58,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-006",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -63,6 +69,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-007",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -73,6 +80,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-008",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -83,6 +91,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-009",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -93,6 +102,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-010",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -103,6 +113,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-011",
+      "year": "2024",
       "major": "AI",
       "sub": "CV",
       "subName": "Computer Vision",
@@ -113,6 +124,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-012",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -123,6 +135,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-013",
+      "year": "2024",
       "major": "AI",
       "sub": "CV",
       "subName": "Computer Vision",
@@ -133,6 +146,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-014",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -143,6 +157,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-015",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -153,6 +168,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-016",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -163,6 +179,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-017",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -173,6 +190,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-018",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -183,6 +201,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-019",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -193,6 +212,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-020",
+      "year": "2024",
       "major": "AI",
       "sub": "CV",
       "subName": "Computer Vision",
@@ -203,6 +223,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-021",
+      "year": "2024",
       "major": "CS",
       "sub": "DB",
       "subName": "Database",
@@ -213,6 +234,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-022",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -223,6 +245,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-023",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -233,6 +256,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-024",
+      "year": "2024",
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
@@ -243,6 +267,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-025",
+      "year": "2024",
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
@@ -253,6 +278,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-026",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -263,6 +289,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-027",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -273,6 +300,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-028",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -283,6 +311,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-029",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -293,6 +322,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-030",
+      "year": "2024",
       "major": "AI",
       "sub": "Bio",
       "subName": "Bioinformatics",
@@ -303,6 +333,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-031",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -313,6 +344,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-032",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -323,6 +355,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-033",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -333,6 +366,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-034",
+      "year": "2024",
       "major": "AI",
       "sub": "Bio",
       "subName": "Bioinformatics",
@@ -343,6 +377,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-035",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -353,6 +388,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-036",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -363,6 +399,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-037",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -373,6 +410,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-038",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -383,6 +421,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-039",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -393,6 +432,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-040",
+      "year": "2024",
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
@@ -403,6 +443,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-041",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -413,6 +454,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-042",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -423,6 +465,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-043",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -433,6 +476,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-044",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -443,6 +487,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-045",
+      "year": "2024",
       "major": "CS",
       "sub": "DB",
       "subName": "Database",
@@ -453,6 +498,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-046",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -463,6 +509,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-047",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -473,6 +520,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-048",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -483,6 +531,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-049",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -493,6 +542,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-050",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -503,6 +553,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-051",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -513,6 +564,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-052",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -523,6 +575,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-053",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -533,6 +586,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-054",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -543,6 +597,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-055",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -553,6 +608,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-056",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -563,6 +619,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-057",
+      "year": "2024",
       "major": "CS",
       "sub": "DB",
       "subName": "Database",
@@ -573,6 +630,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-058",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -583,6 +641,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-059",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -593,6 +652,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-060",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -603,6 +663,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-061",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -613,6 +674,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-062",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -623,6 +685,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-063",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -633,6 +696,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-064",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -643,6 +707,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-065",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -653,6 +718,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-066",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -663,6 +729,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-067",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -673,6 +740,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-068",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -683,6 +751,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-069",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -693,6 +762,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-070",
+      "year": "2024",
       "major": "CS",
       "sub": "DB",
       "subName": "Database",
@@ -703,6 +773,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-071",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -713,6 +784,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-072",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -723,6 +795,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-S-073",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -733,6 +806,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-001",
+      "year": "2024",
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
@@ -743,6 +817,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-002",
+      "year": "2024",
       "major": "AI",
       "sub": "CV",
       "subName": "Computer Vision",
@@ -753,6 +828,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-003",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -763,6 +839,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-004",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -773,6 +850,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-005",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -783,6 +861,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-006",
+      "year": "2024",
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
@@ -793,6 +872,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-007",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -803,6 +883,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-008",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -813,6 +894,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-009",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -823,6 +905,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-010",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -833,6 +916,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-011",
+      "year": "2024",
       "major": "AI",
       "sub": "Bio",
       "subName": "Bioinformatics",
@@ -843,6 +927,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-012",
+      "year": "2024",
       "major": "AI",
       "sub": "Bio",
       "subName": "Bioinformatics",
@@ -853,6 +938,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-013",
+      "year": "2024",
       "major": "CS",
       "sub": "DB",
       "subName": "Database",
@@ -863,6 +949,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-014",
+      "year": "2024",
       "major": "AI",
       "sub": "CV",
       "subName": "Computer Vision",
@@ -873,6 +960,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-015",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -883,6 +971,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-016",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -893,6 +982,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-017",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -903,6 +993,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-018",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -913,6 +1004,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-019",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -923,6 +1015,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-020",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -933,6 +1026,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-021",
+      "year": "2024",
       "major": "CS",
       "sub": "DB",
       "subName": "Database",
@@ -943,6 +1037,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-022",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -953,6 +1048,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-023",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -963,6 +1059,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-024",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -973,6 +1070,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-025",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -983,6 +1081,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-026",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -993,6 +1092,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-027",
+      "year": "2024",
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
@@ -1003,6 +1103,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-028",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -1013,6 +1114,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-029",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -1023,6 +1125,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-030",
+      "year": "2024",
       "major": "AI",
       "sub": "Robot",
       "subName": "Robotics",
@@ -1033,6 +1136,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-031",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -1043,6 +1147,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-032",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -1053,6 +1158,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-033",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -1063,6 +1169,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-034",
+      "year": "2024",
       "major": "CS",
       "sub": "DB",
       "subName": "Database",
@@ -1073,6 +1180,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-035",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -1083,6 +1191,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-036",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -1093,6 +1202,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-037",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -1103,6 +1213,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-038",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -1113,6 +1224,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-039",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -1123,6 +1235,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-040",
+      "year": "2024",
       "major": "AI",
       "sub": "Bio",
       "subName": "Bioinformatics",
@@ -1133,6 +1246,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-041",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -1143,6 +1257,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-042",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -1153,6 +1268,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-043",
+      "year": "2024",
       "major": "CS",
       "sub": "DB",
       "subName": "Database",
@@ -1163,6 +1279,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-044",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -1173,6 +1290,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-045",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -1183,6 +1301,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-046",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -1193,6 +1312,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-047",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -1203,6 +1323,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-048",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -1213,6 +1334,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-049",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -1223,6 +1345,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-050",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -1233,6 +1356,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-051",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -1243,6 +1367,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-052",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -1253,6 +1378,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-053",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -1263,6 +1389,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-054",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -1273,6 +1400,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-055",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -1283,6 +1411,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-056",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -1293,6 +1422,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-057",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -1303,6 +1433,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-058",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -1313,6 +1444,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-059",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -1323,6 +1455,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-060",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -1333,6 +1466,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-061",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -1343,6 +1477,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-062",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -1353,6 +1488,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-063",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -1363,6 +1499,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-064",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -1373,6 +1510,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-065",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -1383,6 +1521,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-066",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -1393,6 +1532,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-067",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -1403,6 +1543,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-068",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -1413,6 +1554,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-069",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -1423,6 +1565,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-070",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -1433,6 +1576,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-071",
+      "year": "2024",
       "major": "AI",
       "sub": "Robot",
       "subName": "Robotics",
@@ -1443,6 +1587,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-072",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -1453,6 +1598,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-073",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -1463,6 +1609,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-074",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -1473,6 +1620,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-075",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -1483,6 +1631,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-076",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -1493,6 +1642,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-077",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -1503,6 +1653,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-078",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -1513,6 +1664,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-079",
+      "year": "2024",
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
@@ -1523,6 +1675,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-080",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -1533,6 +1686,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-081",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -1543,6 +1697,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-082",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -1553,6 +1708,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-083",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -1563,6 +1719,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-084",
+      "year": "2024",
       "major": "AI",
       "sub": "Bio",
       "subName": "Bioinformatics",
@@ -1573,6 +1730,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-085",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -1583,6 +1741,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-086",
+      "year": "2024",
       "major": "AI",
       "sub": "Robot",
       "subName": "Robotics",
@@ -1593,6 +1752,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-087",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -1603,6 +1763,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-088",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -1613,6 +1774,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-089",
+      "year": "2024",
       "major": "CS",
       "sub": "Arch",
       "subName": "Computer Architecture",
@@ -1623,6 +1785,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-090",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -1633,6 +1796,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-091",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -1643,6 +1807,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-092",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -1653,6 +1818,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-093",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -1663,6 +1829,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-094",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -1673,6 +1840,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-095",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -1683,6 +1851,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-096",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -1693,6 +1862,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-097",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -1703,6 +1873,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-098",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -1713,6 +1884,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-099",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -1723,6 +1895,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-100",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -1733,6 +1906,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-101",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -1743,6 +1917,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-102",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -1753,6 +1928,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-103",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -1763,6 +1939,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-104",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -1773,6 +1950,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-105",
+      "year": "2024",
       "major": "AI",
       "sub": "NLP",
       "subName": "Natural Language Processing",
@@ -1783,6 +1961,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-106",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -1793,6 +1972,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-107",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -1803,6 +1983,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-108",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -1813,6 +1994,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-109",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -1823,6 +2005,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-110",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -1833,6 +2016,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-111",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -1843,6 +2027,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-112",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -1853,6 +2038,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-113",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -1863,6 +2049,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-114",
+      "year": "2024",
       "major": "AI",
       "sub": "Bio",
       "subName": "Bioinformatics",
@@ -1873,6 +2060,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-115",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -1883,6 +2071,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-116",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -1893,6 +2082,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-117",
+      "year": "2024",
       "major": "AI",
       "sub": "Bio",
       "subName": "Bioinformatics",
@@ -1903,6 +2093,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-118",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -1913,6 +2104,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-119",
+      "year": "2024",
       "major": "AI",
       "sub": "Robot",
       "subName": "Robotics",
@@ -1923,6 +2115,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-120",
+      "year": "2024",
       "major": "CS",
       "sub": "SE",
       "subName": "Software Engineering",
@@ -1933,6 +2126,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-121",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -1943,6 +2137,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-122",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -1953,6 +2148,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-123",
+      "year": "2024",
       "major": "CS",
       "sub": "DM",
       "subName": "Data Mining",
@@ -1963,6 +2159,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-124",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -1973,6 +2170,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-125",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -1983,6 +2181,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-126",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -1993,6 +2192,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-127",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -2003,6 +2203,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-128",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -2013,6 +2214,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-129",
+      "year": "2024",
       "major": "CS",
       "sub": "HPC",
       "subName": "High Performance Computing",
@@ -2023,6 +2225,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-130",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -2033,6 +2236,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-131",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -2043,6 +2247,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-132",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -2053,6 +2258,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-133",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -2063,6 +2269,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-134",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -2073,6 +2280,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-135",
+      "year": "2024",
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
@@ -2083,6 +2291,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-136",
+      "year": "2024",
       "major": "CS",
       "sub": "PL",
       "subName": "Programming Languages",
@@ -2093,6 +2302,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-137",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -2103,6 +2313,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-138",
+      "year": "2024",
       "major": "AI",
       "sub": "CV",
       "subName": "Computer Vision",
@@ -2113,6 +2324,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-139",
+      "year": "2024",
       "major": "CS",
       "sub": "Alg",
       "subName": "Algorithms / Theory",
@@ -2123,6 +2335,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-140",
+      "year": "2024",
       "major": "CS",
       "sub": "CGI",
       "subName": "Computer Graphics / HCI",
@@ -2133,6 +2346,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-141",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -2143,6 +2357,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-142",
+      "year": "2024",
       "major": "CS",
       "sub": "Sec",
       "subName": "Security",
@@ -2153,6 +2368,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "2024-A-143",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -2165,6 +2381,7 @@ window.KIISE_DATA = {
   "deleted": [
     {
       "no": "",
+      "year": "2024",
       "major": "AI",
       "sub": "CV",
       "subName": "Computer Vision",
@@ -2175,6 +2392,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "",
+      "year": "2024",
       "major": "AI",
       "sub": "CV",
       "subName": "Computer Vision",
@@ -2185,6 +2403,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "",
+      "year": "2024",
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
@@ -2195,6 +2414,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "",
+      "year": "2024",
       "major": "AI",
       "sub": "CV",
       "subName": "Computer Vision",
@@ -2205,6 +2425,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "",
+      "year": "2024",
       "major": "CS",
       "sub": "Net",
       "subName": "Networks",
@@ -2215,6 +2436,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "",
+      "year": "2024",
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
@@ -2225,6 +2447,7 @@ window.KIISE_DATA = {
     },
     {
       "no": "",
+      "year": "2024",
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
@@ -2256,6 +2479,10 @@ window.KIISE_DATA = {
     "DB": "Database",
     "HPC": "High Performance Computing"
   },
-  "source": "excellent_sw_conferences_2024.csv",
-  "year": 2024
+  "years": [
+    "2024"
+  ],
+  "sources": [
+    "excellent_sw_conferences_2024.csv"
+  ]
 };

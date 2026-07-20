@@ -7,7 +7,7 @@
   <meta name="description" content="KIISE 우수 SW 국제학술대회 목록(2024) 대시보드 — S/A 등급, 대분야·소분야별 분포와 검색">
   <title>KIISE 우수 SW 국제학술대회 대시보드 · 2024</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎓%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="assets/style.css?v=20260720">
+  <link rel="stylesheet" href="assets/style.css?v=20260720b">
 </head>
 <body>
   <header class="site-header">
@@ -16,7 +16,7 @@
         <div class="brand-mark">🎓</div>
         <div>
           <h1>KIISE 우수 SW 국제학술대회 대시보드</h1>
-          <p class="tagline">한국정보과학회(KIISE) 선정 · <strong>2024년</strong> 우수 국제학술대회 목록 — <span id="tag-count">216</span>개 학회</p>
+          <p class="tagline">한국정보과학회(KIISE) 선정 · <strong id="tag-year">2024년</strong> 우수 국제학술대회 목록 — <span id="tag-count">216</span>개 학회</p>
         </div>
       </div>
       <div class="header-actions">
@@ -70,6 +70,7 @@
 
       <div class="filters">
         <input type="search" id="search" placeholder="🔍 약칭·학회명 검색 (예: CVPR, Security…)" autocomplete="off">
+        <select id="filter-year" aria-label="연도 필터"></select>
         <div class="filter-group" id="filter-major" role="group" aria-label="대분야 필터"></div>
         <div class="filter-group" id="filter-grade" role="group" aria-label="등급 필터"></div>
         <select id="filter-sub" aria-label="소분야 필터"></select>
@@ -112,7 +113,9 @@
     </div>
   </footer>
 
-  <script src="assets/data.js?v=20260720"></script>
-  <script src="assets/app.js?v=20260720"></script>
+  <div id="tooltip" class="tooltip" role="status" aria-live="polite" hidden></div>
+
+  <script src="assets/data.js?v=20260720b"></script>
+  <script src="assets/app.js?v=20260720b"></script>
 </body>
 </html>
