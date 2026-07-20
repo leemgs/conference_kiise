@@ -396,11 +396,15 @@
   function fillChangeList(ul, arr) {
     ul.innerHTML = "";
     if (!arr.length) { ul.appendChild(el("li", "chg-empty muted", "없음")); return; }
-    arr.forEach((r) => ul.appendChild(el("li", "chg-item",
-      `<span class="pill grade-${r.grade.toLowerCase()}">${r.grade}</span>` +
-      `<span class="pill ${r.major.toLowerCase()}">${r.major}</span>` +
-      `<b class="chg-abbr">${r.abbr}</b>` +
-      `<span class="chg-name">${r.name}</span>`)));
+    arr.forEach((r) => {
+      const li = el("li", "chg-item",
+        `<span class="pill grade-${r.grade.toLowerCase()}">${r.grade}</span>` +
+        `<span class="pill ${r.major.toLowerCase()}">${r.major}</span>` +
+        `<b class="chg-abbr">${r.abbr}</b>` +
+        `<span class="chg-name">${r.name}</span>`);
+      li.title = `${r.abbr} — ${r.name}`;
+      ul.appendChild(li);
+    });
   }
 
   function renderChanges() {
