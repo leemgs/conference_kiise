@@ -17,6 +17,8 @@
   /* grade ordinal (S higher tier = darker) */
   --grade-s:      #2a78d6;
   --grade-a:      #9ec5f4;
+  /* secondary chart hue (month chart: 초록 마감) */
+  --chart-2:      #7c5cff;
 
   --radius:       14px;
   --shadow:       0 1px 2px rgba(11,11,11,.05), 0 8px 24px rgba(11,11,11,.05);
@@ -37,6 +39,7 @@
     --ai:         #1fa11f;
     --grade-s:    #3987e5;
     --grade-a:    #5598e7;
+    --chart-2:    #9b83ff;
   }
 }
 :root[data-theme="dark"] {
@@ -53,6 +56,7 @@
   --ai:         #1fa11f;
   --grade-s:    #3987e5;
   --grade-a:    #5598e7;
+  --chart-2:    #9b83ff;
 }
 
 * { box-sizing: border-box; }
@@ -290,6 +294,52 @@ a.conf-link::after { content: " ↗"; font-size: .72em; opacity: .5; }
 .chg-abbr { flex: 0 0 auto; color: var(--text); }
 .chg-name { flex: 1; min-width: 0; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .chg-empty { padding: 8px 4px; font-size: .82rem; }
+
+/* ---------- monthly column chart (월별 학회 현황) ---------- */
+.cc-plot { position: relative; height: 190px; margin: 12px 0 0 44px; }
+.cc-gridline { position: absolute; left: 0; right: 0; height: 1px; background: var(--grid); }
+.cc-gridline.baseline { background: var(--border); }
+.cc-tick {
+  position: absolute; right: calc(100% + 8px); transform: translateY(50%);
+  font-size: .68rem; color: var(--muted); font-variant-numeric: tabular-nums;
+}
+.cc-cols { position: absolute; inset: 0; display: flex; }
+.cc-slot { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+.cc-cap { font-size: .7rem; font-weight: 700; margin-bottom: 3px; color: var(--text); }
+.cc-col {
+  width: 22px; max-width: 64%; border: none; padding: 0; background: var(--cs);
+  border-radius: 4px 4px 0 0; cursor: pointer; position: relative; transition: filter .12s;
+}
+.cc-col::after { content: ""; position: absolute; left: -10px; right: -10px; bottom: 0; top: -24px; }
+.cc-col:hover { filter: brightness(1.12); }
+.cc-col:focus-visible, .cc-col.selected { outline: 2px solid var(--chart-2); outline-offset: 2px; }
+.cc-col.zero { height: 2px !important; background: var(--border); }
+.cc-col.stacked { display: flex; flex-direction: column-reverse; background: none; overflow: hidden; }
+.cc-seg { width: 100%; }
+.cc-seg-paper { background: var(--cs); }
+.cc-seg-abstract { background: var(--chart-2); }
+.cc-seg-other { background: var(--muted); }
+.cc-xlabels { display: flex; margin: 6px 0 0 44px; }
+.cc-xlabel { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; font-size: .72rem; color: var(--muted); }
+.cc-xsub { font-size: .62rem; }
+.cc-xlabels.dense .cc-xlabel:nth-child(2n) > span:first-child { visibility: hidden; }
+
+.month-detail-heading { font-size: .9rem; font-weight: 700; margin: 20px 0 6px; }
+.month-detail { display: flex; flex-direction: column; }
+.month-item {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  background: none; border: none; border-bottom: 1px solid var(--border);
+  padding: 8px 4px; font: inherit; font-size: .84rem; color: var(--text); cursor: pointer;
+}
+.month-item:last-child { border-bottom: none; }
+.month-item:hover { background: var(--surface-2); }
+.mi-date { flex: 0 0 42px; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.mi-abbr { flex: 0 0 auto; font-weight: 700; }
+.mi-name { flex: 1; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mi-kind { flex: 0 0 auto; font-size: .76rem; color: var(--muted); }
+.month-detail .empty { color: var(--muted); padding: 8px 4px; }
+.tt-line { display: flex; align-items: center; gap: 5px; }
+.tt-dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
 
 /* ---------- view menu tabs ---------- */
 .view-tabs { display: flex; gap: 4px; margin: 4px 0 22px; border-bottom: 1px solid var(--border); }

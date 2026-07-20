@@ -652,6 +652,157 @@
     $("#search").placeholder = T.searchPh;
   }
 
+  /* ---------------- monthly deadline column chart (design ported from conference_field) ---------------- */
+  const _today0 = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
+  function monthKeys12() {
+    const t = _today0(), out = [];
+    for (let i = 0; i < 12; i++) {
+      const d = new Date(t.getFullYear(), t.getMonth() + i, 1);
+      out.push({ key: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`,
+                 year: d.getFullYear(), month: d.getMonth() + 1 });
+    }
+    return out;
+  }
+  function niceScale(max) {
+    if (max <= 0) return { max: 1, step: 1 };
+    const raw = max / 5, pow = Math.pow(10, Math.floor(Math.log10(raw)));
+    const step = [1, 2, 2.5, 5, 10].find((m) => m * pow >= raw) * pow;
+    return { max: Math.ceil(max / step) * step, step };
+  }
+  const fmtNum = (n) => Number(n).toLocaleString(LANG === "en" ? "en-US" : "ko-KR");
+  const tipHTML = (lines) => lines.map((ln) => ln.value == null
+    ? `<b>${ln.label}</b>`
+    : `<div class="tt-line">${ln.swatch ? `<i class="tt-dot" style="background:${ln.swatch}"></i>` : ""}` +
+      `<b>${ln.value}</b> <span class="tt-sub">${ln.label}</span></div>`).join("");
+  const attachTip = (mark, linesFn) => bindTip(mark, () => tipHTML(linesFn()));
+
+  function columnChart(container, items) {
+    const scale = niceScale(Math.max(...items.map((i) => i.value), 1));
+    container.innerHTML = "";
+    const plot = el("div", "cc-plot");
+    for (let v = 0; v <= scale.max; v += scale.step) {
+      const line = el("div", "cc-gridline" + (v === 0 ? " baseline" : ""));
+      line.style.bottom = (v / scale.max) * 100 + "%";
+      plot.appendChild(line);
+      const tick = el("span", "cc-tick", fmtNum(v));
+      tick.style.bottom = (v / scale.max) * 100 + "%";
+      plot.appendChild(tick);
+    }
+    const cols = el("div", "cc-cols");
+    const maxVal = Math.max(...items.map((i) => i.value));
+    items.forEach((item) => {
+      const slot = el("div", "cc-slot");
+      if (item.value === maxVal && item.value > 0)
+        slot.appendChild(el("span", "cc-cap", fmtNum(item.value)));
+      const col = el("button", "cc-col" + (item.value === 0 ? " zero" : "") + (item.selected ? " selected" : ""));
+      col.type = "button";
+      col.style.height = Math.max((item.value / scale.max) * 100, item.value > 0 ? 1 : 0) + "%";
+      col.setAttribute("aria-label", item.aria);
+      if (item.onClick) col.addEventListener("click", item.onClick);
+      attachTip(col, item.tipLines);
+      if (item.segments && item.value > 0) {
+        col.classList.add("stacked");
+        item.segments.forEach((seg) => {
+          if (!seg.value) return;
+          const s = el("div", "cc-seg " + (seg.cls || ""));
+          s.style.flexGrow = seg.value;
+          col.appendChild(s);
+        });
+      }
+      slot.appendChild(col); cols.appendChild(slot);
+    });
+    plot.appendChild(cols); container.appendChild(plot);
+    const xl = el("div", "cc-xlabels" + (items.length > 8 ? " dense" : ""));
+    items.forEach((item) => {
+      const lab = el("span", "cc-xlabel");
+      lab.appendChild(el("span", null, item.label));
+      if (item.sub) lab.appendChild(el("span", "cc-xsub", item.sub));
+      xl.appendChild(lab);
+    });
+    container.appendChild(xl);
+  }
+
+  // abbr -> record (latest survey year) for full names in the month detail
+  const dlByAbbr = new Map();
+  for (let i = years.length - 1; i >= 0; i--)
+    allRecords.forEach((r) => { if (r.year === years[i] && !dlByAbbr.has(r.abbr)) dlByAbbr.set(r.abbr, r); });
+
+  function monthStats() {
+    const items = (window.KIISE_DEADLINES && window.KIISE_DEADLINES.items) || [];
+    const by = {};
+    items.forEach((it) => {
+      const k = it.date.slice(0, 7);
+      const m = by[k] || (by[k] = { n: 0, paper: 0, abstract: 0, other: 0, confs: new Set() });
+      m.n++;
+      m[it.kind === "논문" ? "paper" : it.kind === "초록" ? "abstract" : "other"]++;
+      m.confs.add(it.abbr);
+    });
+    return monthKeys12().map((mk) => {
+      const m = by[mk.key] || { n: 0, paper: 0, abstract: 0, other: 0, confs: new Set() };
+      return { ...mk, count: m.n, paper: m.paper, abstract: m.abstract, other: m.other, confCount: m.confs.size };
+    });
+  }
+
+  function renderMonthDetail(stats) {
+    const sel = stats.find((s) => s.key === state.dashMonth) || stats[0];
+    $("#month-detail-heading").textContent = T.mcDetail(sel.year, T.month[sel.month - 1], sel.count);
+    const box = $("#month-detail"); box.innerHTML = "";
+    const items = ((window.KIISE_DEADLINES || {}).items || [])
+      .filter((it) => it.date.slice(0, 7) === sel.key)
+      .sort((a, b) => a.date.localeCompare(b.date) || a.abbr.localeCompare(b.abbr));
+    if (!items.length) { box.appendChild(el("p", "empty", T.none)); return; }
+    items.forEach((it) => {
+      const rec = dlByAbbr.get(it.abbr), kindL = T.kind(it.kind);
+      const item = el("button", "month-item");
+      item.type = "button";
+      item.innerHTML =
+        `<span class="mi-date">${it.date.slice(5).replace("-", ".")}</span>` +
+        `<span class="mi-abbr">${it.abbr}</span>` +
+        `<span class="mi-name">${rec ? rec.name : it.abbr}</span>` +
+        `<span class="mi-kind">${kindL} ${T.deadlineWord}</span>`;
+      item.onclick = () => {
+        const q = encodeURIComponent(`${rec ? rec.name : it.abbr} ${it.edition} call for papers deadline`)
+          .replace(/'/g, "%27").replace(/"/g, "%22");
+        openConfSearch(q, T.panelTitle(it.abbr, it.edition, kindL));
+      };
+      box.appendChild(item);
+    });
+  }
+
+  function renderMonthChart() {
+    const host = $("#month-chart");
+    if (!host) return;
+    if (!window.KIISE_DEADLINES) { const c = $("#month-card"); if (c) c.hidden = true; return; }
+    const stats = monthStats();
+    if (!state.dashMonth || !stats.some((s) => s.key === state.dashMonth)) state.dashMonth = stats[0].key;
+    columnChart(host, stats.map((s, i) => {
+      const ml = T.month[s.month - 1];
+      return {
+        label: ml,
+        sub: (i === 0 || s.month === 1) ? String(s.year) : undefined,
+        value: s.count,
+        selected: s.key === state.dashMonth,
+        aria: T.mcAria(s.year, ml, s.paper, s.abstract, s.confCount),
+        onClick: () => { state.dashMonth = s.key; renderMonthChart(); },
+        segments: [
+          { value: s.paper, cls: "cc-seg-paper" },
+          { value: s.abstract, cls: "cc-seg-abstract" },
+          { value: s.other, cls: "cc-seg-other" },
+        ],
+        tipLines: () => [
+          { label: T.calTitle(s.year, s.month) },
+          { value: T.mcCase(s.paper), label: T.mcPaper, swatch: color("--cs") },
+          { value: T.mcCase(s.abstract), label: T.mcAbstract, swatch: color("--chart-2") },
+          { value: fmtNum(s.confCount), label: T.donutUnit },
+        ],
+      };
+    }));
+    $("#legend-month").innerHTML =
+      `<span><i style="background:${color("--cs")}"></i> ${T.mcPaper}</span>` +
+      `<span><i style="background:${color("--chart-2")}"></i> ${T.mcAbstract}</span>`;
+    renderMonthDetail(stats);
+  }
+
   /* ---------------- boot ---------------- */
   applyLang();
   buildFilters();
@@ -659,5 +810,6 @@
   initCalendar();
   initViews();
   refresh();
+  renderMonthChart();
   initTheme();
 })();
