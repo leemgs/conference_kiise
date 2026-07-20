@@ -24,6 +24,17 @@
   };
   const count = (arr, fn) => arr.filter(fn).length;
 
+  // conference identity for year-over-year diff: abbr sans parenthetical qualifier
+  const confKey = (r) =>
+    (r.abbr || r.name).replace(/\(.*?\)/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  // year -> Map(confKey -> record), for computing 신규/삭제 vs the previous year
+  const yearKeys = {};
+  years.forEach((y) => {
+    const m = new Map();
+    allRecords.forEach((r) => { if (r.year === y && !m.has(confKey(r))) m.set(confKey(r), r); });
+    yearKeys[y] = m;
+  });
+
   /* ---------------- conference Google search side panel ---------------- */
   // build a Google search query string (HTML-attribute safe) for a record
   function confQuery(r) {
@@ -381,6 +392,35 @@
       state.year === "ALL" ? "전체" : state.year;
   }
 
+  /* ---------------- year-over-year 신규/삭제 ---------------- */
+  function fillChangeList(ul, arr) {
+    ul.innerHTML = "";
+    if (!arr.length) { ul.appendChild(el("li", "chg-empty muted", "없음")); return; }
+    arr.forEach((r) => ul.appendChild(el("li", "chg-item",
+      `<span class="pill grade-${r.grade.toLowerCase()}">${r.grade}</span>` +
+      `<span class="pill ${r.major.toLowerCase()}">${r.major}</span>` +
+      `<b class="chg-abbr">${r.abbr}</b>` +
+      `<span class="chg-name">${r.name}</span>`)));
+  }
+
+  function renderChanges() {
+    const card = $("#changes-card");
+    const idx = years.indexOf(state.year);
+    const prev = state.year !== "ALL" && idx > 0 ? years[idx - 1] : null;
+    if (!prev) { card.hidden = true; return; }   // 첫 연도 또는 '전체 연도'
+    card.hidden = false;
+    const cur = yearKeys[state.year], old = yearKeys[prev];
+    const bySA = (a, b) =>
+      (GRADE_RANK[a.grade] - GRADE_RANK[b.grade]) || a.abbr.localeCompare(b.abbr);
+    const news = [...cur.values()].filter((r) => !old.has(confKey(r))).sort(bySA);
+    const dels = [...old.values()].filter((r) => !cur.has(confKey(r))).sort(bySA);
+    $("#changes-sub").textContent = `${prev}년 → ${state.year}년`;
+    $("#new-count").textContent = news.length;
+    $("#del-count").textContent = dels.length;
+    fillChangeList($("#new-list"), news);
+    fillChangeList($("#del-list"), dels);
+  }
+
   /* re-render everything that depends on the current year scope */
   function refresh() {
     state.page = 1;
@@ -391,6 +431,7 @@
     renderSub(rec);
     renderTable();
     renderDeleted();
+    renderChanges();
     // year filter 옆 요약: 전체 · S(최우수) · A(우수) 학회 수
     const sN = count(rec, (r) => r.grade === "S");
     $("#year-summary").innerHTML =

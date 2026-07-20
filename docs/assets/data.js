@@ -3428,7 +3428,7 @@ window.KIISE_DATA = {
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
-      "abbr": "OSDI",
+      "abbr": "USENIX OSDI",
       "name": "USENIX Symposium on Operating Systems Design and Implementation",
       "grade": "S",
       "note": ""
@@ -5188,7 +5188,7 @@ window.KIISE_DATA = {
       "major": "AI",
       "sub": "ML",
       "subName": "Machine Learning",
-      "abbr": "NIPS",
+      "abbr": "NeurIPS",
       "name": "Conference on Neural Information Processing Systems (spotlight/poster)",
       "grade": "A",
       "note": ""
@@ -5617,7 +5617,7 @@ window.KIISE_DATA = {
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
-      "abbr": "OSDI",
+      "abbr": "USENIX OSDI",
       "name": "USENIX Symposium on Operating Systems Design and Implementation",
       "grade": "S",
       "note": ""
@@ -7795,7 +7795,7 @@ window.KIISE_DATA = {
       "major": "CS",
       "sub": "OS",
       "subName": "Operating Systems",
-      "abbr": "OSDI",
+      "abbr": "USENIX OSDI",
       "name": "USENIX Symposium on Operating Systems Design and Implementation",
       "grade": "S",
       "note": ""

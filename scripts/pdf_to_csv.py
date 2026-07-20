@@ -92,15 +92,15 @@ MANUAL = {
 
 # rows garbled by the PDF's multi-column layout: (abbr, name, major, sub)
 OVERRIDE = {
-    "2016-S-039": ("OSDI", "USENIX Symposium on Operating Systems Design and Implementation", "CS", "OS"),
-    "2016-A-134": ("NIPS", "Conference on Neural Information Processing Systems (spotlight/poster)", "AI", "ML"),
+    "2016-S-039": ("USENIX OSDI", "USENIX Symposium on Operating Systems Design and Implementation", "CS", "OS"),
+    "2016-A-134": ("NeurIPS", "Conference on Neural Information Processing Systems (spotlight/poster)", "AI", "ML"),
     "2018-S-011": ("CVPR", "Conference on Computer Vision and Pattern Recognition (oral, spotlight)", "AI", "CV"),
     "2018-S-013": ("ECCV", "European Conference on Computer Vision (oral, spotlight)", "AI", "CV"),
     "2018-S-024": ("ICML", "International Conference on Machine Learning (oral, spotlight)", "AI", "ML"),
-    "2018-S-039": ("OSDI", "USENIX Symposium on Operating Systems Design and Implementation", "CS", "OS"),
+    "2018-S-039": ("USENIX OSDI", "USENIX Symposium on Operating Systems Design and Implementation", "CS", "OS"),
     "2018-S-051": ("SIGGRAPH ASIA", "ACM SIG International Conference on Computer Graphics and Interactive Techniques (Asia)", "CS", "CGI"),
     "2018-A-056": ("ICLR", "International Conference on Learning Representations (oral, spotlight)", "AI", "ML"),
-    "2020-S-041": ("OSDI", "USENIX Symposium on Operating Systems Design and Implementation", "CS", "OS"),
+    "2020-S-041": ("USENIX OSDI", "USENIX Symposium on Operating Systems Design and Implementation", "CS", "OS"),
     "2014-S-031": ("VIS", "IEEE Visualization Conference", "CS", "CGI"),
     "2014-S-058": ("USENIX Security", "USENIX Security Symposium", "CS", "Sec"),
     "2014-A-195": ("USENIX ATC", "USENIX Annual Technical Conference", "CS", "OS"),

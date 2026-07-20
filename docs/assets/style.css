@@ -268,6 +268,24 @@ a.conf-link::after { content: " ↗"; font-size: .72em; opacity: .5; }
 .deleted-note summary::marker { color: var(--muted); }
 .deleted-note[open] summary { margin-bottom: 14px; }
 
+/* ---------- year-over-year changes ---------- */
+.changes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 640px) { .changes-grid { grid-template-columns: 1fr; } }
+.changes-title { font-size: .9rem; font-weight: 700; margin: 0 0 10px; display: flex; align-items: center; gap: 7px; }
+.changes-badge {
+  font-size: .78rem; font-weight: 700; min-width: 22px; text-align: center;
+  padding: 1px 8px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2);
+}
+.changes-list { list-style: none; margin: 0; padding: 0; max-height: 340px; overflow-y: auto; }
+.chg-item {
+  display: flex; align-items: center; gap: 7px; padding: 7px 4px;
+  border-bottom: 1px solid var(--border); font-size: .82rem;
+}
+.chg-item:last-child { border-bottom: none; }
+.chg-abbr { flex: 0 0 auto; color: var(--text); }
+.chg-name { color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chg-empty { padding: 8px 4px; font-size: .82rem; }
+
 /* ---------- footer ---------- */
 .site-footer { border-top: 1px solid var(--border); margin-top: 40px; padding: 26px 0 48px; }
 .site-footer p { margin: 4px 0; font-size: .82rem; color: var(--text-2); }
