@@ -170,8 +170,12 @@
   }
 
   /* ---------------- filters + table ---------------- */
-  // Default: S 등급 우선 정렬
-  const state = { q: "", year: "ALL", major: "ALL", grade: "ALL", sub: "ALL", sortKey: "grade", sortDir: 1 };
+  // Default: S 등급 우선 정렬, 페이지당 15개
+  const state = { q: "", year: "ALL", major: "ALL", grade: "ALL", sub: "ALL",
+                  sortKey: "grade", sortDir: 1, page: 1, pageSize: 15 };
+
+  // reset to first page whenever the result set changes, then re-render
+  function resetAndRender() { state.page = 1; renderTable(); }
 
   function scoped() {
     return state.year === "ALL" ? allRecords : allRecords.filter((r) => r.year === state.year);
@@ -191,7 +195,7 @@
       const b = el("button", "chip", label);
       b.dataset.val = v;
       b.setAttribute("aria-pressed", v === "ALL");
-      b.onclick = () => { state.major = v; setPressed(mg, v); renderTable(); };
+      b.onclick = () => { state.major = v; setPressed(mg, v); resetAndRender(); };
       mg.appendChild(b);
     });
     // grade chips
@@ -200,7 +204,7 @@
       const b = el("button", "chip", label);
       b.dataset.val = v;
       b.setAttribute("aria-pressed", v === "ALL");
-      b.onclick = () => { state.grade = v; setPressed(gg, v); renderTable(); };
+      b.onclick = () => { state.grade = v; setPressed(gg, v); resetAndRender(); };
       gg.appendChild(b);
     });
     // sub select
@@ -210,11 +214,14 @@
       const rec = allRecords.find((r) => r.sub === s);
       sel.appendChild(new Option(`${s} · ${rec.subName}`, s));
     });
-    sel.onchange = () => { state.sub = sel.value; renderTable(); };
+    sel.onchange = () => { state.sub = sel.value; resetAndRender(); };
+    // page size
+    const ps = $("#page-size");
+    ps.onchange = () => { state.pageSize = parseInt(ps.value, 10) || 15; resetAndRender(); };
     // search
     $("#search").addEventListener("input", (e) => {
       state.q = e.target.value.trim().toLowerCase();
-      renderTable();
+      resetAndRender();
     });
     // sortable headers
     document.querySelectorAll("thead th[data-sort]").forEach((th) => {
@@ -222,7 +229,7 @@
         const k = th.dataset.sort;
         if (state.sortKey === k) state.sortDir *= -1;
         else { state.sortKey = k; state.sortDir = 1; }
-        renderTable();
+        resetAndRender();
       };
     });
   }
@@ -256,9 +263,17 @@
 
   function renderTable() {
     const rows = filtered().sort(compare);
+    const total = rows.length;
+    const pageSize = state.pageSize;
+    const pages = Math.max(1, Math.ceil(total / pageSize));
+    if (state.page > pages) state.page = pages;
+    if (state.page < 1) state.page = 1;
+    const start = (state.page - 1) * pageSize;
+    const pageRows = rows.slice(start, start + pageSize);
+
     const tbody = $("#conf-tbody");
     tbody.innerHTML = "";
-    rows.forEach((r) => {
+    pageRows.forEach((r) => {
       const tr = document.createElement("tr");
       const note = r.note ? `<span class="note-tag">${r.note}</span>` : "";
       tr.innerHTML =
@@ -271,8 +286,46 @@
         `<td>${note}</td>`;
       tbody.appendChild(tr);
     });
-    $("#empty-msg").hidden = rows.length > 0;
-    $("#table-count").textContent = rows.length;
+    $("#empty-msg").hidden = total > 0;
+    $("#table-count").textContent = total;
+    renderPagination(total, pages, start, pageRows.length);
+  }
+
+  function renderPagination(total, pages, start, shown) {
+    const nav = $("#pagination");
+    nav.innerHTML = "";
+    if (total === 0) return;
+
+    const info = el("span", "page-info",
+      `${start + 1}–${start + shown} / 총 ${total}개 · ${state.page}/${pages} 페이지`);
+    nav.appendChild(info);
+
+    const go = (p) => { state.page = p; renderTable(); };
+    const btn = (label, page, opts = {}) => {
+      const b = el("button", "pg-btn", label);
+      if (opts.current) b.setAttribute("aria-current", "true");
+      if (opts.disabled) b.disabled = true;
+      else b.onclick = () => go(page);
+      return b;
+    };
+
+    nav.appendChild(btn("‹", state.page - 1, { disabled: state.page === 1 }));
+
+    // windowed page numbers with first/last + ellipsis
+    const win = 2;
+    const nums = new Set([1, pages]);
+    for (let p = state.page - win; p <= state.page + win; p++) {
+      if (p >= 1 && p <= pages) nums.add(p);
+    }
+    const sorted = [...nums].sort((a, b) => a - b);
+    let prev = 0;
+    sorted.forEach((p) => {
+      if (p - prev > 1) nav.appendChild(el("span", "pg-ellipsis", "…"));
+      nav.appendChild(btn(String(p), p, { current: p === state.page }));
+      prev = p;
+    });
+
+    nav.appendChild(btn("›", state.page + 1, { disabled: state.page === pages }));
   }
 
   function renderDeleted() {
@@ -293,6 +346,7 @@
 
   /* re-render everything that depends on the current year scope */
   function refresh() {
+    state.page = 1;
     const rec = scoped();
     renderTiles(rec);
     renderMajor(rec);

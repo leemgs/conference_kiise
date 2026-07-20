@@ -206,6 +206,34 @@ td.name { color: var(--text-2); min-width: 260px; }
 
 .empty { text-align: center; color: var(--muted); padding: 32px 0; }
 
+/* ---------- page size + pagination ---------- */
+.page-size {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+  font-size: .82rem; color: var(--text-2); white-space: nowrap;
+}
+.page-size select {
+  font: inherit; font-size: .84rem; padding: 7px 9px; border-radius: 9px;
+  border: 1px solid var(--border); background: var(--surface-2); color: var(--text);
+}
+.pagination {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 6px; margin-top: 18px;
+}
+.pagination .page-info {
+  margin-right: auto; font-size: .8rem; color: var(--muted);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.pg-btn {
+  font: inherit; font-size: .82rem; font-weight: 600; min-width: 34px;
+  padding: 7px 10px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface-2); color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.pg-btn:hover:not(:disabled) { filter: brightness(1.05); }
+.pg-btn[aria-current="true"] { background: var(--cs); color: #fff; border-color: transparent; }
+.pg-btn:disabled { opacity: .4; cursor: default; }
+.pg-ellipsis { padding: 0 4px; color: var(--muted); }
+
 /* ---------- tooltip ---------- */
 .tooltip {
   position: fixed; z-index: 60; pointer-events: none;

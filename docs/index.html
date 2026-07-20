@@ -7,7 +7,7 @@
   <meta name="description" content="KIISE 우수 SW 국제학술대회 목록(2024) 대시보드 — S/A 등급, 대분야·소분야별 분포와 검색">
   <title>KIISE 우수 SW 국제학술대회 대시보드 · 2024</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎓%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="assets/style.css?v=20260720b">
+  <link rel="stylesheet" href="assets/style.css?v=20260720c">
 </head>
 <body>
   <header class="site-header">
@@ -74,6 +74,18 @@
         <div class="filter-group" id="filter-major" role="group" aria-label="대분야 필터"></div>
         <div class="filter-group" id="filter-grade" role="group" aria-label="등급 필터"></div>
         <select id="filter-sub" aria-label="소분야 필터"></select>
+        <label class="page-size">페이지당
+          <select id="page-size" aria-label="페이지당 학회 수">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15" selected>15</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+            <option value="70">70</option>
+            <option value="100">100</option>
+          </select>
+          개
+        </label>
       </div>
 
       <div class="table-scroll">
@@ -93,6 +105,8 @@
         </table>
         <p id="empty-msg" class="empty" hidden>조건에 맞는 학회가 없습니다.</p>
       </div>
+
+      <nav class="pagination" id="pagination" aria-label="페이지 이동"></nav>
     </section>
 
     <details class="card deleted-note">
@@ -115,7 +129,7 @@
 
   <div id="tooltip" class="tooltip" role="status" aria-live="polite" hidden></div>
 
-  <script src="assets/data.js?v=20260720b"></script>
-  <script src="assets/app.js?v=20260720b"></script>
+  <script src="assets/data.js?v=20260720c"></script>
+  <script src="assets/app.js?v=20260720c"></script>
 </body>
 </html>
