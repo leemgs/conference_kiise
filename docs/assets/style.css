@@ -175,6 +175,17 @@ h1, h2 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   font: inherit; font-size: .84rem; padding: 8px 11px; border-radius: 9px;
   border: 1px solid var(--border); background: var(--surface-2); color: var(--text);
 }
+.year-summary {
+  font-size: .82rem; color: var(--text-2); white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 11px; border-radius: 9px;
+  background: var(--surface-2); border: 1px solid var(--border);
+}
+.year-summary b { color: var(--text); font-weight: 700; }
+.year-summary .ys-dot {
+  width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  margin-left: 4px;
+}
 .filter-group { display: inline-flex; gap: 4px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 9px; padding: 3px; }
 .chip {
   font: inherit; font-size: .8rem; font-weight: 600; border: none; cursor: pointer;

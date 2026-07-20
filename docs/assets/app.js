@@ -391,6 +391,12 @@
     renderSub(rec);
     renderTable();
     renderDeleted();
+    // year filter 옆 요약: 전체 · S(최우수) · A(우수) 학회 수
+    const sN = count(rec, (r) => r.grade === "S");
+    $("#year-summary").innerHTML =
+      `<b>${rec.length}</b>개 학회 ` +
+      `<i class="ys-dot" style="background:${color("--grade-s")}"></i>S <b>${sN}</b> ` +
+      `<i class="ys-dot" style="background:${color("--grade-a")}"></i>A <b>${rec.length - sN}</b>`;
     $("#tag-count").textContent = rec.length;
     $("#tag-year").textContent =
       state.year === "ALL"
