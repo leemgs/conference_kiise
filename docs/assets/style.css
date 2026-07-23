@@ -341,6 +341,57 @@ a.conf-link::after { content: " ↗"; font-size: .72em; opacity: .5; }
 .tt-line { display: flex; align-items: center; gap: 5px; }
 .tt-dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
 
+/* ---------- 한국 개최 학회 현황 (view-korea) ---------- */
+:root { --kr-red: #d32f2f; }
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) { --kr-red: #ff6b6b; }
+}
+:root[data-theme="dark"] { --kr-red: #ff6b6b; }
+
+.kr-year-heading {
+  font-size: 1rem; font-weight: 700; margin: 22px 0 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.kr-year-heading:first-child { margin-top: 4px; }
+.kr-table thead th { cursor: default; }
+.kr-name-cell { min-width: 240px; }
+.kr-abbr { font-weight: 700; margin-right: 6px; }
+.kr-fullname { color: var(--text-2); font-size: .8rem; margin-top: 2px; }
+.kr-special .kr-abbr, .kr-special .kr-fullname, .kr-special .kr-star {
+  color: var(--kr-red);
+}
+.kr-special .kr-abbr { font-weight: 800; }
+.kr-star { font-size: .9em; }
+.kr-place, .kr-dates { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.kr-dl { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.kr-dl + .kr-dl { margin-top: 4px; }
+.kr-dl-date { font-variant-numeric: tabular-nums; font-weight: 600; }
+.kr-dl-kind { color: var(--text-2); font-size: .78rem; }
+.kr-dday {
+  font-size: .68rem; font-weight: 700; padding: 1px 7px; border-radius: 999px;
+  background: color-mix(in srgb, var(--cs) 14%, transparent); color: var(--cs);
+  white-space: nowrap;
+}
+.kr-dday.near { background: color-mix(in srgb, var(--kr-red) 14%, transparent); color: var(--kr-red); }
+.kr-dday.past { background: var(--surface-2); color: var(--muted); }
+.kr-site { font-size: .82rem; font-weight: 600; white-space: nowrap; }
+.kr-special-note {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--surface-2); font-size: .78rem; margin-bottom: 6px;
+}
+.kr-note-label { color: var(--text-2); font-weight: 600; margin-right: 2px; }
+.kr-special-chip {
+  font-size: .72rem; font-weight: 700; padding: 1px 8px; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--kr-red) 40%, transparent);
+  color: var(--kr-red); background: color-mix(in srgb, var(--kr-red) 8%, transparent);
+}
+.kr-special-chip.hosted {
+  background: var(--kr-red); color: #fff; border-color: transparent;
+}
+.kr-updated { font-size: .76rem; margin: 14px 0 0; }
+.muted { color: var(--muted); }
+
 /* ---------- view menu tabs ---------- */
 .view-tabs { display: flex; gap: 4px; margin: 4px 0 22px; border-bottom: 1px solid var(--border); }
 .view-tabs button {

@@ -613,11 +613,92 @@
     }
   }
 
-  /* ---------------- view menu (대시보드 / 달력 / 목록) ---------------- */
+  /* ---------------- 한국 개최 학회 현황 (view-korea) ---------------- */
+  function initKorea() {
+    const kr = window.KIISE_KOREA;
+    const body = $("#korea-body");
+    if (!body) return;
+    if (!kr || !kr.items || !kr.items.length) {
+      $("#korea-empty").hidden = false;
+      return;
+    }
+    const special = new Set(kr.specialWatch || []);
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const fmtDot = (iso) => iso.replace(/-/g, ".");
+
+    // 특별 관리 대상(빨간색) 학회 안내
+    $("#korea-special-note").innerHTML =
+      `<span class="kr-note-label">${T.krSpecialLabel}</span>` +
+      [...special].map((a) => {
+        const hosted = kr.items.some((it) => it.abbr === a);
+        return `<span class="kr-special-chip${hosted ? " hosted" : ""}">${a}</span>`;
+      }).join("");
+
+    function deadlineCell(it) {
+      return (it.deadlines || []).map((d) => {
+        const dd = new Date(d.date + "T00:00:00");
+        const diff = Math.round((dd - today) / 86400000);
+        const badge = diff < 0
+          ? `<span class="kr-dday past">${T.krClosed}</span>`
+          : `<span class="kr-dday${diff <= 30 ? " near" : ""}">${diff === 0 ? "D-Day" : "D-" + diff}</span>`;
+        const note = d.note ? ` <span class="muted">(${T.note(d.note)})</span>` : "";
+        return `<div class="kr-dl">${badge}<span class="kr-dl-date">${fmtDot(d.date)}</span> ` +
+               `<span class="kr-dl-kind">${T.kind(d.kind)}</span>${note}</div>`;
+      }).join("") || `<span class="muted">${T.krTBA}</span>`;
+    }
+
+    const years = [...new Set(kr.items.map((it) => it.year))].sort();
+    body.innerHTML = "";
+    years.forEach((y) => {
+      const items = kr.items.filter((it) => it.year === y)
+        .sort((a, b) => a.start.localeCompare(b.start) || a.abbr.localeCompare(b.abbr));
+      body.appendChild(el("h3", "kr-year-heading",
+        `${T.yearOpt(y)} <span class="changes-badge">${items.length}</span>`));
+
+      const scroll = el("div", "table-scroll");
+      const table = el("table", "kr-table",
+        `<thead><tr>` +
+        `<th>${T.krColName}</th><th>${T.krColDeadline}</th><th>${T.krColPlace}</th>` +
+        `<th>${T.krColSchedule}</th><th>${T.krColSite}</th>` +
+        `</tr></thead>`);
+      const tbody = document.createElement("tbody");
+
+      items.forEach((it) => {
+        const rec = dlByAbbr.get(it.abbr);
+        const isSp = special.has(it.abbr);
+        const tr = document.createElement("tr");
+        if (isSp) tr.className = "kr-special";
+        const pills = rec
+          ? ` <span class="pill grade-${rec.grade.toLowerCase()}">${rec.grade}</span>` +
+            `<span class="pill ${rec.major.toLowerCase()}">${rec.major}</span>`
+          : "";
+        const star = isSp ? `<span class="kr-star" title="${T.krSpecialTitle}">★</span> ` : "";
+        const place = (LANG === "en" ? (it.cityEn || it.city) : it.city) +
+          (it.venue ? ` · ${it.venue}` : "");
+        tr.innerHTML =
+          `<td class="kr-name-cell">${star}<b class="kr-abbr">${it.abbr} ${it.edition}</b>${pills}` +
+          `<div class="kr-fullname">${it.name}</div></td>` +
+          `<td class="kr-dl-cell">${deadlineCell(it)}</td>` +
+          `<td class="kr-place">🇰🇷 ${place}</td>` +
+          `<td class="kr-dates">${fmtDot(it.start)} ~ ${fmtDot(it.end)}</td>` +
+          `<td><a class="kr-site" href="${it.site}" target="_blank" rel="noopener">${T.krSiteLink}</a></td>`;
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      scroll.appendChild(table);
+      body.appendChild(scroll);
+    });
+
+    body.appendChild(el("p", "kr-updated muted",
+      T.krUpdated(fmtDot(kr.updated || ""))));
+  }
+
+  /* ---------------- view menu (대시보드 / 한국 개최 / 달력 / 목록) ---------------- */
   function initViews() {
     const tabs = document.querySelectorAll(".view-tabs button");
     const views = {
       dashboard: $("#view-dashboard"),
+      korea: $("#view-korea"),
       calendar: $("#view-calendar"),
       list: $("#view-list"),
     };
@@ -808,6 +889,7 @@
   buildFilters();
   initConfSearch();
   initCalendar();
+  initKorea();
   initViews();
   refresh();
   renderMonthChart();

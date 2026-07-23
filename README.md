@@ -25,6 +25,10 @@ S/A 등급 구성, 대분야(AI·CS)·소분야(16개)별 분포를 시각화하
 - **대분야별 등급 분포** — AI·CS 두 대분야를 S/A 등급으로 나눈 누적 막대 (**호버 툴팁**)
 - **등급 구성 도넛** — 전체 학회의 S/A 등급 비율 (**세그먼트 호버 툴팁**)
 - **소분야별 학회 수** — 16개 소분야를 대분야(AI/CS) 색상으로 구분한 가로 막대 (내림차순, **호버 툴팁**으로 S/A 내역 표시)
+- **🇰🇷 한국 개최 학회 현황** — 개최 장소가 한국인 학회를 연도별로 정리
+  (학회명·제출마감일·개최지·학회 일정·공식 사이트). ICML·ICLR·AAAI·NeurIPS·IJCAI·
+  CVPR·ICCV·ECCV·ACL·EMNLP·NAACL·ICASSP·INTERSPEECH 등 **특별 관리 대상 13개
+  학회**는 한국 개최 시 **빨간색**으로 표기
 - **학회 목록 표** — 약칭·학회명 검색, **연도**/대분야/등급/소분야 필터, 열 정렬
   - 기본 정렬은 **S 등급 우선**(그다음 번호순)
 - **연도 지원** — 여러 연도 CSV를 자동 병합하고 연도 필터 제공 (아래 *데이터 갱신* 참고)
@@ -88,6 +92,12 @@ xdg-open docs/index.html  # Linux
 python3 scripts/build_data.py
 # → docs/assets/data.js 갱신
 ```
+
+**한국 개최 학회 갱신**: 새 학회의 한국 개최가 발표되면
+`data/korea_conferences.json` 의 `items` 에 항목을 추가한 뒤
+`python3 scripts/build_korea.py` 를 실행하면 대시보드가 읽는
+`docs/assets/korea.js` 가 다시 생성됩니다. (특별 관리 대상 학회 목록은
+같은 파일의 `specialWatch` 에서 관리)
 
 **다른 연도 추가**: `data/` 폴더에 동일한 컬럼 형식의
 `excellent_sw_conferences_2025.csv` 같은 파일을 넣고 위 스크립트를 다시 실행하면 됩니다.
