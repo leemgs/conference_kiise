@@ -1,0 +1,56 @@
+name: Korea-hosted conferences weekly scan
+
+# 매주 주요 학회 공식 사이트를 스캔해 한국 개최 신호(Seoul, COEX 등)를 찾고,
+# 새 신호가 있으면 검수용 이슈(korea-radar)로 보고한다.
+# 오탐 가능성이 있어 데이터에는 자동 반영하지 않는다 — 사람이 확인 후
+# data/korea_conferences.json 에 추가한다.
+on:
+  schedule:
+    - cron: "0 20 * * 1" # 매주 월요일 20:00 UTC = 화요일 05:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan official conference sites
+        run: python3 scripts/scan_korea.py --report /tmp/korea-radar.md
+
+      - name: Report new signals as an issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ ! -f /tmp/korea-radar.md ]; then
+            echo "No new signals."
+            exit 0
+          fi
+          gh label create korea-radar --color 0E8A16 \
+            --description "한국 개최 자동 스캔 신호 (검수 필요)" --force
+          TITLE="🛰️ 한국 개최 신호 감지 — 검수 필요 ($(date -u +%Y-%m-%d))"
+          EXISTING=$(gh issue list --label korea-radar --state open \
+            --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body-file /tmp/korea-radar.md
+            echo "Commented on open issue #$EXISTING"
+          else
+            gh issue create --title "$TITLE" --label korea-radar \
+              --body-file /tmp/korea-radar.md
+          fi
+
+      - name: Commit scan state if changed
+        run: |
+          if git diff --quiet; then
+            echo "No state changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/korea_scan_state.json
+          git commit -m "chore: update Korea-hosting scan state"
+          git push

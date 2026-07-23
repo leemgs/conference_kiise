@@ -44,7 +44,7 @@ window.KIISE_I18N = {
     krSpecialLabel: "특별 관리 대상 학회 (한국 개최 시 빨간색 표기):",
     krSpecialTitle: "특별 관리 대상 학회",
     krSiteLink: "공식 사이트 ↗",
-    krClosed: "마감", krTBA: "미정",
+    krClosed: "마감", krTBA: "미정", krEnded: "종료",
     krUpdated: (d) => `기준일: ${d} — 개최지·일정·마감일은 변경될 수 있으므로 반드시 공식 홈페이지에서 확인하세요.`,
     static: null,
   },
@@ -96,7 +96,7 @@ window.KIISE_I18N = {
     krSpecialLabel: "Specially watched conferences (shown in red when hosted in Korea):",
     krSpecialTitle: "Specially watched conference",
     krSiteLink: "Official site ↗",
-    krClosed: "Closed", krTBA: "TBA",
+    krClosed: "Closed", krTBA: "TBA", krEnded: "Ended",
     krUpdated: (d) => `As of ${d} — venues, dates, and deadlines may change; always confirm on the official website.`,
 
     static: {

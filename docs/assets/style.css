@@ -389,6 +389,7 @@ a.conf-link::after { content: " ↗"; font-size: .72em; opacity: .5; }
 .kr-special-chip.hosted {
   background: var(--kr-red); color: #fff; border-color: transparent;
 }
+.kr-ended td { opacity: .55; }
 .kr-updated { font-size: .76rem; margin: 14px 0 0; }
 .muted { color: var(--muted); }
 

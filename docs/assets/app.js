@@ -624,6 +624,9 @@
     }
     const special = new Set(kr.specialWatch || []);
     const today = new Date(); today.setHours(0, 0, 0, 0);
+    const todayISO = today.getFullYear() + "-" +
+      String(today.getMonth() + 1).padStart(2, "0") + "-" +
+      String(today.getDate()).padStart(2, "0");
     const fmtDot = (iso) => iso.replace(/-/g, ".");
 
     // 특별 관리 대상(빨간색) 학회 안내
@@ -666,8 +669,9 @@
       items.forEach((it) => {
         const rec = dlByAbbr.get(it.abbr);
         const isSp = special.has(it.abbr);
+        const ended = it.end < todayISO;
         const tr = document.createElement("tr");
-        if (isSp) tr.className = "kr-special";
+        tr.className = (isSp ? "kr-special" : "") + (ended ? " kr-ended" : "");
         const pills = rec
           ? ` <span class="pill grade-${rec.grade.toLowerCase()}">${rec.grade}</span>` +
             `<span class="pill ${rec.major.toLowerCase()}">${rec.major}</span>`
@@ -680,7 +684,8 @@
           `<div class="kr-fullname">${it.name}</div></td>` +
           `<td class="kr-dl-cell">${deadlineCell(it)}</td>` +
           `<td class="kr-place">🇰🇷 ${place}</td>` +
-          `<td class="kr-dates">${fmtDot(it.start)} ~ ${fmtDot(it.end)}</td>` +
+          `<td class="kr-dates">${fmtDot(it.start)} ~ ${fmtDot(it.end)}` +
+          (ended ? ` <span class="kr-dday past">${T.krEnded}</span>` : "") + `</td>` +
           `<td><a class="kr-site" href="${it.site}" target="_blank" rel="noopener">${T.krSiteLink}</a></td>`;
         tbody.appendChild(tr);
       });

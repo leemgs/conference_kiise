@@ -99,6 +99,13 @@ python3 scripts/build_data.py
 `docs/assets/korea.js` 가 다시 생성됩니다. (특별 관리 대상 학회 목록은
 같은 파일의 `specialWatch` 에서 관리)
 
+한국 개최 데이터는 GitHub Actions 두 개가 자동으로 관리를 돕습니다.
+
+| 워크플로 | 주기 | 하는 일 |
+|---|---|---|
+| `korea-scan.yml` | 매주 월요일 | 주요 학회 공식 사이트를 스캔해 한국 개최 신호(Seoul, COEX 등)를 감지하면 `korea-radar` 라벨 이슈로 보고 (오탐 가능성 때문에 데이터 자동 반영은 하지 않고 사람이 검수) |
+| `korea-monthly-check.yml` | 매월 1일 | 종료 후 60일 지난 학회를 `past` 로 보관 처리하고, 특별 관리 13개 학회의 개최지 발표 확인 체크리스트를 `korea-check` 라벨 이슈로 생성 |
+
 **다른 연도 추가**: `data/` 폴더에 동일한 컬럼 형식의
 `excellent_sw_conferences_2025.csv` 같은 파일을 넣고 위 스크립트를 다시 실행하면 됩니다.
 빌드 스크립트가 `data/excellent_sw_conferences_*.csv` 를 모두 자동 병합하고, 각 학회의
