@@ -45,6 +45,8 @@ window.KIISE_I18N = {
     krSpecialTitle: "특별 관리 대상 학회",
     krSiteLink: "공식 사이트 ↗",
     krClosed: "마감", krTBA: "미정", krEnded: "종료",
+    krReview: "🔎 검토중",
+    krReviewTitle: "자동 감지된 항목입니다 — 공식 사이트에서 확인 필요",
     krUpdated: (d) => `기준일: ${d} — 개최지·일정·마감일은 변경될 수 있으므로 반드시 공식 홈페이지에서 확인하세요.`,
     static: null,
   },
@@ -97,6 +99,8 @@ window.KIISE_I18N = {
     krSpecialTitle: "Specially watched conference",
     krSiteLink: "Official site ↗",
     krClosed: "Closed", krTBA: "TBA", krEnded: "Ended",
+    krReview: "🔎 Review",
+    krReviewTitle: "Auto-detected entry — verify on the official site",
     krUpdated: (d) => `As of ${d} — venues, dates, and deadlines may change; always confirm on the official website.`,
 
     static: {

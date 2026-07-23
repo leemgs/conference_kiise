@@ -1,9 +1,9 @@
 name: Korea-hosted conferences weekly scan
 
 # 매주 주요 학회 공식 사이트를 스캔해 한국 개최 신호(Seoul, COEX 등)를 찾고,
-# 새 신호가 있으면 검수용 이슈(korea-radar)로 보고한다.
-# 오탐 가능성이 있어 데이터에는 자동 반영하지 않는다 — 사람이 확인 후
-# data/korea_conferences.json 에 추가한다.
+# 신규 학회가 감지되면 후보 항목을 채운 **자동 PR** 을 연다.
+# 사람은 PR 을 검토한 뒤 머지만 하면 라이브 대시보드에 반영된다(반자동).
+# 검증 안 된 정보가 곧바로 게시되지 않도록 PR 이 검수 게이트 역할을 한다.
 on:
   schedule:
     - cron: "0 20 * * 1" # 매주 월요일 20:00 UTC = 화요일 05:00 KST
@@ -11,7 +11,7 @@ on:
 
 permissions:
   contents: write
-  issues: write
+  pull-requests: write
 
 jobs:
   scan:
@@ -19,38 +19,40 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Scan official conference sites
-        run: python3 scripts/scan_korea.py --report /tmp/korea-radar.md
+      - name: Scan sites and build candidate items
+        run: python3 scripts/scan_korea.py --propose --pr-body /tmp/korea-pr-body.md
 
-      - name: Report new signals as an issue
+      - name: Open a review PR if new conferences were proposed
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if [ ! -f /tmp/korea-radar.md ]; then
-            echo "No new signals."
-            exit 0
-          fi
-          gh label create korea-radar --color 0E8A16 \
-            --description "한국 개최 자동 스캔 신호 (검수 필요)" --force
-          TITLE="🛰️ 한국 개최 신호 감지 — 검수 필요 ($(date -u +%Y-%m-%d))"
-          EXISTING=$(gh issue list --label korea-radar --state open \
-            --json number --jq '.[0].number // empty')
-          if [ -n "$EXISTING" ]; then
-            gh issue comment "$EXISTING" --body-file /tmp/korea-radar.md
-            echo "Commented on open issue #$EXISTING"
-          else
-            gh issue create --title "$TITLE" --label korea-radar \
-              --body-file /tmp/korea-radar.md
-          fi
-
-      - name: Commit scan state if changed
-        run: |
-          if git diff --quiet; then
-            echo "No state changes."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/korea_scan_state.json
-          git commit -m "chore: update Korea-hosting scan state"
-          git push
+          DEFAULT_BRANCH=$(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name)
+
+          # 1) 스캔 상태는 즉시 기본 브랜치에 기록해 같은 신호가 매주 다시 제안되지 않게 한다.
+          if ! git diff --quiet -- data/korea_scan_state.json; then
+            git add data/korea_scan_state.json
+            git commit -m "chore: update Korea-hosting scan state"
+            git push origin "HEAD:$DEFAULT_BRANCH"
+          fi
+
+          # 2) 새 후보 항목이 없으면 여기서 종료.
+          if git diff --quiet -- data/korea_conferences.json docs/assets/korea.js; then
+            echo "No new candidate conferences."
+            exit 0
+          fi
+
+          # 3) 후보 항목을 브랜치에 담아 PR 을 연다.
+          BRANCH="korea-auto/$(date -u +%Y%m%d%H%M)"
+          git checkout -b "$BRANCH"
+          git add data/korea_conferences.json docs/assets/korea.js
+          git commit -m "data: add auto-detected Korea-hosted conference(s)"
+          git push -u origin "$BRANCH"
+
+          gh label create korea-auto --color 1D76DB \
+            --description "자동 감지된 한국 개최 학회 (검토 후 머지)" --force
+          gh pr create --base "$DEFAULT_BRANCH" \
+            --head "$BRANCH" --label korea-auto \
+            --title "🇰🇷 한국 개최 학회 자동 감지 ($(date -u +%Y-%m-%d))" \
+            --body-file /tmp/korea-pr-body.md

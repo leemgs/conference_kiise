@@ -105,7 +105,9 @@ def main() -> None:
             "",
             "새 한국 개최가 발표되면 `data/korea_conferences.json` 의 `items` 에 추가하고 "
             "`python3 scripts/build_korea.py` 를 실행한 뒤 커밋해 주세요. "
-            "(주간 자동 스캔 결과는 `korea-radar` 라벨 이슈를 참고)",
+            "(연도별 URL 을 가진 학회는 주간 스캔이 감지하면 `korea-auto` 라벨 PR 을 "
+            "자동으로 열어 주므로, 그 PR 을 검토·머지하면 됩니다. 위 체크리스트는 주로 "
+            "스캔이 어려운 AAAI·IJCAI 같은 단일 페이지 학회를 수동 확인하기 위한 것입니다.)",
         ]
         args.issue_body.write_text("\n".join(lines) + "\n", encoding="utf-8")
         print(f"issue body written: {args.issue_body}")

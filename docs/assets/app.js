@@ -654,7 +654,7 @@
     body.innerHTML = "";
     years.forEach((y) => {
       const items = kr.items.filter((it) => it.year === y)
-        .sort((a, b) => a.start.localeCompare(b.start) || a.abbr.localeCompare(b.abbr));
+        .sort((a, b) => (a.start || "").localeCompare(b.start || "") || a.abbr.localeCompare(b.abbr));
       body.appendChild(el("h3", "kr-year-heading",
         `${T.yearOpt(y)} <span class="changes-badge">${items.length}</span>`));
 
@@ -669,7 +669,7 @@
       items.forEach((it) => {
         const rec = dlByAbbr.get(it.abbr);
         const isSp = special.has(it.abbr);
-        const ended = it.end < todayISO;
+        const ended = it.end && it.end < todayISO;
         const tr = document.createElement("tr");
         tr.className = (isSp ? "kr-special" : "") + (ended ? " kr-ended" : "");
         const pills = rec
@@ -677,15 +677,21 @@
             `<span class="pill ${rec.major.toLowerCase()}">${rec.major}</span>`
           : "";
         const star = isSp ? `<span class="kr-star" title="${T.krSpecialTitle}">★</span> ` : "";
+        // 자동 감지·미확정 항목 표시 (주간 스캔이 채운 후보)
+        const review = it.needsReview
+          ? ` <span class="kr-review" title="${T.krReviewTitle}">${T.krReview}</span>` : "";
         const place = (LANG === "en" ? (it.cityEn || it.city) : it.city) +
           (it.venue ? ` · ${it.venue}` : "");
+        const dateCell = (it.start && it.end)
+          ? `${fmtDot(it.start)} ~ ${fmtDot(it.end)}` +
+            (ended ? ` <span class="kr-dday past">${T.krEnded}</span>` : "")
+          : `<span class="muted">${T.krTBA}</span>`;
         tr.innerHTML =
-          `<td class="kr-name-cell">${star}<b class="kr-abbr">${it.abbr} ${it.edition}</b>${pills}` +
+          `<td class="kr-name-cell">${star}<b class="kr-abbr">${it.abbr} ${it.edition}</b>${pills}${review}` +
           `<div class="kr-fullname">${it.name}</div></td>` +
           `<td class="kr-dl-cell">${deadlineCell(it)}</td>` +
           `<td class="kr-place">🇰🇷 ${place}</td>` +
-          `<td class="kr-dates">${fmtDot(it.start)} ~ ${fmtDot(it.end)}` +
-          (ended ? ` <span class="kr-dday past">${T.krEnded}</span>` : "") + `</td>` +
+          `<td class="kr-dates">${dateCell}</td>` +
           `<td><a class="kr-site" href="${it.site}" target="_blank" rel="noopener">${T.krSiteLink}</a></td>`;
         tbody.appendChild(tr);
       });

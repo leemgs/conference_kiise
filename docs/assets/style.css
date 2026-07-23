@@ -390,6 +390,16 @@ a.conf-link::after { content: " ↗"; font-size: .72em; opacity: .5; }
   background: var(--kr-red); color: #fff; border-color: transparent;
 }
 .kr-ended td { opacity: .55; }
+.kr-review {
+  font-size: .68rem; font-weight: 700; padding: 1px 7px; border-radius: 999px;
+  white-space: nowrap; vertical-align: middle;
+  border: 1px dashed color-mix(in srgb, #f4b400 55%, transparent);
+  background: color-mix(in srgb, #f4b400 12%, transparent); color: #9a7b00;
+}
+:root[data-theme="dark"] .kr-review { color: #e8c359; }
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) .kr-review { color: #e8c359; }
+}
 .kr-updated { font-size: .76rem; margin: 14px 0 0; }
 .muted { color: var(--muted); }
 
