@@ -613,7 +613,7 @@
     }
   }
 
-  /* ---------------- 한국 개최 학회 현황 (view-korea) ---------------- */
+  /* ---------------- 개최지별(한국/일본) 학회 현황 (view-korea) ---------------- */
   function initKorea() {
     const kr = window.KIISE_KOREA;
     const body = $("#korea-body");
@@ -628,8 +628,10 @@
       String(today.getMonth() + 1).padStart(2, "0") + "-" +
       String(today.getDate()).padStart(2, "0");
     const fmtDot = (iso) => iso.replace(/-/g, ".");
+    const FLAG = { KR: "🇰🇷", JP: "🇯🇵" };
+    const countryOf = (it) => it.country || "KR"; // 이전 데이터 호환
 
-    // 특별 관리 대상(빨간색) 학회 안내
+    // 특별 관리 대상(빨간색) 학회 안내 — 두 나라 공통
     $("#korea-special-note").innerHTML =
       `<span class="kr-note-label">${T.krSpecialLabel}</span>` +
       [...special].map((a) => {
@@ -650,22 +652,7 @@
       }).join("") || `<span class="muted">${T.krTBA}</span>`;
     }
 
-    const years = [...new Set(kr.items.map((it) => it.year))].sort();
-    body.innerHTML = "";
-    years.forEach((y) => {
-      const items = kr.items.filter((it) => it.year === y)
-        .sort((a, b) => (a.start || "").localeCompare(b.start || "") || a.abbr.localeCompare(b.abbr));
-      body.appendChild(el("h3", "kr-year-heading",
-        `${T.yearOpt(y)} <span class="changes-badge">${items.length}</span>`));
-
-      const scroll = el("div", "table-scroll");
-      const table = el("table", "kr-table",
-        `<thead><tr>` +
-        `<th>${T.krColName}</th><th>${T.krColDeadline}</th><th>${T.krColPlace}</th>` +
-        `<th>${T.krColSchedule}</th><th>${T.krColSite}</th>` +
-        `</tr></thead>`);
-      const tbody = document.createElement("tbody");
-
+    function renderRows(tbody, items, flag) {
       items.forEach((it) => {
         const rec = dlByAbbr.get(it.abbr);
         const isSp = special.has(it.abbr);
@@ -690,15 +677,48 @@
           `<td class="kr-name-cell">${star}<b class="kr-abbr">${it.abbr} ${it.edition}</b>${pills}${review}` +
           `<div class="kr-fullname">${it.name}</div></td>` +
           `<td class="kr-dl-cell">${deadlineCell(it)}</td>` +
-          `<td class="kr-place">🇰🇷 ${place}</td>` +
+          `<td class="kr-place">${flag} ${place}</td>` +
           `<td class="kr-dates">${dateCell}</td>` +
           `<td><a class="kr-site" href="${it.site}" target="_blank" rel="noopener">${T.krSiteLink}</a></td>`;
         tbody.appendChild(tr);
       });
-      table.appendChild(tbody);
-      scroll.appendChild(table);
-      body.appendChild(scroll);
-    });
+    }
+
+    // 나라별 섹션(한국 → 일본), 각 섹션은 연도별 표로 구성
+    function renderCountry(country) {
+      const cItems = kr.items.filter((it) => countryOf(it) === country);
+      const sec = el("section", "kr-country");
+      sec.appendChild(el("h3", "kr-country-heading",
+        `${FLAG[country]} ${T.krCountry(country)} <span class="changes-badge">${cItems.length}</span>`));
+      if (!cItems.length) {
+        sec.appendChild(el("p", "kr-country-empty muted", T.krCountryEmpty(country)));
+        body.appendChild(sec);
+        return;
+      }
+      const years = [...new Set(cItems.map((it) => it.year))].sort();
+      years.forEach((y) => {
+        const items = cItems.filter((it) => it.year === y)
+          .sort((a, b) => (a.start || "").localeCompare(b.start || "") || a.abbr.localeCompare(b.abbr));
+        sec.appendChild(el("h4", "kr-year-heading",
+          `${T.yearOpt(y)} <span class="changes-badge">${items.length}</span>`));
+        const scroll = el("div", "table-scroll");
+        const table = el("table", "kr-table",
+          `<thead><tr>` +
+          `<th>${T.krColName}</th><th>${T.krColDeadline}</th><th>${T.krColPlace}</th>` +
+          `<th>${T.krColSchedule}</th><th>${T.krColSite}</th>` +
+          `</tr></thead>`);
+        const tbody = document.createElement("tbody");
+        renderRows(tbody, items, FLAG[country]);
+        table.appendChild(tbody);
+        scroll.appendChild(table);
+        sec.appendChild(scroll);
+      });
+      body.appendChild(sec);
+    }
+
+    body.innerHTML = "";
+    renderCountry("KR");
+    renderCountry("JP");
 
     body.appendChild(el("p", "kr-updated muted",
       T.krUpdated(fmtDot(kr.updated || ""))));

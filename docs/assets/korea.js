@@ -4,7 +4,7 @@
 // 개최지·일정·마감일은 조사 시점 발표 기준이므로,
 // 반드시 각 학회 공식 홈페이지에서 최신 정보를 확인해야 합니다.
 window.KIISE_KOREA = {
-  "updated": "2026-07-23",
+  "updated": "2026-07-24",
   "specialWatch": [
     "ICML",
     "ICLR",
@@ -25,6 +25,7 @@ window.KIISE_KOREA = {
       "abbr": "ICML",
       "edition": "2026",
       "year": 2026,
+      "country": "KR",
       "name": "International Conference on Machine Learning",
       "city": "서울",
       "cityEn": "Seoul",
@@ -48,6 +49,7 @@ window.KIISE_KOREA = {
       "abbr": "KDD",
       "edition": "2026",
       "year": 2026,
+      "country": "KR",
       "name": "ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
       "city": "제주",
       "cityEn": "Jeju",
@@ -70,9 +72,30 @@ window.KIISE_KOREA = {
       "confirmed": true
     },
     {
+      "abbr": "ACCV",
+      "edition": "2026",
+      "year": 2026,
+      "country": "JP",
+      "name": "Asian Conference on Computer Vision",
+      "city": "오사카",
+      "cityEn": "Osaka",
+      "venue": "",
+      "start": "2026-12-14",
+      "end": "2026-12-18",
+      "deadlines": [
+        {
+          "kind": "논문",
+          "date": "2026-07-05"
+        }
+      ],
+      "site": "https://accv2026.org/",
+      "confirmed": true
+    },
+    {
       "abbr": "NDSS",
       "edition": "2027",
       "year": 2027,
+      "country": "KR",
       "name": "Network and Distributed System Security Symposium",
       "city": "서울",
       "cityEn": "Seoul",
@@ -98,6 +121,7 @@ window.KIISE_KOREA = {
       "abbr": "ICRA",
       "edition": "2027",
       "year": 2027,
+      "country": "KR",
       "name": "IEEE International Conference on Robotics and Automation",
       "city": "서울",
       "cityEn": "Seoul",
@@ -111,6 +135,27 @@ window.KIISE_KOREA = {
         }
       ],
       "site": "https://2027.ieee-icra.org/",
+      "confirmed": true
+    },
+    {
+      "abbr": "ACL",
+      "edition": "2027",
+      "year": 2027,
+      "country": "JP",
+      "name": "Annual Meeting of the Association for Computational Linguistics",
+      "city": "교토",
+      "cityEn": "Kyoto",
+      "venue": "",
+      "start": "2027-08-17",
+      "end": "2027-08-22",
+      "deadlines": [
+        {
+          "kind": "논문",
+          "date": "2027-01-19",
+          "note": "ARR 마감"
+        }
+      ],
+      "site": "https://2027.aclweb.org/",
       "confirmed": true
     }
   ]

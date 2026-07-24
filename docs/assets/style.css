@@ -348,11 +348,18 @@ a.conf-link::after { content: " ↗"; font-size: .72em; opacity: .5; }
 }
 :root[data-theme="dark"] { --kr-red: #ff6b6b; }
 
-.kr-year-heading {
-  font-size: 1rem; font-weight: 700; margin: 22px 0 10px;
+.kr-country { margin-top: 8px; }
+.kr-country + .kr-country { margin-top: 30px; padding-top: 24px; border-top: 2px solid var(--border); }
+.kr-country-heading {
+  font-size: 1.12rem; font-weight: 800; margin: 0 0 4px;
   display: flex; align-items: center; gap: 8px;
 }
-.kr-year-heading:first-child { margin-top: 4px; }
+.kr-country-empty { margin: 6px 0 0; font-size: .84rem; }
+.kr-year-heading {
+  font-size: .98rem; font-weight: 700; margin: 18px 0 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.kr-year-heading:first-of-type { margin-top: 12px; }
 .kr-table thead th { cursor: default; }
 .kr-name-cell { min-width: 240px; }
 .kr-abbr { font-weight: 700; margin-right: 6px; }

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Weekly radar: scan official conference sites for Korea-hosting signals and
-propose them as ready-to-merge additions.
+"""Weekly radar: scan official conference sites for Korea/Japan-hosting signals
+and propose them as ready-to-merge additions.
 
-주요 학회 공식 사이트를 가져와 한국 개최 관련 키워드(Seoul, Korea, COEX …)를
-훑고, *새로* 발견된 학회는 후보 항목으로 만들어 data/korea_conferences.json 에
-채워 넣는다. GitHub Actions 가 이 변경으로 **자동 PR** 을 열며, 사람은 PR 을
-검토한 뒤 머지만 하면 라이브 대시보드에 반영된다(반자동).
+주요 학회 공식 사이트를 가져와 한국·일본 개최 관련 키워드(Seoul·COEX·Tokyo·
+Osaka …)를 훑고, *새로* 발견된 학회는 후보 항목(국가 포함)으로 만들어
+data/korea_conferences.json 에 채워 넣는다. GitHub Actions 가 이 변경으로
+**자동 PR** 을 열며, 사람은 PR 을 검토한 뒤 머지만 하면 라이브 대시보드에
+반영된다(반자동). 일본을 포함하는 이유는 한국에서 비행기로 평균 2시간 내외라
+가까워 해외 출장 부담이 적기 때문이다.
 
 - 검증 안 된 정보가 곧바로 게시되지 않도록 PR 이 검수 게이트 역할을 한다.
   자동 추출한 항목은 needsReview=true 로 표시되어 대시보드에서 "검토중"으로 보인다.
@@ -51,6 +53,7 @@ SOURCES = [
     ("KDD", "https://kdd{year}.kdd.org/"),
     ("NDSS", "https://www.ndss-symposium.org/ndss{year}/"),
     ("ICRA", "https://{year}.ieee-icra.org/"),
+    ("ACCV", "https://accv{year}.org/"),
 ]
 
 # 후보 항목의 학회 정식 명칭
@@ -69,28 +72,45 @@ CONF_NAMES = {
     "KDD": "ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
     "NDSS": "Network and Distributed System Security Symposium",
     "ICRA": "IEEE International Conference on Robotics and Automation",
+    "ACCV": "Asian Conference on Computer Vision",
 }
 
-# 개최지 키워드 → (개최장(venue), 도시 KO, 도시 EN)
+# 개최장 키워드 → (국가, 개최장(venue), 도시 KO, 도시 EN)
 VENUE_MAP = {
-    "icc jeju": ("ICC Jeju", "제주", "Jeju"),
-    "coex": ("COEX", "서울", "Seoul"),
-    "bexco": ("BEXCO", "부산", "Busan"),
-    "kintex": ("KINTEX", "고양", "Goyang"),
-    "songdo": ("Songdo Convensia", "인천", "Incheon"),
+    "icc jeju": ("KR", "ICC Jeju", "제주", "Jeju"),
+    "coex": ("KR", "COEX", "서울", "Seoul"),
+    "bexco": ("KR", "BEXCO", "부산", "Busan"),
+    "kintex": ("KR", "KINTEX", "고양", "Goyang"),
+    "songdo": ("KR", "Songdo Convensia", "인천", "Incheon"),
 }
-# 도시 키워드 → (도시 KO, 도시 EN)
+# 도시 키워드 → (국가, 도시 KO, 도시 EN)
 CITY_MAP = {
-    "seoul": ("서울", "Seoul"),
-    "busan": ("부산", "Busan"),
-    "jeju": ("제주", "Jeju"),
-    "incheon": ("인천", "Incheon"),
-    "daejeon": ("대전", "Daejeon"),
-    "gwangju": ("광주", "Gwangju"),
+    # 한국
+    "seoul": ("KR", "서울", "Seoul"),
+    "busan": ("KR", "부산", "Busan"),
+    "jeju": ("KR", "제주", "Jeju"),
+    "incheon": ("KR", "인천", "Incheon"),
+    "daejeon": ("KR", "대전", "Daejeon"),
+    "gwangju": ("KR", "광주", "Gwangju"),
+    # 일본 (한국에서 비행기로 평균 2시간 내외)
+    "tokyo": ("JP", "도쿄", "Tokyo"),
+    "osaka": ("JP", "오사카", "Osaka"),
+    "kyoto": ("JP", "교토", "Kyoto"),
+    "yokohama": ("JP", "요코하마", "Yokohama"),
+    "nagoya": ("JP", "나고야", "Nagoya"),
+    "fukuoka": ("JP", "후쿠오카", "Fukuoka"),
+    "sapporo": ("JP", "삿포로", "Sapporo"),
+    "kobe": ("JP", "고베", "Kobe"),
+    "sendai": ("JP", "센다이", "Sendai"),
+}
+# 국가 일반 키워드 → (국가, 도시 KO, 도시 EN)
+COUNTRY_MAP = {
+    "korea": ("KR", "한국", "Korea"),
+    "japan": ("JP", "일본", "Japan"),
 }
 
-KEYWORDS = ["seoul", "busan", "jeju", "incheon", "daejeon", "gwangju",
-            "coex", "bexco", "kintex", "songdo", "korea"]
+# find_signals 가 훑을 키워드 목록 (개최장 → 도시 → 국가 순으로 구체적인 것 우선)
+KEYWORDS = list(VENUE_MAP) + list(CITY_MAP) + list(COUNTRY_MAP)
 # 흔한 오탐 문맥(소속 기관·저자 등)은 신호에서 제외
 NEGATIVE = ["university", "univ.", "institute", "kaist", "author", "@"]
 
@@ -130,15 +150,18 @@ def find_signals(text: str):
 
 
 def pick_location(ctxs):
-    """문맥 문자열들에서 개최장/도시를 최선을 다해 추출한다."""
+    """문맥 문자열들에서 (국가, 개최장, 도시 KO, 도시 EN) 를 최선을 다해 추출한다."""
     joined = " ".join(ctxs).lower()
-    for vkw, (venue, city, city_en) in VENUE_MAP.items():
+    for vkw, (country, venue, city, city_en) in VENUE_MAP.items():
         if vkw in joined:
-            return venue, city, city_en
-    for ckw, (city, city_en) in CITY_MAP.items():
+            return country, venue, city, city_en
+    for ckw, (country, city, city_en) in CITY_MAP.items():
         if ckw in joined:
-            return "", city, city_en
-    return "", "한국", "Korea"  # 'korea' 만 잡힌 경우
+            return country, "", city, city_en
+    for gkw, (country, city, city_en) in COUNTRY_MAP.items():
+        if gkw in joined:
+            return country, "", city, city_en
+    return "KR", "", "한국", "Korea"  # 판단 불가 시 기본값
 
 
 def _iso(y, mo, d):
@@ -166,7 +189,7 @@ def extract_dates(text):
 
 
 def build_item(abbr, year, url, ctxs, text):
-    venue, city, city_en = pick_location(ctxs)
+    country, venue, city, city_en = pick_location(ctxs)
     # 개최일은 문맥에서 먼저, 없으면 페이지 전체에서 시도
     start, end = extract_dates(" ".join(ctxs))
     if not start:
@@ -175,6 +198,7 @@ def build_item(abbr, year, url, ctxs, text):
         "abbr": abbr,
         "edition": str(year),
         "year": year,
+        "country": country,
         "name": CONF_NAMES.get(abbr, abbr),
         "city": city,
         "cityEn": city_en,
@@ -215,9 +239,12 @@ def scan(data, tracked, reported):
     return groups, new_sig, errors
 
 
+FLAG = {"KR": "🇰🇷", "JP": "🇯🇵"}
+
+
 def render_pr_body(items, today):
     lines = [
-        f"주간 자동 스캔({today.isoformat()})에서 **한국 개최로 보이는 학회 "
+        f"주간 자동 스캔({today.isoformat()})에서 **한국·일본 개최로 보이는 학회 "
         f"{len(items)}건**을 감지해 후보 항목으로 추가했습니다.",
         "",
         "⚠️ 개최지·개최일은 공식 페이지에서 자동 추출한 값이라 부정확할 수 있습니다. "
@@ -229,10 +256,11 @@ def render_pr_body(items, today):
         "|---|---|---|---|---|",
     ]
     for it in items:
+        flag = FLAG.get(it.get("country", "KR"), "")
         place = (it["city"] + (f" · {it['venue']}" if it["venue"] else "")) or "확인 필요"
         dates = (f"{it['start']} ~ {it['end']}" if it["start"] and it["end"]
                  else "❓ 확인 필요")
-        lines.append(f"| {it['abbr']} {it['edition']} | 🇰🇷 {place} | {dates} "
+        lines.append(f"| {it['abbr']} {it['edition']} | {flag} {place} | {dates} "
                      f"| _미정_ | {it['site']} |")
     lines += [
         "",
@@ -278,7 +306,10 @@ def main() -> None:
 
     if new_items and args.propose:
         data["items"].extend(new_items)
-        data["items"].sort(key=lambda i: (i["year"], i["start"] or "9999", i["abbr"]))
+        # 국가(KR→JP) → 연도 → 시작일 → 약칭 순으로 정렬
+        c_order = {"KR": 0, "JP": 1}
+        data["items"].sort(key=lambda i: (c_order.get(i.get("country", "KR"), 9),
+                                          i["year"], i["start"] or "9999", i["abbr"]))
         data["updated"] = today.isoformat()
         SRC.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n",
                        encoding="utf-8")
@@ -292,7 +323,7 @@ def main() -> None:
           f"{len(new_sig)} new signal(s), {len(new_items)} candidate(s), "
           f"{len(errors)} fetch error(s)")
     for it in new_items:
-        print(f"  + {it['abbr']} {it['edition']} — {it['city']} "
+        print(f"  + [{it['country']}] {it['abbr']} {it['edition']} — {it['city']} "
               f"{it['venue']} ({it['start'] or 'date?'})")
     for e in errors:
         print("  skip:", e)
