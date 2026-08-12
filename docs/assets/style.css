@@ -423,25 +423,25 @@ a.conf-link::after { content: " ↗"; font-size: .72em; opacity: .5; }
   .view-tabs button { padding: 9px 10px; font-size: .86rem; }
 }
 
-/* ---------- calendar view: quick-jump sub-navigation ---------- */
+/* ---------- in-view quick-jump sub-navigation (all views) ---------- */
 /* sticks just below the site header; its `top` is set in JS to the header height */
-.cal-subnav {
+.section-nav {
   position: sticky; z-index: 15;
   display: flex; flex-wrap: wrap; gap: 8px;
   padding: 12px 0; margin: 0 0 20px;
   background: var(--plane); border-bottom: 1px solid var(--border);
 }
-.cal-subnav button {
+.section-nav button {
   appearance: none; cursor: pointer; font: inherit;
   font-size: .9rem; font-weight: 600; color: var(--text-2);
   background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
   padding: 8px 16px; transition: background .15s, color .15s, border-color .15s;
 }
-.cal-subnav button:hover { color: var(--text); background: var(--surface-2); }
-.cal-subnav button.active { color: #fff; background: #4c8dff; border-color: #4c8dff; }
+.section-nav button:hover { color: var(--text); background: var(--surface-2); }
+.section-nav button.active { color: #fff; background: #4c8dff; border-color: #4c8dff; }
 @media (max-width: 480px) {
-  .cal-subnav { gap: 6px; }
-  .cal-subnav button { padding: 7px 12px; font-size: .82rem; }
+  .section-nav { gap: 6px; }
+  .section-nav button { padding: 7px 12px; font-size: .82rem; }
 }
 
 /* ---------- paper submission deadline calendar ---------- */

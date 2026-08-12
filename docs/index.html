@@ -7,7 +7,7 @@
   <meta name="description" content="KIISE 우수 SW 국제학술대회 목록(2014·2016·2018·2020·2024) 대시보드 — S/A 등급, 대분야·소분야별 분포와 검색">
   <title>KIISE 우수 SW 국제학술대회 대시보드</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎓%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="assets/style.css?v=20260812">
+  <link rel="stylesheet" href="assets/style.css?v=20260812b">
 </head>
 <body>
   <header class="site-header">
@@ -37,12 +37,21 @@
     </nav>
 
     <div id="view-dashboard">
+    <!-- Quick-jump sub-navigation: jump straight to a dashboard section -->
+    <nav class="section-nav" aria-label="대시보드 섹션 바로가기">
+      <button type="button" class="active" data-target="major-card">📊 대분야별 등급 분포</button>
+      <button type="button" data-target="grade-card">🍩 등급 구성</button>
+      <button type="button" data-target="sub-card">📶 소분야별 학회 수</button>
+      <button type="button" data-target="month-card">📅 월별 학회 현황</button>
+      <button type="button" data-target="changes-card">🔄 이전 대비 변동</button>
+    </nav>
+
     <!-- Summary tiles -->
     <section class="tiles" id="tiles" aria-label="요약 통계"></section>
 
     <!-- Charts -->
     <section class="grid-2">
-      <article class="card">
+      <article class="card" id="major-card">
         <div class="card-head">
           <h2 id="h-major-dist">대분야별 등급 분포</h2>
           <p id="s-major-dist" class="card-sub">AI · CS 두 대분야를 S/A 등급으로 나눈 학회 수</p>
@@ -51,7 +60,7 @@
         <div class="legend" id="legend-grade"></div>
       </article>
 
-      <article class="card">
+      <article class="card" id="grade-card">
         <div class="card-head">
           <h2 id="h-grade-comp">등급 구성</h2>
           <p id="s-grade-comp" class="card-sub">전체 학회의 S/A 등급 비율</p>
@@ -60,7 +69,7 @@
       </article>
     </section>
 
-    <section class="card">
+    <section class="card" id="sub-card">
       <div class="card-head">
         <h2 id="h-sub-count">소분야별 학회 수</h2>
         <p id="s-sub-count" class="card-sub">16개 소분야 · 대분야(AI/CS)별 색상 구분 · 학회 수 내림차순</p>
@@ -102,6 +111,12 @@
     </div><!-- /view-dashboard -->
 
     <div id="view-korea" hidden>
+    <!-- Quick-jump sub-navigation: jump straight to a country section -->
+    <nav class="section-nav" aria-label="개최지 섹션 바로가기">
+      <button type="button" class="active" data-target="kr-country-KR">🇰🇷 한국 개최 학회 현황</button>
+      <button type="button" data-target="kr-country-JP">🇯🇵 일본 개최 학회 현황</button>
+    </nav>
+
     <!-- Conferences hosted in Korea -->
     <section class="card" id="korea-card">
       <div class="card-head">
@@ -116,7 +131,7 @@
 
     <div id="view-calendar" hidden>
     <!-- Quick-jump sub-navigation: jump straight to a calendar section -->
-    <nav class="cal-subnav" id="cal-subnav" aria-label="캘린더 섹션 바로가기">
+    <nav class="section-nav" aria-label="캘린더 섹션 바로가기">
       <button type="button" class="active" data-target="deadline-card">📅 논문 제출 마감 캘린더</button>
       <button type="button" data-target="upcoming-card">⏳ 다가오는 마감</button>
     </nav>
@@ -153,8 +168,14 @@
     </div><!-- /view-calendar -->
 
     <div id="view-list" hidden>
+    <!-- Quick-jump sub-navigation: jump straight to a list section -->
+    <nav class="section-nav" aria-label="목록 섹션 바로가기">
+      <button type="button" class="active" data-target="list-card">📋 학회 목록</button>
+      <button type="button" data-target="deleted-card">🗑️ 제외(삭제)된 학회</button>
+    </nav>
+
     <!-- Table -->
-    <section class="card">
+    <section class="card" id="list-card">
       <div class="card-head table-head">
         <div>
           <h2 id="h-table">학회 목록</h2>
@@ -204,7 +225,7 @@
       <nav class="pagination" id="pagination" aria-label="페이지 이동"></nav>
     </section>
 
-    <details class="card deleted-note">
+    <details class="card deleted-note" id="deleted-card">
       <summary><span id="deleted-year">2024</span>년 목록에서 <strong>제외(삭제)</strong>된 학회 <span id="deleted-count"></span>개</summary>
       <div class="table-scroll">
         <table>
@@ -248,9 +269,9 @@
   </aside>
 
   <script src="assets/data.js?v=20260721a"></script>
-  <script src="assets/i18n.js?v=20260812"></script>
+  <script src="assets/i18n.js?v=20260812b"></script>
   <script src="assets/deadlines.js?v=20260809"></script>
   <script src="assets/korea.js?v=20260727"></script>
-  <script src="assets/app.js?v=20260812"></script>
+  <script src="assets/app.js?v=20260812b"></script>
 </body>
 </html>

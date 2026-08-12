@@ -453,6 +453,7 @@
       state.year === "ALL"
         ? (years.length > 1 ? T.yearRange(years[0], years[years.length - 1]) : T.yearOpt(years[0]))
         : T.yearOpt(state.year);
+    syncSectionNavs();   // "이전 대비 변동" 버튼은 해당 카드가 있을 때만 노출
   }
 
   /* ---------------- theme toggle ---------------- */
@@ -688,6 +689,7 @@
     function renderCountry(country) {
       const cItems = kr.items.filter((it) => countryOf(it) === country);
       const sec = el("section", "kr-country");
+      sec.id = "kr-country-" + country;   // scroll target for the section sub-nav
       sec.appendChild(el("h3", "kr-country-heading",
         `${FLAG[country]} ${T.krCountry(country)} <span class="changes-badge">${cItems.length}</span>`));
       if (!cItems.length) {
@@ -724,45 +726,69 @@
       T.krUpdated(fmtDot(kr.updated || ""))));
   }
 
-  /* ---------------- calendar view: quick-jump sub-navigation ---------------- */
-  // Two menu buttons ("논문 제출 마감 캘린더", "다가오는 마감") pinned to the top of
-  // the calendar view. Clicking one jumps straight to that section so the reader
-  // never has to scroll the page down to find it.
-  function initCalSubnav() {
-    const nav = $("#cal-subnav");
-    if (!nav) return;
+  /* ---------------- in-view quick-jump sub-navigation ---------------- */
+  // Every view (대시보드 / 개최지별 / 달력 / 목록) opens with a row of menu buttons
+  // pinned to the top. Clicking one jumps straight to that section so the reader
+  // never has to scroll the page down to find it. Each `.section-nav button`
+  // carries a data-target pointing at the id of the section it reveals.
+  const sectionNavs = [];   // {syncVisibility} handles, refreshed by syncSectionNavs()
+
+  function initSectionNav(nav) {
     const btns = [...nav.querySelectorAll("button[data-target]")];
+    if (!btns.length) return;
     const header = $(".site-header");
 
     // keep the sticky sub-nav parked right below the (also sticky) site header
-    function positionSubnav() { nav.style.top = (header ? header.offsetHeight : 0) + "px"; }
-    positionSubnav();
-    window.addEventListener("resize", positionSubnav);
+    function positionNav() { nav.style.top = (header ? header.offsetHeight : 0) + "px"; }
+    positionNav();
+    window.addEventListener("resize", positionNav);
 
-    function scrollToCard(id) {
+    function scrollToTarget(id) {
       const target = document.getElementById(id);
       if (!target) return;
+      if (target.tagName === "DETAILS") target.open = true;   // reveal collapsed sections
       const offset = (header ? header.offsetHeight : 0) + nav.offsetHeight + 16;
       const y = target.getBoundingClientRect().top + window.scrollY - offset;
       window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
     }
-    btns.forEach((b) => b.addEventListener("click", () => scrollToCard(b.dataset.target)));
+    btns.forEach((b) => b.addEventListener("click", () => scrollToTarget(b.dataset.target)));
 
-    // scrollspy: highlight whichever section is currently in view
+    // scrollspy: highlight whichever section currently sits in the viewport band.
+    // Track the live set of intersecting targets and mark the topmost (button order).
     const setActive = (id) =>
       btns.forEach((b) => b.classList.toggle("active", b.dataset.target === id));
     if ("IntersectionObserver" in window) {
+      const visible = new Set();
       const io = new IntersectionObserver((entries) => {
-        entries.filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
-          .forEach((e) => setActive(e.target.id));
+        entries.forEach((e) => {
+          if (e.isIntersecting) visible.add(e.target.id); else visible.delete(e.target.id);
+        });
+        const active = btns.map((b) => b.dataset.target).find((id) => visible.has(id));
+        if (active) setActive(active);
       }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
       btns.forEach((b) => {
         const t = document.getElementById(b.dataset.target);
         if (t) io.observe(t);
       });
     }
+
+    // hide a menu button whose target is absent or currently hidden
+    // (e.g. "이전 대비 변동" only exists for years that have a predecessor)
+    function syncVisibility() {
+      btns.forEach((b) => {
+        const t = document.getElementById(b.dataset.target);
+        b.hidden = !t || t.hidden;
+      });
+      nav.hidden = btns.every((b) => b.hidden);
+    }
+    syncVisibility();
+    sectionNavs.push({ syncVisibility });
   }
+
+  function initSectionNavs() {
+    document.querySelectorAll(".section-nav").forEach(initSectionNav);
+  }
+  function syncSectionNavs() { sectionNavs.forEach((n) => n.syncVisibility()); }
 
   /* ---------------- view menu (대시보드 / 한국 개최 / 달력 / 목록) ---------------- */
   function initViews() {
@@ -961,9 +987,10 @@
   initConfSearch();
   initCalendar();
   initKorea();
-  initCalSubnav();
+  initSectionNavs();
   initViews();
   refresh();
   renderMonthChart();
+  syncSectionNavs();   // month-card 등 렌더 후 최종 버튼 노출 상태 동기화
   initTheme();
 })();
