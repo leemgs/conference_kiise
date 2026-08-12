@@ -724,6 +724,46 @@
       T.krUpdated(fmtDot(kr.updated || ""))));
   }
 
+  /* ---------------- calendar view: quick-jump sub-navigation ---------------- */
+  // Two menu buttons ("논문 제출 마감 캘린더", "다가오는 마감") pinned to the top of
+  // the calendar view. Clicking one jumps straight to that section so the reader
+  // never has to scroll the page down to find it.
+  function initCalSubnav() {
+    const nav = $("#cal-subnav");
+    if (!nav) return;
+    const btns = [...nav.querySelectorAll("button[data-target]")];
+    const header = $(".site-header");
+
+    // keep the sticky sub-nav parked right below the (also sticky) site header
+    function positionSubnav() { nav.style.top = (header ? header.offsetHeight : 0) + "px"; }
+    positionSubnav();
+    window.addEventListener("resize", positionSubnav);
+
+    function scrollToCard(id) {
+      const target = document.getElementById(id);
+      if (!target) return;
+      const offset = (header ? header.offsetHeight : 0) + nav.offsetHeight + 16;
+      const y = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    }
+    btns.forEach((b) => b.addEventListener("click", () => scrollToCard(b.dataset.target)));
+
+    // scrollspy: highlight whichever section is currently in view
+    const setActive = (id) =>
+      btns.forEach((b) => b.classList.toggle("active", b.dataset.target === id));
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+          .forEach((e) => setActive(e.target.id));
+      }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
+      btns.forEach((b) => {
+        const t = document.getElementById(b.dataset.target);
+        if (t) io.observe(t);
+      });
+    }
+  }
+
   /* ---------------- view menu (대시보드 / 한국 개최 / 달력 / 목록) ---------------- */
   function initViews() {
     const tabs = document.querySelectorAll(".view-tabs button");
@@ -921,6 +961,7 @@
   initConfSearch();
   initCalendar();
   initKorea();
+  initCalSubnav();
   initViews();
   refresh();
   renderMonthChart();

@@ -132,6 +132,8 @@ window.KIISE_I18N = {
       "#s-changes": '<span id="changes-sub"></span> · new and removed conferences compared with the previous survey year',
       ".changes-title.new": '🟢 New <span id="new-count" class="changes-badge"></span>',
       ".changes-title.del": '🔴 Removed <span id="del-count" class="changes-badge"></span>',
+      '.cal-subnav [data-target="deadline-card"]': "📅 Paper Submission Deadline Calendar",
+      '.cal-subnav [data-target="upcoming-card"]': "⏳ Upcoming Deadlines",
       "#h-deadline": "Paper Submission Deadline Calendar",
       "#s-deadline": "Abstract/paper deadlines of major venues — <strong>estimated</strong> from previous cycles; always confirm on official sites",
       "#cal-today": "Today",
