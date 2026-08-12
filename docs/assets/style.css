@@ -423,6 +423,27 @@ a.conf-link::after { content: " ↗"; font-size: .72em; opacity: .5; }
   .view-tabs button { padding: 9px 10px; font-size: .86rem; }
 }
 
+/* ---------- calendar view: quick-jump sub-navigation ---------- */
+/* sticks just below the site header; its `top` is set in JS to the header height */
+.cal-subnav {
+  position: sticky; z-index: 15;
+  display: flex; flex-wrap: wrap; gap: 8px;
+  padding: 12px 0; margin: 0 0 20px;
+  background: var(--plane); border-bottom: 1px solid var(--border);
+}
+.cal-subnav button {
+  appearance: none; cursor: pointer; font: inherit;
+  font-size: .9rem; font-weight: 600; color: var(--text-2);
+  background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
+  padding: 8px 16px; transition: background .15s, color .15s, border-color .15s;
+}
+.cal-subnav button:hover { color: var(--text); background: var(--surface-2); }
+.cal-subnav button.active { color: #fff; background: #4c8dff; border-color: #4c8dff; }
+@media (max-width: 480px) {
+  .cal-subnav { gap: 6px; }
+  .cal-subnav button { padding: 7px 12px; font-size: .82rem; }
+}
+
 /* ---------- paper submission deadline calendar ---------- */
 .cal-toolbar { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
 .cal-title { font-size: 1rem; font-weight: 700; margin: 0 4px; min-width: 110px; text-align: center; }
