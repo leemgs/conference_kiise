@@ -41,7 +41,7 @@ window.KIISE_I18N = {
     searchPh: "🔍 약칭·학회명 검색 (예: CVPR, Security…)",
     krColName: "학회명", krColDeadline: "제출마감일", krColPlace: "개최지",
     krColSchedule: "학회 일정", krColSite: "학회 사이트",
-    krSpecialLabel: "특별 관리 대상 학회 (한국·일본 개최 시 빨간색 표기):",
+    krSpecialLabel: "AI 관련 저명한 학회 (한국·일본 개최 시 빨간색 표기):",
     krSpecialTitle: "특별 관리 대상 학회",
     krCountry: (c) => (c === "JP" ? "일본 개최 학회 현황" : "한국 개최 학회 현황"),
     krCountryEmpty: (c) => (c === "JP" ? "현재 발표된 일본 개최 학회가 없습니다."
@@ -98,7 +98,7 @@ window.KIISE_I18N = {
     searchPh: "🔍 Search by abbreviation or name (e.g., CVPR, Security…)",
     krColName: "Conference", krColDeadline: "Submission deadline", krColPlace: "Location",
     krColSchedule: "Dates", krColSite: "Website",
-    krSpecialLabel: "Specially watched conferences (shown in red when hosted in Korea/Japan):",
+    krSpecialLabel: "Notable AI conferences (shown in red when hosted in Korea/Japan):",
     krSpecialTitle: "Specially watched conference",
     krCountry: (c) => (c === "JP" ? "Conferences Held in Japan" : "Conferences Held in Korea"),
     krCountryEmpty: (c) => (c === "JP" ? "No conferences hosted in Japan announced yet."
@@ -125,7 +125,7 @@ window.KIISE_I18N = {
       '.section-nav [data-target="kr-country-KR"]': "🇰🇷 Conferences Held in Korea",
       '.section-nav [data-target="kr-country-JP"]': "🇯🇵 Conferences Held in Japan",
       "#h-korea": "🌏 Top-tier Conferences Held in Korea & Japan",
-      "#s-korea": "Top-tier international conferences hosted in <strong>Korea or Japan</strong> — Japan is only ~2 hours by air from Korea, so submitting when a venue comes to either country cuts overseas travel time and cost. Dates and deadlines are as announced; always confirm on official sites.",
+      "#s-korea": "A curated list of top-tier international conferences held in <strong>Korea or Japan</strong>. Journals require no presentation, but conferences do. Japan is only ~2 hours by air from Korea, so submitting to a nearby conference cuts travel cost and burden. Always confirm dates and deadlines on the official website.",
       "#korea-empty": "No conferences hosted in Korea or Japan have been announced yet.",
       "#h-major-dist": "Grade Distribution by Field",
       "#s-major-dist": "Conferences per grade (S/A) within the AI and CS fields",
