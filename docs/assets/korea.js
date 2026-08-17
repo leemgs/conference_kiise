@@ -4,7 +4,7 @@
 // 개최지·일정·마감일은 조사 시점 발표 기준이므로,
 // 반드시 각 학회 공식 홈페이지에서 최신 정보를 확인해야 합니다.
 window.KIISE_KOREA = {
-  "updated": "2026-07-27",
+  "updated": "2026-08-17",
   "specialWatch": [
     "ICML",
     "ICLR",
@@ -136,6 +136,23 @@ window.KIISE_KOREA = {
       ],
       "site": "https://2027.ieee-icra.org/",
       "confirmed": true
+    },
+    {
+      "abbr": "KDD",
+      "edition": "2027",
+      "year": 2027,
+      "country": "KR",
+      "name": "ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+      "city": "제주",
+      "cityEn": "Jeju",
+      "venue": "",
+      "start": "2027-08-01",
+      "end": "2027-08-05",
+      "deadlines": [],
+      "site": "https://kdd2027.kdd.org/",
+      "confirmed": false,
+      "autoAdded": true,
+      "needsReview": true
     },
     {
       "abbr": "ACL",
