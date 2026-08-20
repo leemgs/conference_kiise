@@ -274,6 +274,49 @@ a.conf-link::after { content: " ↗"; font-size: .72em; opacity: .5; }
 .deleted-note summary::marker { color: var(--muted); }
 .deleted-note[open] summary { margin-bottom: 14px; }
 
+/* ---------- publication trends ---------- */
+.publication-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; margin-bottom: 12px; }
+.publication-heading h2 { font-size: 1.35rem; }
+.publication-filters { display: flex; gap: 10px; flex-wrap: wrap; }
+.publication-filters label { color: var(--text-2); font-size: .78rem; font-weight: 600; }
+.publication-filters select { display: block; min-width: 120px; margin-top: 4px; padding: 7px 28px 7px 9px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-2); color: var(--text); font: inherit; }
+.publication-notice { padding: 9px 12px; border-radius: 9px; background: color-mix(in srgb, var(--cs) 8%, var(--surface)); color: var(--text-2); font-size: .76rem; }
+.publication-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+.publication-stat { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 14px 16px; border: 1px solid var(--border); border-radius: 12px; }
+.publication-stat-icon { display: grid; place-items: center; flex: 0 0 42px; width: 42px; height: 42px; border-radius: 50%; background: color-mix(in srgb, var(--cs) 12%, var(--surface)); color: var(--cs); font-size: 1.3rem; }
+.publication-stat-label { display: block; color: var(--text-2); font-size: .76rem; }
+.publication-stat strong { display: block; overflow: hidden; color: var(--text); font-size: 1.15rem; text-overflow: ellipsis; white-space: nowrap; }
+.publication-stat strong.positive { color: #0097a7; }
+.publication-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 14px; }
+.publication-panel { min-width: 0; padding: 16px; border: 1px solid var(--border); border-radius: 12px; }
+.publication-panel h3 { margin: 0 0 14px; text-align: center; font-size: .95rem; }
+.publication-heatmap { overflow-x: auto; }
+.heat-grid { display: grid; grid-template-columns: minmax(118px, 1.25fr) repeat(var(--heat-years), minmax(54px, 1fr)); min-width: 450px; gap: 2px; align-items: stretch; }
+.heat-corner, .heat-year { align-self: end; padding: 5px; color: var(--text-2); text-align: center; font-size: .72rem; }
+.heat-label { align-self: center; padding-right: 8px; overflow: hidden; text-align: right; text-overflow: ellipsis; white-space: nowrap; font-size: .72rem; }
+.heat-cell { display: grid; place-items: center; min-height: 38px; border-radius: 2px; background: rgb(14 91 190 / var(--heat-alpha)); color: var(--text); font-size: .72rem; font-variant-numeric: tabular-nums; }
+.heat-cell-dark { color: #fff; }
+.heat-legend { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; color: var(--text-2); font-size: .7rem; }
+.heat-legend i { width: 45%; max-width: 250px; height: 9px; border-radius: 4px; background: linear-gradient(90deg, rgb(14 91 190 / .12), rgb(14 91 190)); }
+.publication-bars { display: flex; flex-direction: column; gap: 8px; }
+.publication-bar-row { display: grid; grid-template-columns: minmax(92px, 130px) 1fr 34px; gap: 8px; align-items: center; }
+.publication-bar-label { overflow: hidden; text-align: right; text-overflow: ellipsis; white-space: nowrap; color: var(--text-2); font-size: .7rem; }
+.publication-bar-track { height: 18px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.publication-bar-fill { display: block; height: 100%; border-radius: 3px; background: var(--cs); transition: width .35s ease; }
+.publication-bar-fill.rank-3 { background: #11a5ac; }
+.publication-bar-value { font-size: .72rem; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 800px) {
+  .publication-heading { flex-direction: column; }
+  .publication-stats, .publication-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .publication-stats { gap: 8px; }
+  .publication-stat { padding: 10px; }
+  .publication-stat-icon { display: none; }
+  .publication-stat strong { font-size: .9rem; }
+}
+
 /* ---------- year-over-year changes ---------- */
 .changes-grid { display: flex; flex-direction: column; gap: 22px; }
 .changes-title { font-size: .9rem; font-weight: 700; margin: 0 0 10px; display: flex; align-items: center; gap: 7px; }
