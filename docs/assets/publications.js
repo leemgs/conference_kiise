@@ -14,8 +14,32 @@ window.KIISE_PUBLICATIONS = {
   ],
   "records": [
     {
+      "abbr": "ACM CCS",
+      "field": "Sec",
+      "stream": "ccs",
+      "counts": [
+        226,
+        288,
+        293,
+        419,
+        396
+      ]
+    },
+    {
+      "abbr": "USENIX OSDI",
+      "field": "OS",
+      "stream": "osdi",
+      "counts": [
+        32,
+        50,
+        56,
+        54,
+        54
+      ]
+    },
+    {
       "abbr": "IEEE INFOCOM",
-      "field": "네트워크",
+      "field": "Net",
       "stream": "infocom",
       "counts": [
         447,
@@ -26,111 +50,159 @@ window.KIISE_PUBLICATIONS = {
       ]
     },
     {
-      "abbr": "IEEE ICC",
-      "field": "네트워크",
-      "stream": "icc",
+      "abbr": "ACM CHI",
+      "field": "CGI",
+      "stream": "chi",
       "counts": [
-        1118,
-        1156,
-        1410,
-        1288,
-        1481
+        1245,
+        1130,
+        1480,
+        1707,
+        2171
       ]
     },
     {
-      "abbr": "IEEE GLOBECOM",
-      "field": "네트워크",
-      "stream": "globecom",
+      "abbr": "ICSE",
+      "field": "SE",
+      "stream": "icse",
       "counts": [
-        1120,
-        1400,
-        1619,
-        1275,
-        1471
+        297,
+        337,
+        356,
+        437,
+        389
       ]
     },
     {
-      "abbr": "ACM SIGCOMM",
-      "field": "네트워크",
-      "stream": "sigcomm",
+      "abbr": "ACM POPL",
+      "field": "PL",
+      "stream": "popl",
       "counts": [
-        87,
-        78,
-        108,
-        109,
-        156
-      ]
-    },
-    {
-      "abbr": "ACM MobiCom",
-      "field": "네트워크",
-      "stream": "mobicom",
-      "counts": [
-        86,
-        112,
-        153,
-        286,
-        158
-      ]
-    },
-    {
-      "abbr": "IEEE ICDCS",
-      "field": "분산시스템",
-      "stream": "icdcs",
-      "counts": [
-        132,
-        201,
-        166,
-        178,
-        104
-      ]
-    },
-    {
-      "abbr": "ACM SenSys",
-      "field": "네트워크",
-      "stream": "sensys",
-      "counts": [
-        109,
-        168,
-        75,
-        117,
-        117
-      ]
-    },
-    {
-      "abbr": "USENIX ATC",
-      "field": "운영체제",
-      "stream": "usenix",
-      "counts": [
+        61,
         65,
-        68,
-        66,
-        78,
-        101
+        74,
+        93,
+        79
       ]
     },
     {
-      "abbr": "IEEE WCNC",
-      "field": "네트워크",
-      "stream": "wcnc",
+      "abbr": "SC",
+      "field": "HPC",
+      "stream": "sc",
       "counts": [
-        425,
-        461,
-        438,
-        839,
-        722
+        124,
+        88,
+        358,
+        336,
+        435
       ]
     },
     {
-      "abbr": "IEEE VTC",
-      "field": "네트워크",
-      "stream": "vtc",
+      "abbr": "ISCA",
+      "field": "Arch",
+      "stream": "isca",
       "counts": [
-        914,
-        987,
-        988,
-        1225,
-        1318
+        82,
+        74,
+        85,
+        88,
+        136
+      ]
+    },
+    {
+      "abbr": "STOC",
+      "field": "Alg",
+      "stream": "stoc",
+      "counts": [
+        152,
+        135,
+        156,
+        191,
+        220
+      ]
+    },
+    {
+      "abbr": "KDD",
+      "field": "DM",
+      "stream": "kdd",
+      "counts": [
+        483,
+        535,
+        565,
+        643,
+        846
+      ]
+    },
+    {
+      "abbr": "ACL",
+      "field": "NLP",
+      "stream": "acl",
+      "counts": [
+        1254,
+        1115,
+        2159,
+        2010,
+        3367
+      ]
+    },
+    {
+      "abbr": "ICML",
+      "field": "ML",
+      "stream": "icml",
+      "counts": [
+        1184,
+        1250,
+        1829,
+        2611,
+        3343
+      ]
+    },
+    {
+      "abbr": "ACM SIGMOD",
+      "field": "DB",
+      "stream": "sigmod",
+      "counts": [
+        271,
+        223,
+        340,
+        311,
+        507
+      ]
+    },
+    {
+      "abbr": "RECOMB",
+      "field": "Bio",
+      "stream": "recomb",
+      "counts": [
+        0,
+        50,
+        12,
+        58,
+        56
+      ]
+    },
+    {
+      "abbr": "CVPR",
+      "field": "CV",
+      "stream": "cvpr",
+      "counts": [
+        2179,
+        2634,
+        3056,
+        3536,
+        3545
+      ]
+    },
+    {
+      "abbr": "ICRA",
+      "field": "Robot",
+      "stream": "icra",
+      "counts": [
+        1387,
+        930,
+        1342,
+        1761,
+        1605
       ]
     }
   ]
