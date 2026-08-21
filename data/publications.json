@@ -1,5 +1,4 @@
-// DBLP에서 자동 수집한 실제 등재 레코드 수 — 직접 수정하지 마세요.
-window.KIISE_PUBLICATIONS = {
+{
   "sample": false,
   "source": "DBLP Computer Science Bibliography",
   "sourceUrl": "https://dblp.org/",
@@ -134,4 +133,4 @@ window.KIISE_PUBLICATIONS = {
       ]
     }
   ]
-};
+}
