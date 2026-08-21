@@ -10,6 +10,7 @@ import json
 import pathlib
 import time
 import urllib.parse
+import urllib.error
 import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -38,8 +39,17 @@ def fetch_count(stream: str, year: int) -> int:
     query = f"stream:streams/conf/{stream}: year:{year}:"
     url = API + "?" + urllib.parse.urlencode({"q": query, "format": "json", "h": 0})
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(request, timeout=30) as response:
-        payload = json.load(response)
+    for attempt in range(6):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                payload = json.load(response)
+            break
+        except urllib.error.HTTPError as error:
+            if error.code != 429 or attempt == 5:
+                raise
+            delay = int(error.headers.get("Retry-After", 15 * (attempt + 1)))
+            print(f"DBLP rate limit; retrying in {delay}s", flush=True)
+            time.sleep(delay)
     return int(payload["result"]["hits"]["@total"])
 
 
@@ -49,7 +59,7 @@ def main() -> None:
         counts = []
         for year in YEARS:
             counts.append(fetch_count(stream, year))
-            time.sleep(1)  # stay comfortably below DBLP's public API rate limit
+            time.sleep(3)  # DBLP asks automated clients to keep request rates low
         records.append({"abbr": abbr, "field": field, "stream": stream, "counts": counts})
         print(f"{abbr}: {counts}")
 
