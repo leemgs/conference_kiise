@@ -1,6 +1,11 @@
 name: Update DBLP publication counts
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/update_publications.py"
+      - ".github/workflows/update-publications.yml"
   schedule:
     - cron: "30 18 1 * *" # 매월 2일 03:30 KST
   workflow_dispatch:
