@@ -98,7 +98,7 @@
   function renderBars(records, yearIndex, selectedField) {
     const year = data.years[yearIndex];
     const emphasis = selectedField === "전체" ? "" : ` · ${selectedField} 강조`;
-    document.querySelector("#publication-rank-title").textContent = `${year}년 전체 분야 상위 10개 학회${emphasis}`;
+    document.querySelector("#publication-rank-title").textContent = `${year}년 전체 분야 상위 10개 학회 (논문수 기준)${emphasis}`;
     const host = document.querySelector("#publication-bars");
     host.replaceChildren();
     const ranked = [...records]
