@@ -822,11 +822,14 @@
     function openHash() {
       const hash = location.hash.slice(1);
       const sectionTarget = document.getElementById(hash);
-      const section = sectionTarget && sectionTarget.closest("#view-dashboard") ? hash : null;
-      const view = section ? "dashboard" : (views[hash] ? hash : "dashboard");
+      const sectionView = sectionTarget && sectionTarget.closest('[id^="view-"]');
+      const section = sectionView ? hash : null;
+      const sectionViewName = sectionView ? sectionView.id.replace("view-", "") : null;
+      const view = section ? sectionViewName : (views[hash] ? hash : "dashboard");
       show(view, Boolean(section));
       if (section) {
-        document.querySelectorAll("#view-dashboard .section-nav [data-target]").forEach((link) => {
+        if (sectionTarget.tagName === "DETAILS") sectionTarget.open = true;
+        sectionView.querySelectorAll(".section-nav [data-target]").forEach((link) => {
           link.classList.toggle("active", link.dataset.target === section);
         });
       }
@@ -1021,7 +1024,7 @@
   // their final heights; otherwise content inserted above can shift the target.
   window.setTimeout(() => {
     const id = location.hash.slice(1);
-    const link = document.querySelector(`#view-dashboard .section-nav [data-target="${CSS.escape(id)}"]`);
+    const link = document.querySelector(`.section-nav [data-target="${CSS.escape(id)}"]`);
     if (link) link.click();
   }, 150);
   initTheme();
