@@ -36,6 +36,8 @@
     option.value = field;
     fieldSelect.appendChild(option);
   });
+  const requestedField = new URLSearchParams(window.location.search).get("publication-field");
+  if (fields.includes(requestedField)) fieldSelect.value = requestedField;
 
   function selectedRecords() {
     return fieldSelect.value === "전체"
@@ -67,7 +69,7 @@
     });
   }
 
-  function renderHeatmap(records) {
+  function renderHeatmap(records, selectedField) {
     const host = document.querySelector("#publication-heatmap");
     host.replaceChildren();
     const values = records.flatMap((record) => record.counts);
@@ -77,12 +79,15 @@
     grid.append(make("span", "heat-corner", "학회"));
     data.years.forEach((year) => grid.append(make("b", "heat-year", year)));
     records.forEach((record) => {
-      grid.append(make("span", "heat-label", record.abbr));
+      const label = make("span", "heat-label", record.abbr);
+      if (selectedField !== "전체" && record.field === selectedField) label.classList.add("selected");
+      grid.append(label);
       record.counts.forEach((value, index) => {
         const cell = make("span", "heat-cell", value);
         const ratio = value / max;
         cell.style.setProperty("--heat-alpha", (0.12 + ratio * 0.88).toFixed(2));
         cell.classList.toggle("heat-cell-dark", ratio > 0.55);
+        if (selectedField !== "전체" && record.field === selectedField) cell.classList.add("selected");
         cell.title = `${record.abbr} · ${data.years[index]}년: ${format.format(value)}편`;
         grid.append(cell);
       });
@@ -90,9 +95,10 @@
     host.append(grid);
   }
 
-  function renderBars(records, yearIndex) {
+  function renderBars(records, yearIndex, selectedField) {
     const year = data.years[yearIndex];
-    document.querySelector("#publication-rank-title").textContent = `${year}년 상위 10개 학회`;
+    const emphasis = selectedField === "전체" ? "" : ` · ${selectedField} 강조`;
+    document.querySelector("#publication-rank-title").textContent = `${year}년 전체 분야 상위 10개 학회${emphasis}`;
     const host = document.querySelector("#publication-bars");
     host.replaceChildren();
     const ranked = [...records]
@@ -105,6 +111,7 @@
       row.append(make("span", "publication-bar-label", record.abbr));
       const track = make("div", "publication-bar-track");
       const bar = make("span", `publication-bar-fill rank-${index + 1}`);
+      if (selectedField !== "전체" && record.field === selectedField) bar.classList.add("selected");
       bar.style.width = `${(value / max) * 100}%`;
       bar.title = `${record.abbr}: ${format.format(value)}편`;
       track.append(bar);
@@ -117,8 +124,11 @@
     const yearIndex = data.years.indexOf(Number(yearSelect.value));
     const records = selectedRecords();
     renderStats(records, yearIndex);
-    renderHeatmap(records);
-    renderBars(records, yearIndex);
+    document.querySelector("#publication-heat-title").textContent = fieldSelect.value === "전체"
+      ? "학회별 연도 추이"
+      : `학회별 연도 추이 · ${fieldLabel(fieldSelect.value)} 강조`;
+    renderHeatmap(data.records, fieldSelect.value);
+    renderBars(data.records, yearIndex, fieldSelect.value);
   }
 
   yearSelect.addEventListener("change", render);
