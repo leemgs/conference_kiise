@@ -16,6 +16,14 @@
   const format = new Intl.NumberFormat("ko-KR");
   const fields = [...new Set(data.records.map((record) => record.field))].sort();
 
+  const source = document.querySelector("#publication-source");
+  source.append("출처: ");
+  const sourceLink = make("a", "", data.source || "DBLP Computer Science Bibliography");
+  sourceLink.href = data.sourceUrl || "https://dblp.org/";
+  sourceLink.target = "_blank";
+  sourceLink.rel = "noopener";
+  source.append(sourceLink, ` · DBLP 학회 스트림에 등재된 레코드 수 · 수집일 ${data.retrieved || "-"}`);
+
   [...data.years].reverse().forEach((year) => {
     const option = make("option", "", `${year}년`);
     option.value = year;

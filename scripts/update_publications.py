@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""Fetch real yearly conference publication counts from the DBLP Search API.
+
+The count is DBLP's number of indexed records in each conference stream/year.
+The generated files intentionally retain source and retrieval metadata so the
+dashboard never presents these values as hand-entered or predictive statistics.
+"""
+import datetime
+import json
+import pathlib
+import time
+import urllib.parse
+import urllib.request
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+DATA_OUT = ROOT / "data" / "publications.json"
+JS_OUT = ROOT / "docs" / "assets" / "publications.js"
+
+YEARS = list(range(2021, 2026))
+CONFERENCES = [
+    ("IEEE INFOCOM", "네트워크", "infocom"),
+    ("IEEE ICC", "네트워크", "icc"),
+    ("IEEE GLOBECOM", "네트워크", "globecom"),
+    ("ACM SIGCOMM", "네트워크", "sigcomm"),
+    ("ACM MobiCom", "네트워크", "mobicom"),
+    ("IEEE ICDCS", "분산시스템", "icdcs"),
+    ("ACM SenSys", "네트워크", "sensys"),
+    ("USENIX ATC", "운영체제", "usenix"),
+    ("IEEE WCNC", "네트워크", "wcnc"),
+    ("IEEE VTC", "네트워크", "vtc"),
+]
+API = "https://dblp.org/search/publ/api"
+SOURCE_URL = "https://dblp.org/"
+USER_AGENT = "conference-kiise-dashboard/1.0 (https://github.com/leemgs/conference_kiise)"
+
+
+def fetch_count(stream: str, year: int) -> int:
+    query = f"stream:streams/conf/{stream}: year:{year}:"
+    url = API + "?" + urllib.parse.urlencode({"q": query, "format": "json", "h": 0})
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(request, timeout=30) as response:
+        payload = json.load(response)
+    return int(payload["result"]["hits"]["@total"])
+
+
+def main() -> None:
+    records = []
+    for abbr, field, stream in CONFERENCES:
+        counts = []
+        for year in YEARS:
+            counts.append(fetch_count(stream, year))
+            time.sleep(1)  # stay comfortably below DBLP's public API rate limit
+        records.append({"abbr": abbr, "field": field, "stream": stream, "counts": counts})
+        print(f"{abbr}: {counts}")
+
+    today = datetime.date.today().isoformat()
+    data = {
+        "sample": False,
+        "source": "DBLP Computer Science Bibliography",
+        "sourceUrl": SOURCE_URL,
+        "method": "DBLP Search API conference-stream record count",
+        "retrieved": today,
+        "years": YEARS,
+        "records": records,
+    }
+    serialized = json.dumps(data, ensure_ascii=False, indent=2)
+    DATA_OUT.write_text(serialized + "\n", encoding="utf-8")
+    JS_OUT.write_text(
+        "// DBLP에서 자동 수집한 실제 등재 레코드 수 — 직접 수정하지 마세요.\n"
+        "window.KIISE_PUBLICATIONS = " + serialized + ";\n",
+        encoding="utf-8",
+    )
+    print(f"updated {len(records)} conferences ({YEARS[0]}–{YEARS[-1]}) on {today}")
+
+
+if __name__ == "__main__":
+    main()
