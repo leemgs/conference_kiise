@@ -6,6 +6,7 @@ The generated files intentionally retain source and retrieval metadata so the
 dashboard never presents these values as hand-entered or predictive statistics.
 """
 import datetime
+import http.client
 import json
 import pathlib
 import time
@@ -39,16 +40,22 @@ def fetch_count(stream: str, year: int) -> int:
     query = f"stream:streams/conf/{stream}: year:{year}:"
     url = API + "?" + urllib.parse.urlencode({"q": query, "format": "json", "h": 0})
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    for attempt in range(6):
+    for attempt in range(10):
         try:
             with urllib.request.urlopen(request, timeout=30) as response:
                 payload = json.load(response)
             break
         except urllib.error.HTTPError as error:
-            if ((error.code != 429 and error.code < 500) or attempt == 5):
+            if ((error.code != 429 and error.code < 500) or attempt == 9):
                 raise
             delay = int(error.headers.get("Retry-After", 10 * (attempt + 1)))
             print(f"DBLP HTTP {error.code}; retrying in {delay}s", flush=True)
+            time.sleep(delay)
+        except (urllib.error.URLError, ConnectionError, http.client.HTTPException) as error:
+            if attempt == 9:
+                raise
+            delay = 10 * (attempt + 1)
+            print(f"DBLP connection error ({error}); retrying in {delay}s", flush=True)
             time.sleep(delay)
     return int(payload["result"]["hits"]["@total"])
 
