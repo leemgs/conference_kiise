@@ -806,7 +806,7 @@
 
   /* ---------------- view menu (대시보드 / 한국 개최 / 달력 / 목록) ---------------- */
   function initViews() {
-    const tabs = document.querySelectorAll(".view-tabs button");
+    const tabs = document.querySelectorAll(".view-tabs [data-view]");
     const views = {
       dashboard: $("#view-dashboard"),
       korea: $("#view-korea"),
@@ -831,7 +831,6 @@
         });
       }
     }
-    tabs.forEach((b) => { b.onclick = () => show(b.dataset.view); });
     window.addEventListener("hashchange", openHash);
     openHash();
   }

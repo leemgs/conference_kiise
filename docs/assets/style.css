@@ -459,15 +459,15 @@ a.conf-link::after { content: " ↗"; font-size: .72em; opacity: .5; }
 
 /* ---------- view menu tabs ---------- */
 .view-tabs { display: flex; gap: 4px; margin: 4px 0 22px; border-bottom: 1px solid var(--border); }
-.view-tabs button {
+.view-tabs [data-view] {
   appearance: none; background: none; border: none; cursor: pointer;
   padding: 10px 16px; font-size: .95rem; font-weight: 600; color: var(--text-2);
-  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; text-decoration: none;
 }
-.view-tabs button:hover { color: var(--text); }
-.view-tabs button.active { color: var(--text); border-bottom-color: #4c8dff; }
+.view-tabs [data-view]:hover { color: var(--text); }
+.view-tabs [data-view].active { color: var(--text); border-bottom-color: #4c8dff; }
 @media (max-width: 480px) {
-  .view-tabs button { padding: 9px 10px; font-size: .86rem; }
+  .view-tabs [data-view] { padding: 9px 10px; font-size: .86rem; }
 }
 
 /* ---------- in-view quick-jump sub-navigation (all views) ---------- */
