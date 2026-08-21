@@ -729,12 +729,12 @@
   /* ---------------- in-view quick-jump sub-navigation ---------------- */
   // Every view (대시보드 / 개최지별 / 달력 / 목록) opens with a row of menu buttons
   // pinned to the top. Clicking one jumps straight to that section so the reader
-  // never has to scroll the page down to find it. Each `.section-nav button`
-  // carries a data-target pointing at the id of the section it reveals.
+  // never has to scroll the page down to find it. Each link has a stable hash URL
+  // and a data-target pointing at the id of the section it reveals.
   const sectionNavs = [];   // {syncVisibility} handles, refreshed by syncSectionNavs()
 
   function initSectionNav(nav) {
-    const btns = [...nav.querySelectorAll("button[data-target]")];
+    const btns = [...nav.querySelectorAll("[data-target]")];
     if (!btns.length) return;
     const header = $(".site-header");
 
@@ -743,15 +743,29 @@
     positionNav();
     window.addEventListener("resize", positionNav);
 
-    function scrollToTarget(id) {
+    function scrollToTarget(id, smooth = true) {
       const target = document.getElementById(id);
       if (!target) return;
       if (target.tagName === "DETAILS") target.open = true;   // reveal collapsed sections
       const offset = (header ? header.offsetHeight : 0) + nav.offsetHeight + 16;
       const y = target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      if (smooth) {
+        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      } else {
+        const root = document.documentElement;
+        const previous = root.style.scrollBehavior;
+        root.style.scrollBehavior = "auto";
+        window.scrollTo(0, Math.max(0, y));
+        requestAnimationFrame(() => { root.style.scrollBehavior = previous; });
+      }
     }
-    btns.forEach((b) => b.addEventListener("click", () => scrollToTarget(b.dataset.target)));
+    btns.forEach((b) => b.addEventListener("click", (event) => {
+      event.preventDefault();
+      const href = b.getAttribute("href");
+      if (href && location.hash !== href) history.pushState(null, "", href);
+      scrollToTarget(b.dataset.target, event.isTrusted);
+      setActive(b.dataset.target);
+    }));
 
     // scrollspy: highlight whichever section currently sits in the viewport band.
     // Track the live set of intersecting targets and mark the topmost (button order).
@@ -799,15 +813,27 @@
       calendar: $("#view-calendar"),
       list: $("#view-list"),
     };
-    function show(name) {
+    function show(name, keepSection = false) {
       if (!views[name]) name = "dashboard";
       Object.entries(views).forEach(([k, v]) => { v.hidden = k !== name; });
       tabs.forEach((b) => b.classList.toggle("active", b.dataset.view === name));
-      history.replaceState(null, "", "#" + name);
+      if (!keepSection) history.replaceState(null, "", "#" + name);
+    }
+    function openHash() {
+      const hash = location.hash.slice(1);
+      const sectionTarget = document.getElementById(hash);
+      const section = sectionTarget && sectionTarget.closest("#view-dashboard") ? hash : null;
+      const view = section ? "dashboard" : (views[hash] ? hash : "dashboard");
+      show(view, Boolean(section));
+      if (section) {
+        document.querySelectorAll("#view-dashboard .section-nav [data-target]").forEach((link) => {
+          link.classList.toggle("active", link.dataset.target === section);
+        });
+      }
     }
     tabs.forEach((b) => { b.onclick = () => show(b.dataset.view); });
-    window.addEventListener("hashchange", () => show(location.hash.slice(1)));
-    show(location.hash.slice(1) || "dashboard");
+    window.addEventListener("hashchange", openHash);
+    openHash();
   }
 
   /* ---------------- apply language to static markup ---------------- */
@@ -992,5 +1018,12 @@
   refresh();
   renderMonthChart();
   syncSectionNavs();   // month-card 등 렌더 후 최종 버튼 노출 상태 동기화
+  // Re-apply a direct section URL after dynamic charts/lists have established
+  // their final heights; otherwise content inserted above can shift the target.
+  window.setTimeout(() => {
+    const id = location.hash.slice(1);
+    const link = document.querySelector(`#view-dashboard .section-nav [data-target="${CSS.escape(id)}"]`);
+    if (link) link.click();
+  }, 150);
   initTheme();
 })();
