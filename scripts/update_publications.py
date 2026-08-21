@@ -45,10 +45,10 @@ def fetch_count(stream: str, year: int) -> int:
                 payload = json.load(response)
             break
         except urllib.error.HTTPError as error:
-            if error.code != 429 or attempt == 5:
+            if ((error.code != 429 and error.code < 500) or attempt == 5):
                 raise
-            delay = int(error.headers.get("Retry-After", 15 * (attempt + 1)))
-            print(f"DBLP rate limit; retrying in {delay}s", flush=True)
+            delay = int(error.headers.get("Retry-After", 10 * (attempt + 1)))
+            print(f"DBLP HTTP {error.code}; retrying in {delay}s", flush=True)
             time.sleep(delay)
     return int(payload["result"]["hits"]["@total"])
 
