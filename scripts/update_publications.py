@@ -20,16 +20,23 @@ JS_OUT = ROOT / "docs" / "assets" / "publications.js"
 
 YEARS = list(range(2021, 2026))
 CONFERENCES = [
-    ("IEEE INFOCOM", "네트워크", "infocom"),
-    ("IEEE ICC", "네트워크", "icc"),
-    ("IEEE GLOBECOM", "네트워크", "globecom"),
-    ("ACM SIGCOMM", "네트워크", "sigcomm"),
-    ("ACM MobiCom", "네트워크", "mobicom"),
-    ("IEEE ICDCS", "분산시스템", "icdcs"),
-    ("ACM SenSys", "네트워크", "sensys"),
-    ("USENIX ATC", "운영체제", "usenix"),
-    ("IEEE WCNC", "네트워크", "wcnc"),
-    ("IEEE VTC", "네트워크", "vtc"),
+    # KIISE 2024 목록의 16개 소분야를 빠짐없이 대표한다.
+    ("ACM CCS", "Sec", "ccs"),
+    ("USENIX OSDI", "OS", "osdi"),
+    ("IEEE INFOCOM", "Net", "infocom"),
+    ("ACM CHI", "CGI", "chi"),
+    ("ICSE", "SE", "icse"),
+    ("ACM POPL", "PL", "popl"),
+    ("SC", "HPC", "sc"),
+    ("ISCA", "Arch", "isca"),
+    ("STOC", "Alg", "stoc"),
+    ("KDD", "DM", "kdd"),
+    ("ACL", "NLP", "acl"),
+    ("ICML", "ML", "icml"),
+    ("ACM SIGMOD", "DB", "sigmod"),
+    ("RECOMB", "Bio", "recomb"),
+    ("CVPR", "CV", "cvpr"),
+    ("ICRA", "Robot", "icra"),
 ]
 API = "https://dblp.org/search/publ/api"
 SOURCE_URL = "https://dblp.org/"

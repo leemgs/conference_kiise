@@ -14,6 +14,8 @@
     return node;
   };
   const format = new Intl.NumberFormat("ko-KR");
+  const fieldNames = (window.KIISE_DATA && window.KIISE_DATA.subfieldNames) || {};
+  const fieldLabel = (field) => fieldNames[field] ? `${field} · ${fieldNames[field]}` : field;
   const fields = [...new Set(data.records.map((record) => record.field))].sort();
 
   const source = document.querySelector("#publication-source");
@@ -30,7 +32,7 @@
     yearSelect.appendChild(option);
   });
   ["전체", ...fields].forEach((field) => {
-    const option = make("option", "", field);
+    const option = make("option", "", field === "전체" ? field : fieldLabel(field));
     option.value = field;
     fieldSelect.appendChild(option);
   });
