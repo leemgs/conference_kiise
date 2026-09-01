@@ -4,7 +4,7 @@ window.KIISE_PUBLICATIONS = {
   "source": "DBLP Computer Science Bibliography",
   "sourceUrl": "https://dblp.org/",
   "method": "DBLP Search API conference-stream record count",
-  "retrieved": "2026-08-21",
+  "retrieved": "2026-09-01",
   "years": [
     2021,
     2022,
