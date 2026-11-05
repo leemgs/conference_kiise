@@ -29,14 +29,6 @@ been sent yet. The sent slot is recorded in data/email_state.json, which
 the workflow commits. Changing the schedule on the web page therefore needs
 no workflow edit.
 
-MASTER SWITCH — sending is OFF unless the repository variable
-EMAIL_SEND_ENABLED (Settings → Secrets and variables → Actions → Variables)
-is set to one of: true · on · enable · enabled · yes · y · 1 (case-insensitive).
-Unset, empty or any other value means disabled. It is checked before anything
-else, so nothing is sent (and no delivery is recorded) while it is off; both it
-and "enabled" in data/email.json must be on for a scheduled send. --dry-run
-ignores the switch because it never sends.
-
 The SMTP password comes from the GMAIL_APP_PASSWORD environment variable
 (a repository secret) — never from email.json. SMTP_HOST, SMTP_PORT,
 SMTP_USER, EMAIL_FROM and EMAIL_TO (comma list) environment variables,
@@ -72,26 +64,10 @@ DOW_KO = ["월", "화", "수", "목", "금", "토", "일"]
 GRADE_KO = {"S": "최우수(S)", "A": "우수(A)", "M": "기타"}
 GRACE_HOURS = 6        # a late (delayed / re-tried) run still sends within this window
 DEFAULT_PAGE = "https://aigovsensing.github.io/conference_kiise/upcoming.html"
-SWITCH_VAR = "EMAIL_SEND_ENABLED"
-ON_VALUES = {"true", "on", "enable", "enabled", "yes", "y", "1"}
 
 
 def log(msg: str) -> None:
     print(f"[UPCOMING-EMAIL] {msg}", flush=True)
-
-
-# ---------------------------------------------------------------- master switch
-def send_enabled():
-    """(enabled, raw value) of the EMAIL_SEND_ENABLED master switch — off by default."""
-    raw = os.environ.get(SWITCH_VAR, "").strip()
-    return raw.lower() in ON_VALUES, raw
-
-
-def switch_off_message(raw: str) -> str:
-    why = (f"{SWITCH_VAR}={raw!r} 는 켜짐 값이 아닙니다" if raw
-           else f"{SWITCH_VAR} 변수가 설정되지 않았습니다")
-    return (f"이메일 발송이 비활성화 상태입니다 ({why}). 저장소 Settings → Secrets and variables → "
-            f"Actions → Variables 에 {SWITCH_VAR}=true (또는 on / enable) 를 등록하면 발송됩니다.")
 
 
 # ---------------------------------------------------------------- config
@@ -367,14 +343,6 @@ def main() -> int:
     ap.add_argument("--preview", help="write the first message's HTML to this path")
     ap.add_argument("--now", help="override the current time (ISO 8601, for testing)")
     args = ap.parse_args()
-
-    on, raw = send_enabled()
-    if not on and not args.dry_run:
-        msg = switch_off_message(raw)
-        log(msg)
-        if args.force and os.environ.get("GITHUB_ACTIONS"):      # manual "Run workflow": say so in the run summary
-            print(f"::warning title=이메일 발송 비활성화::{msg}", flush=True)
-        return 0
 
     cfg = load_config()
     tz = ZoneInfo(cfg["schedule"]["timezone"])
