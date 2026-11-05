@@ -8,10 +8,7 @@ name: Upcoming deadline email
 # (기본: 매주 월요일 07:00 KST) 이 지났고 아직 보내지 않은 회차일 때만 실제로
 # 발송한다. 발송한 회차는 data/email_state.json 에 기록·커밋된다.
 #
-# 필요한 Secret:   GMAIL_APP_PASSWORD (Gmail 앱 비밀번호 — leemgs/stock-alert 와 동일)
-# 마스터 스위치:   저장소 Variable EMAIL_SEND_ENABLED = true | on | enable  (기본: 꺼짐)
-#   Settings → Secrets and variables → Actions → Variables 에서 등록한다.
-#   등록하지 않았거나 다른 값이면 워크플로는 돌지만 메일은 발송되지 않는다.
+# 필요한 Secret: GMAIL_APP_PASSWORD (Gmail 앱 비밀번호 — leemgs/stock-alert 와 동일)
 # 수동 실행(Run workflow) 시에는 일정과 무관하게 바로 발송한다(테스트 발송).
 on:
   schedule:
@@ -40,7 +37,6 @@ jobs:
       - name: Send upcoming-deadline email (if due)
         env:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD || vars.GMAIL_APP_PASSWORD }}
-          EMAIL_SEND_ENABLED: ${{ vars.EMAIL_SEND_ENABLED }}
           GITHUB_TOKEN: ${{ github.token }}
           TZ: Asia/Seoul
         run: |

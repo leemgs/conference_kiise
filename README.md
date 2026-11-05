@@ -195,12 +195,7 @@ GitHub Actions(`.github/workflows/upcoming-deadline-email.yml`)가 Gmail SMTP로
 
 1. **Secret 등록** — 저장소 *Settings → Secrets and variables → Actions* 에
    `GMAIL_APP_PASSWORD` (Gmail [앱 비밀번호](https://myaccount.google.com/apppasswords)) 추가
-2. **발송 켜기(마스터 스위치, 기본값은 꺼짐)** — 같은 화면의 **Variables** 탭에서 변수
-   `EMAIL_SEND_ENABLED` 를 `true` (또는 `on` / `enable` / `enabled` / `yes` / `1`, 대소문자 무관)로 등록해야
-   메일이 발송됩니다. 변수가 없거나 다른 값(`false`, `off` …)이면 워크플로는 돌지만 아무것도 보내지 않고
-   로그에 안내 메시지만 남습니다(수동 실행 시에는 Actions 요약에 경고로도 표시). 끄려면 변수를 삭제하거나
-   `false` 로 바꾸세요. `--dry-run` 은 스위치와 무관하게 동작합니다.
-3. **설정** — `data/email.json` (stock-alert 의 `data/email.json` 형식 + 일정/D-day 확장)
+2. **설정** — `data/email.json` (stock-alert 의 `data/email.json` 형식 + 일정/D-day 확장)
 
    ```json
    {
@@ -219,10 +214,9 @@ GitHub Actions(`.github/workflows/upcoming-deadline-email.yml`)가 Gmail SMTP로
    }
    ```
 
-   - `enabled` — 설정 파일 쪽 스위치. 마스터 스위치(`EMAIL_SEND_ENABLED`)와 **둘 다** 켜져 있어야 정기 발송됩니다
    - `dday` — 오늘(D-Day)부터 D-N일 이내 마감을 메일에 포함. 수신자별 `dday` 가 있으면 우선
    - 수신자마다 메일을 따로 보내므로 서로의 주소가 노출되지 않습니다
-4. **웹에서 관리** — 상단 메뉴 **📧 이메일 발송관리**(`email.html`)에서 발송 요일·시각,
+3. **웹에서 관리** — 상단 메뉴 **📧 이메일 발송관리**(`email.html`)에서 발송 요일·시각,
    기본 D-day, 수신자(추가·삭제·개별 D-day·수신 on/off)를 편집하고, *⚙️ GitHub Token 관리*의
    Personal Access Token으로 `data/email.json` 에 바로 커밋합니다. 토큰은
    [Fine-grained](https://github.com/settings/personal-access-tokens/new) 로 이 저장소만 선택하고
