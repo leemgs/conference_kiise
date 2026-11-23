@@ -23,9 +23,10 @@ A receiver's own "dday" overrides the default one. Each receiver gets a
 separate message, so addresses are never exposed to one another.
 
 GitHub Actions (.github/workflows/upcoming-deadline-email.yml) runs this
-every hour; the script only sends when the latest slot of the schedule
-(e.g. Monday 07:00 KST) has passed within the last GRACE_HOURS and has not
-been sent yet. The sent slot is recorded in data/email_state.json, which
+every hour (plus extra runs around Monday 07:00 KST, because GitHub delays or
+drops scheduled runs); the script only sends when the latest slot of the
+schedule (e.g. Monday 07:00 KST) has passed within the last GRACE_HOURS and
+has not been sent yet. The sent slot is recorded in data/email_state.json, which
 the workflow commits. Changing the schedule on the web page therefore needs
 no workflow edit.
 
@@ -62,7 +63,9 @@ DATA_JS = ROOT / "docs" / "assets" / "data.js"
 DAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
 DOW_KO = ["월", "화", "수", "목", "금", "토", "일"]
 GRADE_KO = {"S": "최우수(S)", "A": "우수(A)", "M": "기타"}
-GRACE_HOURS = 6        # a late (delayed / re-tried) run still sends within this window
+# GitHub often runs scheduled workflows hours late (observed gaps of 4-11 h between "hourly" runs), so a
+# delayed run must still send. 18 h keeps a Monday 07:00 mail on Monday; the state file prevents repeats.
+GRACE_HOURS = 18
 DEFAULT_PAGE = "https://aigovsensing.github.io/conference_kiise/upcoming.html"
 
 
